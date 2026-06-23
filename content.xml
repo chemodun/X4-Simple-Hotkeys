@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content
+  id="simple_hotkeys"
+  name="Simple Hotkeys"
+  author="Chem O`Dun"
+  version="100"
+  date="2026-06-23"
+  save="false"
+  sync="false"
+  enabled="true"
+  description="Small collection of simple hotkey actions built on the Hotkey API. Currently: rename the selected/targeted player-owned object via the vanilla rename popup, from any game mode.">
+  <text language="44"
+    description="Small collection of simple hotkey actions built on the Hotkey API. Currently: rename the selected/targeted player-owned object via the vanilla rename popup, from any game mode."></text>
+  <dependency version="800"></dependency>
+  <dependency id="ws_3750545906" optional="false" name="Hotkey API" version="100"></dependency>
+</content>

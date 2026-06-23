@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon name="simple_hotkeys" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../ui/core/addon.xsd">
+    <environment type="menus">
+        <dependency name="hotkey_api" />
+        <dependency name="ego_detailmonitor" />
+        <file name="ui/simple_hotkeys.lua" />
+    </environment>
+</addon>
