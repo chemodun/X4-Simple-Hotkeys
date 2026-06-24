@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="SimpleHotkeys" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!--
+  MD-registered actions for Simple Hotkeys. Each one is registered through
+  md.HotkeyApi.Register_Action every time md.HotkeyApi.Reloaded fires, area
+  "pilot" (the player is at the controls of their own ship, no menu open) -
+  the Native Hotkey API itself already guarantees that before any of these
+  cues are signalled, so none of them re-check player.occupiedship.
+  -->
+  <cues>
+
+    <cue name="Register_On_Reloaded" instantiate="true">
+      <conditions>
+        <event_cue_signalled cue="md.HotkeyApi.Reloaded" />
+      </conditions>
+      <actions>
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_target_follow',
+            $area             = 'pilot',
+            $isObjectRequired = true,
+            $name             = {1972092432, 10110},
+            $version          = 1,
+            $actionCue        = Target_Follow_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_eject_illegals',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 31001},
+            $version          = 1,
+            $actionCue        = Eject_Illegals_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_print_combined_skill',
+            $area             = 'pilot',
+            $isObjectRequired = true,
+            $name             = {1972092432, 10181},
+            $version          = 1,
+            $actionCue        = Print_Combined_Skill_Cue,
+          ]" />
+
+        <!--
+          Deployable launch actions - one id per deployable, all sharing the
+          same Launch_Deployable_Cue, which picks the macro/launch action
+          from event.param.$id (the registered id is passed back on every
+          invocation, so there is no need for any extra per-id payload).
+          -->
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_satellite',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 30001},
+            $version          = 1,
+            $actionCue        = Launch_Deployable_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_adv_satellite',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 30002},
+            $version          = 1,
+            $actionCue        = Launch_Deployable_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_nav_beacon',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 30011},
+            $version          = 1,
+            $actionCue        = Launch_Deployable_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_resource_probe',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 30021},
+            $version          = 1,
+            $actionCue        = Launch_Deployable_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_laser_tower_mk1',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 30101},
+            $version          = 1,
+            $actionCue        = Launch_Deployable_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_laser_tower_mk2',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 30102},
+            $version          = 1,
+            $actionCue        = Launch_Deployable_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_mine',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 30201},
+            $version          = 1,
+            $actionCue        = Launch_Deployable_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_tracker_mine',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 30202},
+            $version          = 1,
+            $actionCue        = Launch_Deployable_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_friend_foe_mine',
+            $area             = 'pilot',
+            $isObjectRequired = false,
+            $name             = {1972092432, 30203},
+            $version          = 1,
+            $actionCue        = Launch_Deployable_Cue,
+          ]" />
+      </actions>
+    </cue>
+
+    <!--
+      Toggles the player's autopilot: if already autopiloting to this exact
+      target, disengage; otherwise engage (start_player_autopilot tracks a
+      moving destination on its own, so this doubles as "follow").
+      -->
+    <cue name="Target_Follow_Cue" instantiate="true" namespace="this">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <do_if value="event.param.$object == player.autopilottarget">
+          <stop_player_autopilot />
+        </do_if>
+        <do_else>
+          <start_player_autopilot destination="event.param.$object" />
+        </do_else>
+      </actions>
+    </cue>
+
+    <!--
+      Drops all illegal cargo (ship hold) and illegal inventory (player
+      entity) for the sector's police faction. Both drop actions share the
+      same groupname, so $boxes.count reflects the combined total.
+      -->
+    <cue name="Eject_Illegals_Cue" instantiate="true" namespace="this">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <set_value name="$faction" exact="player.sector.policefaction" />
+        <do_if value="$faction != null">
+          <drop_illegal_cargo groupname="$boxes" object="player.occupiedship" faction="$faction" />
+          <drop_illegal_inventory groupname="$boxes" object="player.entity" faction="$faction" />
+          <do_if value="$boxes.count != 0">
+            <show_notification text="{1972092432, 31901}" />
+          </do_if>
+          <do_else>
+            <show_notification text="{1972092432, 31902}" />
+          </do_else>
+        </do_if>
+        <do_else>
+          <show_notification text="{1972092432, 31903}" />
+        </do_else>
+      </actions>
+    </cue>
+
+    <cue name="Print_Combined_Skill_Cue" instantiate="true" namespace="this">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <show_notification text="{1972092432, 10182}.[event.param.$object.name, event.param.$object.idcode, event.param.$object.combinedskill]" />
+      </actions>
+    </cue>
+
+    <!--
+      Shared by every "launch X" id - picks the deployable macro from
+      event.param.$id, checks the player's ship actually carries one, then
+      calls the matching launch_* action.
+      -->
+    <cue name="Launch_Deployable_Cue" instantiate="true" namespace="this">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <set_value name="$id" exact="event.param.$id" />
+
+        <do_if value="$id == 'simple_hotkeys_launch_satellite'">
+          <set_value name="$macro" exact="macro.eq_arg_satellite_01_macro" />
+        </do_if>
+        <do_elseif value="$id == 'simple_hotkeys_launch_adv_satellite'">
+          <set_value name="$macro" exact="macro.eq_arg_satellite_02_macro" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_nav_beacon'">
+          <set_value name="$macro" exact="macro.env_deco_nav_beacon_t1_macro" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_resource_probe'">
+          <set_value name="$macro" exact="macro.eq_arg_resourceprobe_01_macro" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk1'">
+          <set_value name="$macro" exact="macro.ship_gen_xs_lasertower_01_a_macro" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk2'">
+          <set_value name="$macro" exact="macro.ship_gen_s_lasertower_01_a_macro" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_mine'">
+          <set_value name="$macro" exact="macro.weapon_gen_mine_01_macro" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_tracker_mine'">
+          <set_value name="$macro" exact="macro.weapon_gen_mine_02_macro" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_friend_foe_mine'">
+          <set_value name="$macro" exact="macro.weapon_gen_mine_03_macro" />
+        </do_elseif>
+
+        <do_if value="$macro? and player.occupiedship.ammostorage.{$macro}.count gt 0">
+          <do_if value="$id == 'simple_hotkeys_launch_satellite' or $id == 'simple_hotkeys_launch_adv_satellite'">
+            <launch_satellite object="player.occupiedship" macro="$macro" />
+          </do_if>
+          <do_elseif value="$id == 'simple_hotkeys_launch_nav_beacon'">
+            <launch_navbeacon object="player.occupiedship" macro="$macro" />
+          </do_elseif>
+          <do_elseif value="$id == 'simple_hotkeys_launch_resource_probe'">
+            <launch_resourceprobe object="player.occupiedship" macro="$macro" />
+          </do_elseif>
+          <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk1' or $id == 'simple_hotkeys_launch_laser_tower_mk2'">
+            <launch_lasertower object="player.occupiedship" macro="$macro" />
+          </do_elseif>
+          <do_elseif value="$id == 'simple_hotkeys_launch_mine' or $id == 'simple_hotkeys_launch_tracker_mine' or $id == 'simple_hotkeys_launch_friend_foe_mine'">
+            <launch_mine object="player.occupiedship" macro="$macro" />
+          </do_elseif>
+          <show_notification text="{1972092432, 30901}.[$macro.name]" />
+        </do_if>
+        <do_else>
+          <show_notification text="{1972092432, 30902}.[$macro.name]" />
+        </do_else>
+      </actions>
+    </cue>
+
+  </cues>
+</mdscript>

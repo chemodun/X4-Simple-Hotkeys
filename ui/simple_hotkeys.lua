@@ -5,6 +5,8 @@
 -- need MD involvement at all - everything here is pure Lua, dispatched
 -- straight from onHotKey's actionLua call.
 
+local PAGE_ID = 1972092432
+
 local function debugLog(fmt, ...)
   if select("#", ...) > 0 then
     DebugError("Simple Hotkeys: " .. string.format(fmt, ...))
@@ -52,6 +54,36 @@ local function OnRenameAction(params)
   OpenRenamePopup(object)
 end
 
+-- A single self-resetting action (no MD equivalent exists - camera FOV is
+-- Lua/FFI-only): each press steps to the next zoom factor; pressing again
+-- once at the highest factor resets straight back to the fov that was
+-- active before zooming started. actionLua only ever fires once per press
+-- (no onRepeat/onRelease), so this cycle is the natural fit, rather than
+-- needing a second "reset" hotkey or trying to hold-to-zoom.
+local zoom = {
+  baseline = nil,
+  factors = { 1, 2, 4, 8 },
+  index = 1,
+}
+
+local function OnZoomInAction()
+  if zoom.index >= #zoom.factors then
+    if zoom.baseline then
+      SetFOVOption(zoom.baseline)
+    end
+    debugLog("OnZoomInAction: at max zoom - reset to baseline fov %s", tostring(zoom.baseline))
+    zoom.index = 1
+    return
+  end
+
+  if zoom.index == 1 then
+    zoom.baseline = GetFOVOption()
+  end
+  zoom.index = zoom.index + 1
+  SetFOVOption(zoom.baseline / zoom.factors[zoom.index])
+  debugLog("OnZoomInAction: stepped to factor %dx (baseline fov %s)", zoom.factors[zoom.index], tostring(zoom.baseline))
+end
+
 local function RegisterActions()
   if not (HotkeyApi and HotkeyApi.RegisterAction) then
     DebugError("Simple Hotkeys: HotkeyApi.RegisterAction not available - is hotkey_api loaded?")
@@ -64,9 +96,18 @@ local function RegisterActions()
     id = "simple_hotkeys_rename",
     area = "map;pilot",
     isObjectRequired = true,
-    name = "Rename Selected/Targeted Object",
+    name = ReadText(PAGE_ID, 10001),
     version = 1,
     actionLua = OnRenameAction,
+  })
+
+  HotkeyApi.RegisterAction({
+    id = "simple_hotkeys_zoom_in",
+    area = "pilot",
+    isObjectRequired = false,
+    name = ReadText(PAGE_ID, 10201),
+    version = 1,
+    actionLua = OnZoomInAction,
   })
 end
 
