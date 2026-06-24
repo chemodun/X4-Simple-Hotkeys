@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple Hotkeys — French text, page 1972092432 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092432" title="Raccourcis simples" descr="" voice="no">
+      <!-- mod identity -->
+      <t id="1">Raccourcis simples</t>
+      <t id="2">Petite collection d'actions de raccourcis simples basée sur l'API native de raccourcis.</t>
+
+      <!-- action display names -->
+      <t id="10001">Renommer l'objet sélectionné/ciblé</t>
+      <t id="10110">Suivre la cible</t>
+      <t id="10181">Afficher la compétence combinée de la cible</t>
+      <t id="10182">Compétence combinée de l'équipage sur %s \(%s\) : %s</t>
+      <t id="10201">Zoom avant</t>
+      <t id="30001">Lancer un satellite</t>
+      <t id="30002">Lancer un satellite avancé</t>
+      <t id="30011">Lancer une balise de navigation</t>
+      <t id="30021">Lancer une sonde de ressources</t>
+      <t id="30101">Lancer une tour laser Mk1</t>
+      <t id="30102">Lancer une tour laser Mk2</t>
+      <t id="30201">Lancer une mine</t>
+      <t id="30202">Lancer une mine traceuse</t>
+      <t id="30203">Lancer une mine ami-ennemi</t>
+      <t id="30901">Lancé : %s</t>
+      <t id="30902">Aucun %s disponible à lancer.</t>
+      <t id="31001">Éjecter les marchandises illégales</t>
+      <t id="31901">Marchandises illégales éjectées</t>
+      <t id="31902">Aucune marchandise illégale à éjecter</t>
+      <t id="31903">Aucune faction de police dans ce secteur - rien n'a été éjecté.</t>
+    </page>
+  </add>
+</diff>

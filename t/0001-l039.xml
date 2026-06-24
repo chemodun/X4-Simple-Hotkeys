@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple Hotkeys — Italian text, page 1972092432 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092432" title="Tasti di Scelta Rapida Semplici" descr="" voice="no">
+      <!-- mod identity -->
+      <t id="1">Tasti di Scelta Rapida Semplici</t>
+      <t id="2">Piccola raccolta di semplici azioni con tasti di scelta rapida basata sull'API nativa dei tasti di scelta rapida.</t>
+
+      <!-- action display names -->
+      <t id="10001">Rinomina oggetto selezionato/bersaglio</t>
+      <t id="10110">Segui il bersaglio</t>
+      <t id="10181">Mostra abilità combinata del bersaglio</t>
+      <t id="10182">Abilità combinata dell'equipaggio su %s \(%s\): %s</t>
+      <t id="10201">Zoom avanti</t>
+      <t id="30001">Lancia satellite</t>
+      <t id="30002">Lancia satellite avanzato</t>
+      <t id="30011">Lancia faro di navigazione</t>
+      <t id="30021">Lancia sonda di risorse</t>
+      <t id="30101">Lancia torre laser Mk1</t>
+      <t id="30102">Lancia torre laser Mk2</t>
+      <t id="30201">Lancia mina</t>
+      <t id="30202">Lancia mina traccia</t>
+      <t id="30203">Lancia mina amico-nemico</t>
+      <t id="30901">Lanciato: %s</t>
+      <t id="30902">Nessun %s disponibile da lanciare.</t>
+      <t id="31001">Espelli merci illegali</t>
+      <t id="31901">Merci illegali espulse</t>
+      <t id="31902">Nessuna merce illegale da espellere</t>
+      <t id="31903">Nessuna fazione di polizia in questo settore - nulla espulso.</t>
+    </page>
+  </add>
+</diff>

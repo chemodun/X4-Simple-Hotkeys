@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple Hotkeys — Polish text, page 1972092432 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092432" title="Proste Skróty Klawiszowe" descr="" voice="no">
+      <!-- mod identity -->
+      <t id="1">Proste Skróty Klawiszowe</t>
+      <t id="2">Niewielki zbiór prostych akcji klawiszy skrótów oparty na natywnym API skrótów klawiszowych.</t>
+
+      <!-- action display names -->
+      <t id="10001">Zmień nazwę wybranego/celowanego obiektu</t>
+      <t id="10110">Śledź cel</t>
+      <t id="10181">Wyświetl łączną umiejętność celu</t>
+      <t id="10182">Łączna umiejętność załogi na %s \(%s\): %s</t>
+      <t id="10201">Powiększ</t>
+      <t id="30001">Wystrzel satelitę</t>
+      <t id="30002">Wystrzel zaawansowaną satelitę</t>
+      <t id="30011">Wystrzel latarnię nawigacyjną</t>
+      <t id="30021">Wystrzel sondę zasobów</t>
+      <t id="30101">Wystrzel wieżę laserową Mk1</t>
+      <t id="30102">Wystrzel wieżę laserową Mk2</t>
+      <t id="30201">Wystrzel minę</t>
+      <t id="30202">Wystrzel minę śledzącą</t>
+      <t id="30203">Wystrzel minę swój-wróg</t>
+      <t id="30901">Wystrzelono: %s</t>
+      <t id="30902">Brak %s do wystrzelenia.</t>
+      <t id="31001">Wyrzuć nielegalne towary</t>
+      <t id="31901">Wyrzucono nielegalne towary</t>
+      <t id="31902">Brak nielegalnych towarów do wyrzucenia</t>
+      <t id="31903">Brak frakcji policyjnej w tym sektorze - nic nie wyrzucono.</t>
+    </page>
+  </add>
+</diff>

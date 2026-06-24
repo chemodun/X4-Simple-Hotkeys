@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple Hotkeys — Portuguese text, page 1972092432 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092432" title="Teclas de Atalho Simples" descr="" voice="no">
+      <!-- mod identity -->
+      <t id="1">Teclas de Atalho Simples</t>
+      <t id="2">Pequena coleção de ações simples de teclas de atalho baseada na API nativa de teclas de atalho.</t>
+
+      <!-- action display names -->
+      <t id="10001">Renomear objeto selecionado/alvo</t>
+      <t id="10110">Seguir alvo</t>
+      <t id="10181">Exibir habilidade combinada do alvo</t>
+      <t id="10182">Habilidade combinada da tripulação em %s \(%s\): %s</t>
+      <t id="10201">Aproximar zoom</t>
+      <t id="30001">Lançar satélite</t>
+      <t id="30002">Lançar satélite avançado</t>
+      <t id="30011">Lançar baliza de navegação</t>
+      <t id="30021">Lançar sonda de recursos</t>
+      <t id="30101">Lançar torre laser Mk1</t>
+      <t id="30102">Lançar torre laser Mk2</t>
+      <t id="30201">Lançar mina</t>
+      <t id="30202">Lançar mina rastreadora</t>
+      <t id="30203">Lançar mina amigo-inimigo</t>
+      <t id="30901">Lançado: %s</t>
+      <t id="30902">Nenhum %s disponível para lançar.</t>
+      <t id="31001">Ejetar mercadorias ilegais</t>
+      <t id="31901">Mercadorias ilegais ejetadas</t>
+      <t id="31902">Nenhuma mercadoria ilegal para ejetar</t>
+      <t id="31903">Nenhuma facção policial neste setor - nada foi ejetado.</t>
+    </page>
+  </add>
+</diff>

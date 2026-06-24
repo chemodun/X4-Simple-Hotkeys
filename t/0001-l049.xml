@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple Hotkeys — German text, page 1972092432 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092432" title="Einfache Hotkeys" descr="" voice="no">
+      <!-- mod identity -->
+      <t id="1">Einfache Hotkeys</t>
+      <t id="2">Kleine Sammlung einfacher Hotkey-Aktionen, aufbauend auf der nativen Hotkey-API.</t>
+
+      <!-- action display names -->
+      <t id="10001">Ausgewähltes/Angepeiltes Objekt umbenennen</t>
+      <t id="10110">Ziel verfolgen</t>
+      <t id="10181">Gesamtfähigkeit des Ziels anzeigen</t>
+      <t id="10182">Gesamtfähigkeit der Crew auf %s \(%s\): %s</t>
+      <t id="10201">Heranzoomen</t>
+      <t id="30001">Satellit aussetzen</t>
+      <t id="30002">Fortschrittlichen Satelliten aussetzen</t>
+      <t id="30011">Navigationsbake aussetzen</t>
+      <t id="30021">Rohstoffsonde aussetzen</t>
+      <t id="30101">Lasertower Mk1 aussetzen</t>
+      <t id="30102">Lasertower Mk2 aussetzen</t>
+      <t id="30201">Mine aussetzen</t>
+      <t id="30202">Ortungsmine aussetzen</t>
+      <t id="30203">Freund-Feind-Mine aussetzen</t>
+      <t id="30901">Ausgesetzt: %s</t>
+      <t id="30902">Kein(e) %s zum Aussetzen verfügbar.</t>
+      <t id="31001">Illegale Waren abwerfen</t>
+      <t id="31901">Illegale Waren abgeworfen</t>
+      <t id="31902">Keine illegalen Waren zum Abwerfen</t>
+      <t id="31903">Keine Polizeifaktion in diesem Sektor - nichts abgeworfen.</t>
+    </page>
+  </add>
+</diff>

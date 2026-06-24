@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple Hotkeys — Spanish text, page 1972092432 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092432" title="Teclas Rápidas Simples" descr="" voice="no">
+      <!-- mod identity -->
+      <t id="1">Teclas Rápidas Simples</t>
+      <t id="2">Pequeña colección de acciones de teclas rápidas simples basada en la API nativa de teclas rápidas.</t>
+
+      <!-- action display names -->
+      <t id="10001">Renombrar objeto seleccionado/objetivo</t>
+      <t id="10110">Seguir al objetivo</t>
+      <t id="10181">Mostrar habilidad combinada del objetivo</t>
+      <t id="10182">Habilidad combinada de la tripulación en %s \(%s\): %s</t>
+      <t id="10201">Acercar zoom</t>
+      <t id="30001">Lanzar satélite</t>
+      <t id="30002">Lanzar satélite avanzado</t>
+      <t id="30011">Lanzar baliza de navegación</t>
+      <t id="30021">Lanzar sonda de recursos</t>
+      <t id="30101">Lanzar torre láser Mk1</t>
+      <t id="30102">Lanzar torre láser Mk2</t>
+      <t id="30201">Lanzar mina</t>
+      <t id="30202">Lanzar mina rastreadora</t>
+      <t id="30203">Lanzar mina amigo-enemigo</t>
+      <t id="30901">Lanzado: %s</t>
+      <t id="30902">No hay %s disponible para lanzar.</t>
+      <t id="31001">Expulsar mercancías ilegales</t>
+      <t id="31901">Mercancías ilegales expulsadas</t>
+      <t id="31902">No hay mercancías ilegales para expulsar</t>
+      <t id="31903">No hay facción policial en este sector - nada fue expulsado.</t>
+    </page>
+  </add>
+</diff>

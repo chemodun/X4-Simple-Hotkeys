@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple Hotkeys — Czech text, page 1972092432 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092432" title="Jednoduché Klávesové Zkratky" descr="" voice="no">
+      <!-- mod identity -->
+      <t id="1">Jednoduché Klávesové Zkratky</t>
+      <t id="2">Malá sbírka jednoduchých akcí klávesových zkratek založená na nativním Hotkey API.</t>
+
+      <!-- action display names -->
+      <t id="10001">Přejmenovat vybraný/cílený objekt</t>
+      <t id="10110">Sledovat cíl</t>
+      <t id="10181">Zobrazit kombinovanou dovednost cíle</t>
+      <t id="10182">Kombinovaná dovednost osádky na %s \(%s\): %s</t>
+      <t id="10201">Přiblížit</t>
+      <t id="30001">Vypustit satelit</t>
+      <t id="30002">Vypustit pokročilý satelit</t>
+      <t id="30011">Vypustit navigační maják</t>
+      <t id="30021">Vypustit sondu na zdroje</t>
+      <t id="30101">Vypustit laserovou věž Mk1</t>
+      <t id="30102">Vypustit laserovou věž Mk2</t>
+      <t id="30201">Vypustit minu</t>
+      <t id="30202">Vypustit sledovací minu</t>
+      <t id="30203">Vypustit minu přítel-nepřítel</t>
+      <t id="30901">Vypuštěno: %s</t>
+      <t id="30902">Žádné %s k vypuštění.</t>
+      <t id="31001">Vyhodit nelegální zboží</t>
+      <t id="31901">Nelegální zboží vyhozeno</t>
+      <t id="31902">Žádné nelegální zboží k vyhození</t>
+      <t id="31903">V tomto sektoru není žádná policejní frakce - nic nebylo vyhozeno.</t>
+    </page>
+  </add>
+</diff>

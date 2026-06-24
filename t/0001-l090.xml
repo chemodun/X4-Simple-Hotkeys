@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple Hotkeys — Turkish text, page 1972092432 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092432" title="Basit Kısayollar" descr="" voice="no">
+      <!-- mod identity -->
+      <t id="1">Basit Kısayollar</t>
+      <t id="2">Yerel Kısayol Tuşu API'si üzerine kurulu basit kısayol tuşu eylemlerinden oluşan küçük bir koleksiyon.</t>
+
+      <!-- action display names -->
+      <t id="10001">Seçili/Hedeflenen Nesneyi Yeniden Adlandır</t>
+      <t id="10110">Hedefi Takip Et</t>
+      <t id="10181">Hedefin Toplam Yetkinliğini Göster</t>
+      <t id="10182">%s \(%s\) mürettebatının toplam yetkinliği: %s</t>
+      <t id="10201">Yakınlaştır</t>
+      <t id="30001">Uydu Fırlat</t>
+      <t id="30002">Gelişmiş Uydu Fırlat</t>
+      <t id="30011">Navigasyon Feneri Fırlat</t>
+      <t id="30021">Kaynak Sondası Fırlat</t>
+      <t id="30101">Lazer Kulesi Mk1 Fırlat</t>
+      <t id="30102">Lazer Kulesi Mk2 Fırlat</t>
+      <t id="30201">Mayın Fırlat</t>
+      <t id="30202">Takip Mayını Fırlat</t>
+      <t id="30203">Dost-Düşman Mayını Fırlat</t>
+      <t id="30901">Fırlatıldı: %s</t>
+      <t id="30902">Fırlatılacak %s yok.</t>
+      <t id="31001">Yasadışı Kargoyu At</t>
+      <t id="31901">Yasadışı kargo atıldı</t>
+      <t id="31902">Atılacak yasadışı kargo yok</t>
+      <t id="31903">Bu sektörde polis fraksiyonu yok - hiçbir şey atılmadı.</t>
+    </page>
+  </add>
+</diff>
