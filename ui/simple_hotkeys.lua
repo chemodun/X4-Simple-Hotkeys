@@ -1,5 +1,5 @@
 -- Simple Hotkeys
--- A small collection of simple hotkey actions built on the Hotkey API
+-- A small collection of simple hotkey actions built on the Native Hotkey API
 -- (hotkey_api/ui/hotkey_api.lua), registered via the direct-Lua path
 -- (HotkeyApi.RegisterAction) rather than MD, since none of these actions
 -- need MD involvement at all - everything here is pure Lua, dispatched
@@ -62,7 +62,7 @@ local function RegisterActions()
 
   HotkeyApi.RegisterAction({
     id = "simple_hotkeys_rename",
-    area = "any",
+    area = "map;pilot",
     isObjectRequired = true,
     name = "Rename Selected/Targeted Object",
     version = 1,

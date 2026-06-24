@@ -8,9 +8,9 @@
   save="false"
   sync="false"
   enabled="true"
-  description="Small collection of simple hotkey actions built on the Hotkey API. Currently: rename the selected/targeted player-owned object via the vanilla rename popup, from any game mode.">
+  description="Small collection of simple hotkey actions built on the Native Hotkey API. Currently: rename the selected/targeted player-owned object via the vanilla rename popup, from any game mode.">
   <text language="44"
-    description="Small collection of simple hotkey actions built on the Hotkey API. Currently: rename the selected/targeted player-owned object via the vanilla rename popup, from any game mode."></text>
+    description="Small collection of simple hotkey actions built on the Native Hotkey API. Currently: rename the selected/targeted player-owned object via the vanilla rename popup, from any game mode."></text>
   <dependency version="800"></dependency>
-  <dependency id="ws_3750545906" optional="false" name="Hotkey API" version="100"></dependency>
+  <dependency id="ws_3750545906" optional="false" name="Native Hotkey API" version="100"></dependency>
 </content>
