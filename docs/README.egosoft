@@ -1,0 +1,68 @@
+[size=140][u]Simple Hotkeys[/u][/size]
+
+A small, growing collection of simple hotkey actions for X4: Foundations, built on top of the [url=https://www.nexusmods.com/x4foundations/mods/2181]Native Hotkey API[/url] - every action below is bindable by the player through the native game keybinding UI, just like a vanilla control.
+
+[size=130][u]Overview[/u][/size]
+
+This mod doesn't add any UI of its own. It registers a set of small, focused actions with the [i]Native Hotkey API[/i], which then exposes them on its own [b]Hotkey Management > Hotkey Bindings[/b] page (under Options), where the player assigns the actual physical key through the same native remap UI (and conflict-detection) every other control uses.
+
+Each action only fires while the player is actually piloting their own ship (no menu open) - none of them are meant to be used from the map or any other menu.
+
+[size=130][u]Requirements[/u][/size]
+[list]
+[*] [b]X4: Foundations[/b]: Version [b]9.00[/b] or higher.
+[*] [b]Native Hotkey API[/b] by Chem O`Dun, version [b]8.00.01[/b] or higher:
+[list]
+[*] Available on Nexus Mods: [url=https://www.nexusmods.com/x4foundations/mods/2181]Native Hotkey API[/url]
+[*] Available on Steam Workshop: [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3750545906]Native Hotkey API[/url]
+[/list]
+[*] Indirectly depends on the [b]UI Extensions and HUD[/b] mod by kuertee, which is a dependency of the [i]Native Hotkey API[/i]:
+[list]
+[*] For Game Version [b]8.00HF4[/b] or higher - Version [b]v8.0.4.9[/b] or higher on Nexus Mods: [url=https://www.nexusmods.com/x4foundations/mods/552]UI Extensions and HUD[/url]
+[*] For Game Version [b]9.00[/b] or higher - Version [b]v9.0.0.6[/b] or higher on Nexus Mods: [url=https://www.nexusmods.com/x4foundations/mods/552]UI Extensions and HUD[/url]
+[/list]
+[/list]
+[size=130][u]Installation[/u][/size]
+[list]
+[*] [b]Nexus Mods[/b]: [url=https://www.nexusmods.com/x4foundations/mods/2183]Simple Hotkeys[/url]
+[/list]
+[size=130][u]Hotkey Actions[/u][/size]
+
+All of the actions below show up automatically on the [i]Native Hotkey API[/i]'s [b]Hotkey Bindings[/b] page once this mod is enabled - there is nothing to configure here, just assign a key to whichever ones you want to use.
+
+[spoiler][img]https://raw.githubusercontent.com/chemodun/X4-Simple-Hotkeys/refs/heads/main/docs/images/hotkey_bindings.png[/img][/spoiler]
+[list]
+[*] [b]Rename Selected/Targeted Object[/b] - opens the vanilla rename popup for the selected (map) or targeted (piloting) object, if it's player-owned.
+[*] [b]Follow Target[/b] - engages autopilot to the current target (which tracks a moving target, i.e. "follow"); pressed again on the same target, it disengages autopilot instead.
+[*] [b]Eject Illegal Wares[/b] - drops all illegal cargo from the ship's hold and the player's own inventory, based on the local sector's police faction.
+[*] [b]Print Combined Skill of Target[/b] - shows a notification with the combined skill of the current target's crew.
+[*] [b]Zoom In[/b] - steps the camera FOV through increasing zoom factors (1x -> 2x -> 4x -> 8x) on repeated presses; pressing again once at the highest factor resets straight back to the FOV that was active before zooming started.
+[*] [b]Launch Satellite / Launch Advanced Satellite[/b] - launches a satellite or advanced satellite, if one is carried.
+[*] [b]Launch Navigation Beacon[/b] - launches a navigation beacon, if one is carried.
+[*] [b]Launch Resource Probe[/b] - launches a resource probe, if one is carried.
+[*] [b]Launch Laser Tower Mk1 / Mk2[/b] - launches a laser tower of the chosen mark, if one is carried.
+[*] [b]Launch Mine / Launch Tracker Mine / Launch Friend-or-Foe Mine[/b] - launches the chosen mine type, if one is carried.
+[/list]
+Please not forget - you can disable any of these actions in appropriate [b]Hotkey Requests[/b] section of the [i]Native Hotkey API[/i]'s menu, if you don't want to use them.
+
+[spoiler][img]https://raw.githubusercontent.com/chemodun/X4-Simple-Hotkeys/refs/heads/main/docs/images/hotkey_requests.png[/img][/spoiler]
+
+[size=130][u]Credits[/u][/size]
+[list]
+[*] [b]Author[/b]: Chem O`Dun, on [url=https://next.nexusmods.com/profile/ChemODun/mods?gameId=2659]Nexus Mods[/url] and [url=https://steamcommunity.com/id/chemodun/myworkshopfiles/?appid=392160]Steam Workshop[/url]
+[*] [i]"X4: Foundations"[/i] is a trademark of [url=https://www.egosoft.com]Egosoft[/url].
+[/list]
+[size=130][u]Acknowledgements[/u][/size]
+[list]
+[*] [url=https://www.egosoft.com]EGOSOFT[/url] - for the X series.
+[*] [url=https://next.nexusmods.com/profile/kuertee?gameId=2659]kuertee[/url] - for the [b]UI Extensions and HUD[/b] that the [i]Native Hotkey API[/i] (and therefore this mod) relies on.
+[/list]
+[size=130][u]Changelog[/u][/size]
+
+[size=125][u][1.00] - 2026-06-24[/u][/size]
+[list]
+[*] [b]Added[/b]
+[list]
+[*] Initial version: rename selected/targeted object, follow target, eject illegal wares, print combined skill of target, zoom in/reset, and the full deployable launch family (satellites, navigation beacon, resource probe, laser towers, mines).
+[/list]
+[/list]
