@@ -56,6 +56,11 @@ Please not forget - you can disable any of these actions in appropriate **Hotkey
 
 ## Changelog
 
+### [1.01] - 2026-06-28
+
+- **Fixed**
+  - Minor bug fixes and improvements.
+
 ### [1.00] - 2026-06-24
 
 - **Added**
