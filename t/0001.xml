@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple Hotkeys — English text, page 1972092432 -->
+<diff>
+  <add sel="/language">
+    <page id="1972092432" title="Simple Hotkeys" descr="" voice="no">
+      <!-- mod identity -->
+      <t id="1">Simple Hotkeys</t>
+      <t id="2">Small collection of simple hotkey actions built on the Native Hotkey API.</t>
+
+      <!-- action display names -->
+      <t id="10001">Rename Selected/Targeted Object</t>
+      <t id="10110">Follow Target</t>
+      <t id="10181">Print Combined Skill of Target</t>
+      <t id="10182">Combined skill of crew on %s \(%s\): %s</t>
+      <t id="10201">Zoom In</t>
+      <t id="30001">Launch Satellite</t>
+      <t id="30002">Launch Advanced Satellite</t>
+      <t id="30011">Launch Navigation Beacon</t>
+      <t id="30021">Launch Resource Probe</t>
+      <t id="30101">Launch Laser Tower Mk1</t>
+      <t id="30102">Launch Laser Tower Mk2</t>
+      <t id="30201">Launch Mine</t>
+      <t id="30202">Launch Tracker Mine</t>
+      <t id="30203">Launch Friend-or-Foe Mine</t>
+      <t id="30901">Launched: %s</t>
+      <t id="30902">No %s available to launch.</t>
+      <t id="31001">Eject Illegal Wares</t>
+      <t id="31901">Ejected illegal wares</t>
+      <t id="31902">No illegal wares to eject</t>
+      <t id="31903">No police faction in this sector - nothing ejected.</t>
+    </page>
+  </add>
+</diff>

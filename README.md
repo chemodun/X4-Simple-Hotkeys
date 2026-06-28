@@ -20,6 +20,7 @@ Each action only fires while the player is actually piloting their own ship (no 
 
 ## Installation
 
+- **Steam Workshop**: [Native Hotkey API](https://steamcommunity.com/sharedfiles/filedetails/?id=3751021954)
 - **Nexus Mods**: [Simple Hotkeys](https://www.nexusmods.com/x4foundations/mods/2183)
 
 ## Hotkey Actions
