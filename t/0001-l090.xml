@@ -9,14 +9,13 @@
 
       <!-- action display names -->
       <t id="10001">Seçili/Hedeflenen Nesneyi Yeniden Adlandır</t>
+      <t id="10011">Sağ Bilgi Panelini Aç/Kapat</t>
       <t id="10110">Hedefi Takip Et</t>
       <t id="10181">Hedefin Toplam Yetkinliğini Göster</t>
       <t id="10182">%s \(%s\) mürettebatının toplam yetkinliği: %s</t>
-      <t id="10201">Yakınlaştır</t>
+      <t id="10201">Yakınlaştır \(Uçuş Modu\)</t>
       <t id="30001">Uydu Fırlat</t>
       <t id="30002">Gelişmiş Uydu Fırlat</t>
-      <t id="30011">Navigasyon Feneri Fırlat</t>
-      <t id="30021">Kaynak Sondası Fırlat</t>
       <t id="30101">Lazer Kulesi Mk1 Fırlat</t>
       <t id="30102">Lazer Kulesi Mk2 Fırlat</t>
       <t id="30201">Mayın Fırlat</t>

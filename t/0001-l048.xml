@@ -9,14 +9,13 @@
 
       <!-- action display names -->
       <t id="10001">Zmień nazwę wybranego/celowanego obiektu</t>
+      <t id="10011">Przełącz prawy panel informacyjny</t>
       <t id="10110">Śledź cel</t>
       <t id="10181">Wyświetl łączną umiejętność celu</t>
       <t id="10182">Łączna umiejętność załogi na %s \(%s\): %s</t>
-      <t id="10201">Powiększ</t>
+      <t id="10201">Powiększ \(tryb lotu\)</t>
       <t id="30001">Wystrzel satelitę</t>
       <t id="30002">Wystrzel zaawansowaną satelitę</t>
-      <t id="30011">Wystrzel latarnię nawigacyjną</t>
-      <t id="30021">Wystrzel sondę zasobów</t>
       <t id="30101">Wystrzel wieżę laserową Mk1</t>
       <t id="30102">Wystrzel wieżę laserową Mk2</t>
       <t id="30201">Wystrzel minę</t>

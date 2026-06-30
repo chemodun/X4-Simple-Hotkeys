@@ -74,26 +74,6 @@
         <signal_cue_instantly
           cue="md.HotkeyApi.Register_Action"
           param="table[
-            $id               = 'simple_hotkeys_launch_nav_beacon',
-            $area             = 'pilot',
-            $isObjectRequired = false,
-            $name             = {1972092432, 30011},
-            $version          = 1,
-            $actionCue        = Launch_Deployable_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_resource_probe',
-            $area             = 'pilot',
-            $isObjectRequired = false,
-            $name             = {1972092432, 30021},
-            $version          = 1,
-            $actionCue        = Launch_Deployable_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
             $id               = 'simple_hotkeys_launch_laser_tower_mk1',
             $area             = 'pilot',
             $isObjectRequired = false,
@@ -217,12 +197,6 @@
         <do_elseif value="$id == 'simple_hotkeys_launch_adv_satellite'">
           <set_value name="$macro" exact="macro.eq_arg_satellite_02_macro" />
         </do_elseif>
-        <do_elseif value="$id == 'simple_hotkeys_launch_nav_beacon'">
-          <set_value name="$macro" exact="macro.env_deco_nav_beacon_t1_macro" />
-        </do_elseif>
-        <do_elseif value="$id == 'simple_hotkeys_launch_resource_probe'">
-          <set_value name="$macro" exact="macro.eq_arg_resourceprobe_01_macro" />
-        </do_elseif>
         <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk1'">
           <set_value name="$macro" exact="macro.ship_gen_xs_lasertower_01_a_macro" />
         </do_elseif>
@@ -243,12 +217,6 @@
           <do_if value="$id == 'simple_hotkeys_launch_satellite' or $id == 'simple_hotkeys_launch_adv_satellite'">
             <launch_satellite object="player.occupiedship" macro="$macro" />
           </do_if>
-          <do_elseif value="$id == 'simple_hotkeys_launch_nav_beacon'">
-            <launch_navbeacon object="player.occupiedship" macro="$macro" />
-          </do_elseif>
-          <do_elseif value="$id == 'simple_hotkeys_launch_resource_probe'">
-            <launch_resourceprobe object="player.occupiedship" macro="$macro" />
-          </do_elseif>
           <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk1' or $id == 'simple_hotkeys_launch_laser_tower_mk2'">
             <launch_lasertower object="player.occupiedship" macro="$macro" />
           </do_elseif>

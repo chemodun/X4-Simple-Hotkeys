@@ -84,6 +84,26 @@ local function OnZoomInAction()
   debugLog("OnZoomInAction: stepped to factor %dx (baseline fov %s)", zoom.factors[zoom.index], tostring(zoom.baseline))
 end
 
+-- Toggles the map's right-side info panel for whatever is currently
+-- selected/second-selected, mirroring the sidebar icon's own onClick logic
+-- exactly (menu_map.lua: menu.panelMode and menu.buttonToggleRightPanel() or
+-- menu.buttonToggleRightBar("info")) - "info" is config.rightBar's own mode
+-- string for that icon. No native hotkey exists for this at all (only the
+-- mouse-click sidebar icon) - the left-side equivalent is likewise mouse-only.
+local function OnOpenRightInfoAction()
+  local mapMenu = Helper.getMenu("MapMenu")
+  if not mapMenu or not mapMenu.shown then
+    debugLog("OnOpenRightInfoAction: MapMenu not open")
+    return
+  end
+
+  if mapMenu.panelMode then
+    mapMenu.buttonToggleRightPanel()
+  else
+    mapMenu.buttonToggleRightBar("info")
+  end
+end
+
 local function RegisterActions()
   if not (HotkeyApi and HotkeyApi.RegisterAction) then
     DebugError("Simple Hotkeys: HotkeyApi.RegisterAction not available - is hotkey_api loaded?")
@@ -108,6 +128,15 @@ local function RegisterActions()
     name = ReadText(PAGE_ID, 10201),
     version = 1,
     actionLua = OnZoomInAction,
+  })
+
+  HotkeyApi.RegisterAction({
+    id = "simple_hotkeys_open_right_info",
+    area = "map",
+    isObjectRequired = false,
+    name = ReadText(PAGE_ID, 10011),
+    version = 1,
+    actionLua = OnOpenRightInfoAction,
   })
 end
 

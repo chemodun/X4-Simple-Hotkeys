@@ -9,14 +9,13 @@
 
       <!-- action display names -->
       <t id="10001">Ausgewähltes/Angepeiltes Objekt umbenennen</t>
+      <t id="10011">Rechtes Infofenster umschalten</t>
       <t id="10110">Ziel verfolgen</t>
       <t id="10181">Gesamtfähigkeit des Ziels anzeigen</t>
       <t id="10182">Gesamtfähigkeit der Crew auf %s \(%s\): %s</t>
-      <t id="10201">Heranzoomen</t>
+      <t id="10201">Heranzoomen \(Flugmodus\)</t>
       <t id="30001">Satellit aussetzen</t>
       <t id="30002">Fortschrittlichen Satelliten aussetzen</t>
-      <t id="30011">Navigationsbake aussetzen</t>
-      <t id="30021">Rohstoffsonde aussetzen</t>
       <t id="30101">Lasertower Mk1 aussetzen</t>
       <t id="30102">Lasertower Mk2 aussetzen</t>
       <t id="30201">Mine aussetzen</t>

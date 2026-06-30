@@ -9,14 +9,13 @@
 
       <!-- action display names -->
       <t id="10001">Renommer l'objet sélectionné/ciblé</t>
+      <t id="10011">Basculer le panneau d'informations droit</t>
       <t id="10110">Suivre la cible</t>
       <t id="10181">Afficher la compétence combinée de la cible</t>
       <t id="10182">Compétence combinée de l'équipage sur %s \(%s\) : %s</t>
-      <t id="10201">Zoom avant</t>
+      <t id="10201">Zoom avant \(mode pilotage\)</t>
       <t id="30001">Lancer un satellite</t>
       <t id="30002">Lancer un satellite avancé</t>
-      <t id="30011">Lancer une balise de navigation</t>
-      <t id="30021">Lancer une sonde de ressources</t>
       <t id="30101">Lancer une tour laser Mk1</t>
       <t id="30102">Lancer une tour laser Mk2</t>
       <t id="30201">Lancer une mine</t>

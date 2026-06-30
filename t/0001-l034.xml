@@ -9,14 +9,13 @@
 
       <!-- action display names -->
       <t id="10001">Renombrar objeto seleccionado/objetivo</t>
+      <t id="10011">Alternar el panel de información derecho</t>
       <t id="10110">Seguir al objetivo</t>
       <t id="10181">Mostrar habilidad combinada del objetivo</t>
       <t id="10182">Habilidad combinada de la tripulación en %s \(%s\): %s</t>
-      <t id="10201">Acercar zoom</t>
+      <t id="10201">Acercar zoom \(modo de vuelo\)</t>
       <t id="30001">Lanzar satélite</t>
       <t id="30002">Lanzar satélite avanzado</t>
-      <t id="30011">Lanzar baliza de navegación</t>
-      <t id="30021">Lanzar sonda de recursos</t>
       <t id="30101">Lanzar torre láser Mk1</t>
       <t id="30102">Lanzar torre láser Mk2</t>
       <t id="30201">Lanzar mina</t>

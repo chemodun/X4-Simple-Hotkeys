@@ -6,7 +6,7 @@ A small, growing collection of simple hotkey actions for X4: Foundations, built 
 
 This mod doesn't add any UI of its own. It registers a set of small, focused actions with the *Native Hotkey API*, which then exposes them on its own **Hotkey Management > Hotkey Bindings** page (under Options), where the player assigns the actual physical key through the same native remap UI (and conflict-detection) every other control uses.
 
-Each action only fires while the player is actually piloting their own ship (no menu open) - none of them are meant to be used from the map or any other menu.
+Most actions only fire while the player is actually piloting their own ship (no menu open); a couple are map-only instead - see each action's description below for where it applies.
 
 ## Requirements
 
@@ -33,12 +33,11 @@ All of the actions below show up automatically on the *Native Hotkey API*'s **Ho
 - **Follow Target** - engages autopilot to the current target (which tracks a moving target, i.e. "follow"); pressed again on the same target, it disengages autopilot instead.
 - **Eject Illegal Wares** - drops all illegal cargo from the ship's hold and the player's own inventory, based on the local sector's police faction.
 - **Print Combined Skill of Target** - shows a notification with the combined skill of the current target's crew.
-- **Zoom In** - steps the camera FOV through increasing zoom factors (1x -> 2x -> 4x -> 8x) on repeated presses; pressing again once at the highest factor resets straight back to the FOV that was active before zooming started.
+- **Zoom In (Flight Mode)** - piloting only: steps the camera FOV through increasing zoom factors (1x -> 2x -> 4x -> 8x) on repeated presses; pressing again once at the highest factor resets straight back to the FOV that was active before zooming started.
 - **Launch Satellite / Launch Advanced Satellite** - launches a satellite or advanced satellite, if one is carried.
-- **Launch Navigation Beacon** - launches a navigation beacon, if one is carried.
-- **Launch Resource Probe** - launches a resource probe, if one is carried.
 - **Launch Laser Tower Mk1 / Mk2** - launches a laser tower of the chosen mark, if one is carried.
 - **Launch Mine / Launch Tracker Mine / Launch Friend-or-Foe Mine** - launches the chosen mine type, if one is carried.
+- **Toggle Right Info Panel** - map only: toggles the map's right-side info panel for the current selection, mirroring the existing sidebar icon (there's no vanilla hotkey for either side's info panel, only mouse clicks).
 
 Please not forget - you can disable any of these actions in appropriate **Hotkey Requests** section of the *Native Hotkey API*'s menu, if you don't want to use them.
 
@@ -55,6 +54,15 @@ Please not forget - you can disable any of these actions in appropriate **Hotkey
 - [kuertee](https://next.nexusmods.com/profile/kuertee?gameId=2659) - for the `UI Extensions and HUD` that the *Native Hotkey API* (and therefore this mod) relies on.
 
 ## Changelog
+
+### [1.02] - 2026-06-30
+
+- **Added**
+  - Toggle Right Info Panel (map only) - no vanilla hotkey exists for either side's info panel, only mouse clicks.
+- **Removed**
+  - Launch Navigation Beacon / Launch Resource Probe - vanilla already has native hotkeys for these (`Deploy Navigation Beacon` / `Deploy Resource Probe`).
+- **Changed**
+  - Renamed Zoom In to Zoom In (Flight Mode) to make clear it only works while piloting.
 
 ### [1.01] - 2026-06-28
 

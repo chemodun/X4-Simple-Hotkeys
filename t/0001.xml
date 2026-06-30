@@ -9,14 +9,13 @@
 
       <!-- action display names -->
       <t id="10001">Rename Selected/Targeted Object</t>
+      <t id="10011">Toggle Right Info Panel</t>
       <t id="10110">Follow Target</t>
       <t id="10181">Print Combined Skill of Target</t>
       <t id="10182">Combined skill of crew on %s \(%s\): %s</t>
-      <t id="10201">Zoom In</t>
+      <t id="10201">Zoom In \(Flight Mode\)</t>
       <t id="30001">Launch Satellite</t>
       <t id="30002">Launch Advanced Satellite</t>
-      <t id="30011">Launch Navigation Beacon</t>
-      <t id="30021">Launch Resource Probe</t>
       <t id="30101">Launch Laser Tower Mk1</t>
       <t id="30102">Launch Laser Tower Mk2</t>
       <t id="30201">Launch Mine</t>
