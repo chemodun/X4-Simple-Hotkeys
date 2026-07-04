@@ -8,25 +8,30 @@
       <t id="2">Yerel Kısayol Tuşu API'si üzerine kurulu basit kısayol tuşu eylemlerinden oluşan küçük bir koleksiyon.</t>
 
       <!-- action display names -->
-      <t id="10001">Seçili/Hedeflenen Nesneyi Yeniden Adlandır</t>
+      <!-- area: map (1xxxx) -->
       <t id="10011">Sağ Bilgi Panelini Aç/Kapat</t>
-      <t id="10110">Hedefi Takip Et</t>
-      <t id="10181">Hedefin Toplam Yetkinliğini Göster</t>
-      <t id="10182">%s \(%s\) mürettebatının toplam yetkinliği: %s</t>
-      <t id="10201">Yakınlaştır \(Uçuş Modu\)</t>
+      <!-- area: fps (2xxxx) -->
+      <t id="20001">Pilot Koltuğuna Geç \(FPS Modu\)</t>
+      <!-- area: pilot (3xxxx) -->
       <t id="30001">Uydu Fırlat</t>
       <t id="30002">Gelişmiş Uydu Fırlat</t>
-      <t id="30101">Lazer Kulesi Mk1 Fırlat</t>
-      <t id="30102">Lazer Kulesi Mk2 Fırlat</t>
-      <t id="30201">Mayın Fırlat</t>
-      <t id="30202">Takip Mayını Fırlat</t>
-      <t id="30203">Dost-Düşman Mayını Fırlat</t>
-      <t id="30901">Fırlatıldı: %s</t>
-      <t id="30902">Fırlatılacak %s yok.</t>
-      <t id="31001">Yasadışı Kargoyu At</t>
-      <t id="31901">Yasadışı kargo atıldı</t>
-      <t id="31902">Atılacak yasadışı kargo yok</t>
-      <t id="31903">Bu sektörde polis fraksiyonu yok - hiçbir şey atılmadı.</t>
+      <t id="30011">Lazer Kulesi Mk1 Fırlat</t>
+      <t id="30012">Lazer Kulesi Mk2 Fırlat</t>
+      <t id="30021">Mayın Fırlat</t>
+      <t id="30022">Takip Mayını Fırlat</t>
+      <t id="30023">Dost-Düşman Mayını Fırlat</t>
+      <t id="30091">Fırlatıldı: %s</t>
+      <t id="30092">Fırlatılacak %s yok.</t>
+      <t id="30101">Yasadışı Kargoyu At</t>
+      <t id="30191">Yasadışı kargo atıldı</t>
+      <t id="30192">Atılacak yasadışı kargo yok</t>
+      <t id="30193">Bu sektörde polis fraksiyonu yok - hiçbir şey atılmadı.</t>
+      <t id="31001">Hedefi Takip Et</t>
+      <t id="31011">Hedefin Toplam Yetkinliğini Göster</t>
+      <t id="31012">%s \(%s\) mürettebatının toplam yetkinliği: %s</t>
+      <t id="31031">Yakınlaştır \(Uçuş Modu\)</t>
+      <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40001">Seçili/Hedeflenen Nesneyi Yeniden Adlandır</t>
     </page>
   </add>
 </diff>

@@ -7,6 +7,37 @@
 
 local PAGE_ID = 1972092432
 
+local ffi = require("ffi")
+local C = ffi.C
+ffi.cdef [[
+  typedef uint64_t UniverseID;
+  UniverseID GetPlayerID(void);
+  UniverseID GetPlayerOccupiedShipID(void);
+  UniverseID GetPlayerControlledShipID(void);
+	bool IsGamePaused(void);
+  UniverseID GetContextByClass(UniverseID componentid, const char* classname, bool includeself);
+  typedef struct {
+    uint32_t id;
+    const char* text;
+    const char* type;
+    bool ispossible;
+    bool istobedisplayed;
+  } UIAction;
+  typedef struct {
+    UniverseID component;
+    const char* connection;
+  } UIComponentSlot;
+  uint32_t GetNumCompSlotPlayerActions(UIComponentSlot compslot);
+  uint32_t GetCompSlotPlayerActions(UIAction* result, uint32_t resultlen, UIComponentSlot compslot);
+  bool PerformCompSlotPlayerAction(UIComponentSlot compslot, uint32_t actionid);
+  typedef struct {
+    uint64_t softtargetID;
+    const char* softtargetConnectionName;
+    uint32_t messageID;
+  } SofttargetDetails2;
+  SofttargetDetails2 GetSofttarget2(void);
+]]
+
 local function debugLog(fmt, ...)
   if select("#", ...) > 0 then
     DebugError("Simple Hotkeys: " .. string.format(fmt, ...))
@@ -104,6 +135,122 @@ local function OnOpenRightInfoAction()
   end
 end
 
+-- Attempts to find a player action on the given compslot that matches the
+-- desired text, returning the first match (if any) along with its ID and
+-- ispossible flag. Logs all actions found for debugging purposes.
+local function TryCompSlotAction(compSlot, label, desiredText)
+  local n = C.GetNumCompSlotPlayerActions(compSlot)
+  debugLog("TryCompSlotAction: [%s] compslot component=%s connection=%s -> %d action(s)", label, tostring(compSlot.component), ffi.string(compSlot.connection), tonumber(n))
+  if n == 0 then
+    return nil
+  end
+
+  local buf = ffi.new("UIAction[?]", n)
+  n = C.GetCompSlotPlayerActions(buf, n, compSlot)
+
+  local matched = nil
+  for i = 0, n - 1 do
+    local text = ffi.string(buf[i].text)
+    debugLog(
+      "TryCompSlotAction: [%s] action %d/%d - id=%s text='%s' type=%s ispossible=%s istobedisplayed=%s",
+      label, i + 1, n, tostring(buf[i].id), text, ffi.string(buf[i].type), tostring(buf[i].ispossible), tostring(buf[i].istobedisplayed)
+    )
+    if (not matched) and (text == desiredText) then
+      matched = { id = buf[i].id, text = text, ispossible = buf[i].ispossible }
+    end
+  end
+  return matched
+end
+
+
+local function PerformTakePilotSeatAction(compSlot, action, iteration, maxIterations)
+  if iteration > maxIterations then
+    debugLog("PerformTakePilotSeatAction: exceeded max iterations (%d) - aborting", maxIterations)
+    return
+  end
+
+  local controlled = C.GetPlayerControlledShipID()
+  debugLog(
+    "PerformTakePilotSeatAction: before call %d/%d - controlled=%s firstPerson=%s",
+    iteration, maxIterations, tostring(controlled), tostring(IsFirstPerson())
+  )
+  C.PerformCompSlotPlayerAction(compSlot, action.id)
+  controlled = C.GetPlayerControlledShipID()
+  debugLog(
+    "PerformTakePilotSeatAction: after call %d/%d - controlled=%s firstPerson=%s",
+    iteration, maxIterations, tostring(controlled), tostring(IsFirstPerson())
+  )
+
+  if controlled ~= compSlot.component then
+    debugLog("PerformTakePilotSeatAction: control not taken yet - firing '%s' again (iteration %d/%d) with delay", action.text, iteration + 1, maxIterations)
+    Helper.addDelayedOneTimeCallbackOnUpdate(
+      function()
+        PerformTakePilotSeatAction(compSlot, action, iteration + 1, maxIterations)
+      end, false, getElapsedTime() + 0.3)
+  end
+end
+
+-- Attempts to take control of the player's currently occupied ship (if any)
+-- by performing the "Take Command of Ship" action on the ship's softtarget
+-- compslot. If the player is not currently walking a ship, or the ship is not
+-- player-owned, or the softtarget compslot does not have a matching action,
+-- this function does nothing. If the action is found but fails to take control
+-- on the first attempt, it will try a second time (mirroring the behavior of
+-- the right-click interact menu's "Take Command" entry, which also does a
+-- second click if the first fails).
+local function OnTakePilotSeatAction(data)
+  if C.IsGamePaused() then
+    debugLog("OnTakePilotSeatAction: game is paused - ignoring")
+    return
+  end
+
+  local ship = C.GetContextByClass(C.GetPlayerID(), "ship", false)
+  local shipId64 = ConvertStringTo64Bit(tostring(ship))
+  if shipId64 == 0 then
+    debugLog("OnTakePilotSeatAction: player is not walking a ship - ignoring")
+    return
+  end
+  local isPlayerOwned, name, idcode = GetComponentData(shipId64, "isplayerowned", "name", "idcode")
+  if not isPlayerOwned then
+    debugLog("OnTakePilotSeatAction: ship %s (%s) is not player-owned - ignoring", tostring(name), tostring(idcode))
+    return
+  end
+
+  if data == nil or data.object == nil or data.object == 0 then
+    debugLog("OnTakePilotSeatAction: no object provided - ignoring")
+    return
+  end
+
+  local controlled = C.GetPlayerControlledShipID()
+
+  if controlled == shipId64 then
+    debugLog("OnTakePilotSeatAction: player already controls ship %s (%s) - ignoring", tostring(name), tostring(idcode))
+    return
+  end
+
+  local takeCommandText = ReadText(1010, 58)   -- "Take Command of Ship"
+
+  -- Attempt 1: the crosshair's actual current softtarget + connection.
+  local softTarget = C.GetSofttarget2()
+  local softTargetId = tonumber(softTarget.softtargetID) or 0
+  local softTargetConnection = ffi.string(softTarget.softtargetConnectionName)
+  debugLog("OnTakePilotSeatAction: softTarget id=%s connection='%s' messageID=%s", tostring(softTargetId), softTargetConnection, tostring(softTarget.messageID))
+
+  if (softTargetId == data.object) and IsValidComponent(softTargetId) then
+    local softTargetCompSlot = ffi.new("UIComponentSlot")
+    softTargetCompSlot.component = softTargetId
+    local softTargetConnectionString = Helper.ffiNewString(softTargetConnection)
+    softTargetCompSlot.connection = softTargetConnectionString
+    local matched = TryCompSlotAction(softTargetCompSlot, "softtarget", takeCommandText)
+    if matched then
+      debugLog("OnTakePilotSeatAction: performing native action '%s' (id %s) on ship %s (%s)", matched.text, tostring(matched.id), tostring(name), tostring(idcode))
+      PerformTakePilotSeatAction(softTargetCompSlot, matched, 1, 4)
+    end
+  else
+    debugLog("OnTakePilotSeatAction: no valid softTarget - skipping softTarget-based attempt")
+  end
+end
+
 local function RegisterActions()
   if not (HotkeyApi and HotkeyApi.RegisterAction) then
     DebugError("Simple Hotkeys: HotkeyApi.RegisterAction not available - is hotkey_api loaded?")
@@ -116,7 +263,7 @@ local function RegisterActions()
     id = "simple_hotkeys_rename",
     area = "map;pilot",
     isObjectRequired = true,
-    name = ReadText(PAGE_ID, 10001),
+    name = ReadText(PAGE_ID, 40001),
     version = 1,
     actionLua = OnRenameAction,
   })
@@ -125,9 +272,18 @@ local function RegisterActions()
     id = "simple_hotkeys_zoom_in",
     area = "pilot",
     isObjectRequired = false,
-    name = ReadText(PAGE_ID, 10201),
+    name = ReadText(PAGE_ID, 31031),
     version = 1,
     actionLua = OnZoomInAction,
+  })
+
+  HotkeyApi.RegisterAction({
+    id = "simple_hotkeys_take_pilot_seat",
+    area = "fps",
+    isObjectRequired = false,
+    name = ReadText(PAGE_ID, 20001),
+    version = 1,
+    actionLua = OnTakePilotSeatAction,
   })
 
   HotkeyApi.RegisterAction({

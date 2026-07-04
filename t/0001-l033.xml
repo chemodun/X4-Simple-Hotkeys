@@ -8,25 +8,30 @@
       <t id="2">Petite collection d'actions de raccourcis simples basée sur l'API native de raccourcis.</t>
 
       <!-- action display names -->
-      <t id="10001">Renommer l'objet sélectionné/ciblé</t>
+      <!-- area: map (1xxxx) -->
       <t id="10011">Basculer le panneau d'informations droit</t>
-      <t id="10110">Suivre la cible</t>
-      <t id="10181">Afficher la compétence combinée de la cible</t>
-      <t id="10182">Compétence combinée de l'équipage sur %s \(%s\) : %s</t>
-      <t id="10201">Zoom avant \(mode pilotage\)</t>
+      <!-- area: fps (2xxxx) -->
+      <t id="20001">Prendre le poste de pilotage \(mode FPS\)</t>
+      <!-- area: pilot (3xxxx) -->
       <t id="30001">Lancer un satellite</t>
       <t id="30002">Lancer un satellite avancé</t>
-      <t id="30101">Lancer une tour laser Mk1</t>
-      <t id="30102">Lancer une tour laser Mk2</t>
-      <t id="30201">Lancer une mine</t>
-      <t id="30202">Lancer une mine traceuse</t>
-      <t id="30203">Lancer une mine ami-ennemi</t>
-      <t id="30901">Lancé : %s</t>
-      <t id="30902">Aucun %s disponible à lancer.</t>
-      <t id="31001">Éjecter les marchandises illégales</t>
-      <t id="31901">Marchandises illégales éjectées</t>
-      <t id="31902">Aucune marchandise illégale à éjecter</t>
-      <t id="31903">Aucune faction de police dans ce secteur - rien n'a été éjecté.</t>
+      <t id="30011">Lancer une tour laser Mk1</t>
+      <t id="30012">Lancer une tour laser Mk2</t>
+      <t id="30021">Lancer une mine</t>
+      <t id="30022">Lancer une mine traceuse</t>
+      <t id="30023">Lancer une mine ami-ennemi</t>
+      <t id="30091">Lancé : %s</t>
+      <t id="30092">Aucun %s disponible à lancer.</t>
+      <t id="30101">Éjecter les marchandises illégales</t>
+      <t id="30191">Marchandises illégales éjectées</t>
+      <t id="30192">Aucune marchandise illégale à éjecter</t>
+      <t id="30193">Aucune faction de police dans ce secteur - rien n'a été éjecté.</t>
+      <t id="31001">Suivre la cible</t>
+      <t id="31011">Afficher la compétence combinée de la cible</t>
+      <t id="31012">Compétence combinée de l'équipage sur %s \(%s\) : %s</t>
+      <t id="31031">Zoom avant \(mode pilotage\)</t>
+      <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40001">Renommer l'objet sélectionné/ciblé</t>
     </page>
   </add>
 </diff>

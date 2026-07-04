@@ -8,25 +8,30 @@
       <t id="2">Small collection of simple hotkey actions built on the Native Hotkey API.</t>
 
       <!-- action display names -->
-      <t id="10001">Rename Selected/Targeted Object</t>
+      <!-- area: map (1xxxx) -->
       <t id="10011">Toggle Right Info Panel</t>
-      <t id="10110">Follow Target</t>
-      <t id="10181">Print Combined Skill of Target</t>
-      <t id="10182">Combined skill of crew on %s \(%s\): %s</t>
-      <t id="10201">Zoom In \(Flight Mode\)</t>
+      <!-- area: fps (2xxxx) -->
+      <t id="20001">Take Pilot Seat \(FPS Mode\)</t>
+      <!-- area: pilot (3xxxx) -->
       <t id="30001">Launch Satellite</t>
       <t id="30002">Launch Advanced Satellite</t>
-      <t id="30101">Launch Laser Tower Mk1</t>
-      <t id="30102">Launch Laser Tower Mk2</t>
-      <t id="30201">Launch Mine</t>
-      <t id="30202">Launch Tracker Mine</t>
-      <t id="30203">Launch Friend-or-Foe Mine</t>
-      <t id="30901">Launched: %s</t>
-      <t id="30902">No %s available to launch.</t>
-      <t id="31001">Eject Illegal Wares</t>
-      <t id="31901">Ejected illegal wares</t>
-      <t id="31902">No illegal wares to eject</t>
-      <t id="31903">No police faction in this sector - nothing ejected.</t>
+      <t id="30011">Launch Laser Tower Mk1</t>
+      <t id="30012">Launch Laser Tower Mk2</t>
+      <t id="30021">Launch Mine</t>
+      <t id="30022">Launch Tracker Mine</t>
+      <t id="30023">Launch Friend-or-Foe Mine</t>
+      <t id="30091">Launched: %s</t>
+      <t id="30092">No %s available to launch.</t>
+      <t id="30101">Eject Illegal Wares</t>
+      <t id="30191">Ejected illegal wares</t>
+      <t id="30192">No illegal wares to eject</t>
+      <t id="30193">No police faction in this sector - nothing ejected.</t>
+      <t id="31001">Follow Target</t>
+      <t id="31011">Print Combined Skill of Target</t>
+      <t id="31012">Combined skill of crew on %s \(%s\): %s</t>
+      <t id="31031">Zoom In \(Flight Mode\)</t>
+      <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40001">Rename Selected/Targeted Object</t>
     </page>
   </add>
 </diff>

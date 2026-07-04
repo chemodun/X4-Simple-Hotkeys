@@ -8,25 +8,30 @@
       <t id="2">Piccola raccolta di semplici azioni con tasti di scelta rapida basata sull'API nativa dei tasti di scelta rapida.</t>
 
       <!-- action display names -->
-      <t id="10001">Rinomina oggetto selezionato/bersaglio</t>
+      <!-- area: map (1xxxx) -->
       <t id="10011">Attiva/disattiva il pannello informazioni destro</t>
-      <t id="10110">Segui il bersaglio</t>
-      <t id="10181">Mostra abilità combinata del bersaglio</t>
-      <t id="10182">Abilità combinata dell'equipaggio su %s \(%s\): %s</t>
-      <t id="10201">Zoom avanti \(modalità di volo\)</t>
+      <!-- area: fps (2xxxx) -->
+      <t id="20001">Prendi il posto di pilotaggio \(modalità FPS\)</t>
+      <!-- area: pilot (3xxxx) -->
       <t id="30001">Lancia satellite</t>
       <t id="30002">Lancia satellite avanzato</t>
-      <t id="30101">Lancia torre laser Mk1</t>
-      <t id="30102">Lancia torre laser Mk2</t>
-      <t id="30201">Lancia mina</t>
-      <t id="30202">Lancia mina traccia</t>
-      <t id="30203">Lancia mina amico-nemico</t>
-      <t id="30901">Lanciato: %s</t>
-      <t id="30902">Nessun %s disponibile da lanciare.</t>
-      <t id="31001">Espelli merci illegali</t>
-      <t id="31901">Merci illegali espulse</t>
-      <t id="31902">Nessuna merce illegale da espellere</t>
-      <t id="31903">Nessuna fazione di polizia in questo settore - nulla espulso.</t>
+      <t id="30011">Lancia torre laser Mk1</t>
+      <t id="30012">Lancia torre laser Mk2</t>
+      <t id="30021">Lancia mina</t>
+      <t id="30022">Lancia mina traccia</t>
+      <t id="30023">Lancia mina amico-nemico</t>
+      <t id="30091">Lanciato: %s</t>
+      <t id="30092">Nessun %s disponibile da lanciare.</t>
+      <t id="30101">Espelli merci illegali</t>
+      <t id="30191">Merci illegali espulse</t>
+      <t id="30192">Nessuna merce illegale da espellere</t>
+      <t id="30193">Nessuna fazione di polizia in questo settore - nulla espulso.</t>
+      <t id="31001">Segui il bersaglio</t>
+      <t id="31011">Mostra abilità combinata del bersaglio</t>
+      <t id="31012">Abilità combinata dell'equipaggio su %s \(%s\): %s</t>
+      <t id="31031">Zoom avanti \(modalità di volo\)</t>
+      <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40001">Rinomina oggetto selezionato/bersaglio</t>
     </page>
   </add>
 </diff>

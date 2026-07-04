@@ -8,25 +8,30 @@
       <t id="2">Malá sbírka jednoduchých akcí klávesových zkratek založená na nativním Hotkey API.</t>
 
       <!-- action display names -->
-      <t id="10001">Přejmenovat vybraný/cílený objekt</t>
+      <!-- area: map (1xxxx) -->
       <t id="10011">Přepnout pravý informační panel</t>
-      <t id="10110">Sledovat cíl</t>
-      <t id="10181">Zobrazit kombinovanou dovednost cíle</t>
-      <t id="10182">Kombinovaná dovednost osádky na %s \(%s\): %s</t>
-      <t id="10201">Přiblížit \(režim letu\)</t>
+      <!-- area: fps (2xxxx) -->
+      <t id="20001">Zaujmout pilotní křeslo \(režim FPS\)</t>
+      <!-- area: pilot (3xxxx) -->
       <t id="30001">Vypustit satelit</t>
       <t id="30002">Vypustit pokročilý satelit</t>
-      <t id="30101">Vypustit laserovou věž Mk1</t>
-      <t id="30102">Vypustit laserovou věž Mk2</t>
-      <t id="30201">Vypustit minu</t>
-      <t id="30202">Vypustit sledovací minu</t>
-      <t id="30203">Vypustit minu přítel-nepřítel</t>
-      <t id="30901">Vypuštěno: %s</t>
-      <t id="30902">Žádné %s k vypuštění.</t>
-      <t id="31001">Vyhodit nelegální zboží</t>
-      <t id="31901">Nelegální zboží vyhozeno</t>
-      <t id="31902">Žádné nelegální zboží k vyhození</t>
-      <t id="31903">V tomto sektoru není žádná policejní frakce - nic nebylo vyhozeno.</t>
+      <t id="30011">Vypustit laserovou věž Mk1</t>
+      <t id="30012">Vypustit laserovou věž Mk2</t>
+      <t id="30021">Vypustit minu</t>
+      <t id="30022">Vypustit sledovací minu</t>
+      <t id="30023">Vypustit minu přítel-nepřítel</t>
+      <t id="30091">Vypuštěno: %s</t>
+      <t id="30092">Žádné %s k vypuštění.</t>
+      <t id="30101">Vyhodit nelegální zboží</t>
+      <t id="30191">Nelegální zboží vyhozeno</t>
+      <t id="30192">Žádné nelegální zboží k vyhození</t>
+      <t id="30193">V tomto sektoru není žádná policejní frakce - nic nebylo vyhozeno.</t>
+      <t id="31001">Sledovat cíl</t>
+      <t id="31011">Zobrazit kombinovanou dovednost cíle</t>
+      <t id="31012">Kombinovaná dovednost osádky na %s \(%s\): %s</t>
+      <t id="31031">Přiblížit \(režim letu\)</t>
+      <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40001">Přejmenovat vybraný/cílený objekt</t>
     </page>
   </add>
 </diff>

@@ -8,25 +8,30 @@
       <t id="2">Pequena coleção de ações simples de teclas de atalho baseada na API nativa de teclas de atalho.</t>
 
       <!-- action display names -->
-      <t id="10001">Renomear objeto selecionado/alvo</t>
+      <!-- area: map (1xxxx) -->
       <t id="10011">Alternar painel de informações direito</t>
-      <t id="10110">Seguir alvo</t>
-      <t id="10181">Exibir habilidade combinada do alvo</t>
-      <t id="10182">Habilidade combinada da tripulação em %s \(%s\): %s</t>
-      <t id="10201">Aproximar zoom \(modo de voo\)</t>
+      <!-- area: fps (2xxxx) -->
+      <t id="20001">Ocupar o assento do piloto \(modo FPS\)</t>
+      <!-- area: pilot (3xxxx) -->
       <t id="30001">Lançar satélite</t>
       <t id="30002">Lançar satélite avançado</t>
-      <t id="30101">Lançar torre laser Mk1</t>
-      <t id="30102">Lançar torre laser Mk2</t>
-      <t id="30201">Lançar mina</t>
-      <t id="30202">Lançar mina rastreadora</t>
-      <t id="30203">Lançar mina amigo-inimigo</t>
-      <t id="30901">Lançado: %s</t>
-      <t id="30902">Nenhum %s disponível para lançar.</t>
-      <t id="31001">Ejetar mercadorias ilegais</t>
-      <t id="31901">Mercadorias ilegais ejetadas</t>
-      <t id="31902">Nenhuma mercadoria ilegal para ejetar</t>
-      <t id="31903">Nenhuma facção policial neste setor - nada foi ejetado.</t>
+      <t id="30011">Lançar torre laser Mk1</t>
+      <t id="30012">Lançar torre laser Mk2</t>
+      <t id="30021">Lançar mina</t>
+      <t id="30022">Lançar mina rastreadora</t>
+      <t id="30023">Lançar mina amigo-inimigo</t>
+      <t id="30091">Lançado: %s</t>
+      <t id="30092">Nenhum %s disponível para lançar.</t>
+      <t id="30101">Ejetar mercadorias ilegais</t>
+      <t id="30191">Mercadorias ilegais ejetadas</t>
+      <t id="30192">Nenhuma mercadoria ilegal para ejetar</t>
+      <t id="30193">Nenhuma facção policial neste setor - nada foi ejetado.</t>
+      <t id="31001">Seguir alvo</t>
+      <t id="31011">Exibir habilidade combinada do alvo</t>
+      <t id="31012">Habilidade combinada da tripulação em %s \(%s\): %s</t>
+      <t id="31031">Aproximar zoom \(modo de voo\)</t>
+      <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40001">Renomear objeto selecionado/alvo</t>
     </page>
   </add>
 </diff>
