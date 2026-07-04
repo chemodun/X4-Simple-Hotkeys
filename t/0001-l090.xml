@@ -11,7 +11,7 @@
       <!-- area: map (1xxxx) -->
       <t id="10011">Sağ Bilgi Panelini Aç/Kapat</t>
       <!-- area: fps (2xxxx) -->
-      <t id="20001">Pilot Koltuğuna Geç \(FPS Modu\)</t>
+      <t id="20001">{1010, 58} \(FPS Modu\)</t>
       <!-- area: pilot (3xxxx) -->
       <t id="30001">Uydu Fırlat</t>
       <t id="30002">Gelişmiş Uydu Fırlat</t>

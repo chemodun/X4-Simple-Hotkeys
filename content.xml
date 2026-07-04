@@ -3,57 +3,60 @@
   id="ws_3751021954"
   name="Simple Hotkeys"
   author="Chem O`Dun"
-  version="102"
-  date="2026-06-30"
+  version="103"
+  date="2026-07-04"
   save="false"
   sync="false"
   enabled="true"
   lastupdate="1782846883"
-  description="Small collection of simple hotkey actions built on the Native Hotkey API: rename, follow target, eject illegal wares, launch deployables, toggle zoom, and print target's combined skill.">
+  description="Small collection of simple hotkey actions built on the Native Hotkey API: rename, follow target, eject illegal wares, launch deployables, toggle zoom, take pilot seat, and print target's combined skill.">
   <text language="7"
-    description="Small collection of simple hotkey actions built on the Native Hotkey API: rename, follow target, eject illegal wares, launch deployables, toggle zoom, and print target's combined skill."></text>
+    description="Small collection of simple hotkey actions built on the Native Hotkey API: rename, follow target, eject illegal wares, launch deployables, toggle zoom, take pilot seat, and print target's combined skill."></text>
   <!-- French -->
   <text language="33"
-    description="Petite collection d'actions de raccourcis simples basée sur l'API native de raccourcis : renommer, suivre la cible, éjecter les marchandises illégales, lancer des consommables, basculer le zoom, et afficher la compétence combinée de la cible."></text>
+    description="Petite collection d'actions de raccourcis simples basée sur l'API native de raccourcis : renommer, suivre la cible, éjecter les marchandises illégales, lancer des consommables, basculer le zoom, prendre le poste de pilotage, et afficher la compétence combinée de la cible."></text>
   <!-- Spanish -->
   <text language="34"
-    description="Pequeña colección de acciones de teclas rápidas simples basada en la API nativa de teclas rápidas: renombrar, seguir al objetivo, expulsar mercancías ilegales, lanzar consumibles, alternar el zoom y mostrar la habilidad combinada del objetivo."></text>
+    description="Pequeña colección de acciones de teclas rápidas simples basada en la API nativa de teclas rápidas: renombrar, seguir al objetivo, expulsar mercancías ilegales, lanzar consumibles, alternar el zoom, ocupar el asiento del piloto y mostrar la habilidad combinada del objetivo."></text>
   <!-- Italian -->
   <text language="39"
-    description="Piccola raccolta di semplici azioni con tasti di scelta rapida basata sull'API nativa dei tasti di scelta rapida: rinominare, seguire il bersaglio, espellere merci illegali, lanciare oggetti consumabili, attivare/disattivare lo zoom e mostrare l'abilità combinata del bersaglio."></text>
+    description="Piccola raccolta di semplici azioni con tasti di scelta rapida basata sull'API nativa dei tasti di scelta rapida: rinominare, seguire il bersaglio, espellere merci illegali, lanciare oggetti consumabili, attivare/disattivare lo zoom, prendere il posto di pilotaggio e mostrare l'abilità combinata del bersaglio."></text>
   <!-- Czech -->
   <text language="42"
-    description="Malá sbírka jednoduchých akcí klávesových zkratek založená na nativním Hotkey API: přejmenování, sledování cíle, vyhození nelegálního zboží, vypuštění spotřebního materiálu, přepínání zoomu a zobrazení kombinované dovednosti cíle."></text>
+    description="Malá sbírka jednoduchých akcí klávesových zkratek založená na nativním Hotkey API: přejmenování, sledování cíle, vyhození nelegálního zboží, vypuštění spotřebního materiálu, přepínání zoomu, zaujmutí pilotního křesla a zobrazení kombinované dovednosti cíle."></text>
   <!-- English -->
   <text language="44"
-    description="Small collection of simple hotkey actions built on the Native Hotkey API: rename, follow target, eject illegal wares, launch deployables, toggle zoom, and print target's combined skill."></text>
+    description="Small collection of simple hotkey actions built on the Native Hotkey API: rename, follow target, eject illegal wares, launch deployables, toggle zoom, take pilot seat, and print target's combined skill."></text>
   <!-- Polish -->
   <text language="48"
-    description="Niewielki zbiór prostych akcji klawiszy skrótów oparty na natywnym API skrótów klawiszowych: zmiana nazwy, śledzenie celu, wyrzucanie nielegalnych towarów, wystrzeliwanie urządzeń jednorazowych, przełączanie zoomu oraz wyświetlanie łącznej umiejętności celu."></text>
+    description="Niewielki zbiór prostych akcji klawiszy skrótów oparty na natywnym API skrótów klawiszowych: zmiana nazwy, śledzenie celu, wyrzucanie nielegalnych towarów, wystrzeliwanie urządzeń jednorazowych, przełączanie zoomu, zajmowanie fotela pilota oraz wyświetlanie łącznej umiejętności celu."></text>
   <!-- German -->
   <text language="49"
-    description="Kleine Sammlung einfacher Hotkey-Aktionen, aufbauend auf der nativen Hotkey-API: Umbenennen, Ziel verfolgen, illegale Waren abwerfen, Verbrauchsgüter aussetzen, Zoom umschalten und die Gesamtfähigkeit des Ziels anzeigen."></text>
+    description="Kleine Sammlung einfacher Hotkey-Aktionen, aufbauend auf der nativen Hotkey-API: Umbenennen, Ziel verfolgen, illegale Waren abwerfen, Verbrauchsgüter aussetzen, Zoom umschalten, Pilotensitz einnehmen und die Gesamtfähigkeit des Ziels anzeigen."></text>
   <!-- Portuguese -->
   <text language="55"
-    description="Pequena coleção de ações simples de teclas de atalho baseada na API nativa de teclas de atalho: renomear, seguir o alvo, ejetar mercadorias ilegais, lançar consumíveis, alternar o zoom e exibir a habilidade combinada do alvo."></text>
+    description="Pequena coleção de ações simples de teclas de atalho baseada na API nativa de teclas de atalho: renomear, seguir o alvo, ejetar mercadorias ilegais, lançar consumíveis, alternar o zoom, ocupar o assento do piloto e exibir a habilidade combinada do alvo."></text>
   <!-- Japanese -->
   <text language="81"
-    description="ネイティブホットキーAPIを基にした、簡単なホットキー操作の小規模なコレクションです：名前変更、ターゲット追従、違法物資の投棄、消耗品の発射、ズームの切り替え、ターゲットの合計スキルの表示。"></text>
+    description="ネイティブホットキーAPIを基にした、簡単なホットキー操作の小規模なコレクションです：名前変更、ターゲット追従、違法物資の投棄、消耗品の発射、ズームの切り替え、操縦席への着席、ターゲットの合計スキルの表示。"></text>
   <!-- Korean -->
   <text language="82"
-    description="네이티브 단축키 API를 기반으로 한 간단한 단축키 동작 모음: 이름 변경, 타겟 추적, 불법 화물 투기, 소모품 발사, 줌 전환, 타겟의 종합 능력치 표시."></text>
+    description="네이티브 단축키 API를 기반으로 한 간단한 단축키 동작 모음: 이름 변경, 타겟 추적, 불법 화물 투기, 소모품 발사, 줌 전환, 조종석 탑승, 타겟의 종합 능력치 표시."></text>
   <!-- Chinese Simplified -->
   <text language="86"
-    description="基于原生热键API的简单热键操作合集：重命名、跟随目标、抛弃违禁货物、发射消耗品、切换缩放，以及显示目标的综合技能。"></text>
+    description="基于原生热键API的简单热键操作合集：重命名、跟随目标、抛弃违禁货物、发射消耗品、切换缩放、进入驾驶席，以及显示目标的综合技能。"></text>
   <!-- Chinese Traditional -->
   <text language="88"
-    description="基於原生熱鍵API的簡單熱鍵操作合集：重新命名、跟隨目標、拋棄違禁貨物、發射消耗品、切換縮放，以及顯示目標的綜合技能。"></text>
+    description="基於原生熱鍵API的簡單熱鍵操作合集：重新命名、跟隨目標、拋棄違禁貨物、發射消耗品、切換縮放、進入駕駛座，以及顯示目標的綜合技能。"></text>
   <!-- Turkish -->
   <text language="90"
-    description="Yerel Kısayol Tuşu API'si üzerine kurulu basit kısayol tuşu eylemlerinden oluşan küçük bir koleksiyon: yeniden adlandırma, hedefi takip etme, yasadışı kargoyu atma, sarf malzemesi fırlatma, yakınlaştırmayı değiştirme ve hedefin toplam yetkinliğini gösterme."></text>
+    description="Yerel Kısayol Tuşu API'si üzerine kurulu basit kısayol tuşu eylemlerinden oluşan küçük bir koleksiyon: yeniden adlandırma, hedefi takip etme, yasadışı kargoyu atma, sarf malzemesi fırlatma, yakınlaştırmayı değiştirme, pilot koltuğuna geçme ve hedefin toplam yetkinliğini gösterme."></text>
+  <!-- Bulgarian -->
+  <text language="359"
+    description="Малка колекция от прости действия с горещи клавиши, базирани на родния API за горещи клавиши: преименуване, следване на целта, изхвърляне на незаконни стоки, стартиране на еднократни устройства, превключване на мащаба, заемане на пилотската седалка и показване на общите умения на целта."></text>
   <!-- Ukrainian -->
   <text language="380"
-    description="Невелика колекція простих дій гарячих клавіш на основі рідного Hotkey API: перейменування, переслідування цілі, викидання нелегальних товарів, запуск одноразових пристроїв, перемикання масштабу та показ сумарного навика цілі."></text>
+    description="Невелика колекція простих дій гарячих клавіш на основі рідного Hotkey API: перейменування, переслідування цілі, викидання нелегальних товарів, запуск одноразових пристроїв, перемикання масштабу, зайняття крісла пілота та показ сумарного навика цілі."></text>
   <dependency version="800"></dependency>
   <dependency id="ws_3750545906" optional="false" name="Native Hotkey API" version="80004"></dependency>
 </content>

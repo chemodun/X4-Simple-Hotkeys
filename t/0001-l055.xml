@@ -11,7 +11,7 @@
       <!-- area: map (1xxxx) -->
       <t id="10011">Alternar painel de informações direito</t>
       <!-- area: fps (2xxxx) -->
-      <t id="20001">Ocupar o assento do piloto \(modo FPS\)</t>
+      <t id="20001">{1010, 58} \(modo FPS\)</t>
       <!-- area: pilot (3xxxx) -->
       <t id="30001">Lançar satélite</t>
       <t id="30002">Lançar satélite avançado</t>

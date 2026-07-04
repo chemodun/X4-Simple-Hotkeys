@@ -11,7 +11,7 @@
       <!-- area: map (1xxxx) -->
       <t id="10011">Toggle Right Info Panel</t>
       <!-- area: fps (2xxxx) -->
-      <t id="20001">Take Pilot Seat \(FPS Mode\)</t>
+      <t id="20001">{1010, 58} \(FPS Mode\)</t>
       <!-- area: pilot (3xxxx) -->
       <t id="30001">Launch Satellite</t>
       <t id="30002">Launch Advanced Satellite</t>

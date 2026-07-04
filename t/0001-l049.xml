@@ -11,7 +11,7 @@
       <!-- area: map (1xxxx) -->
       <t id="10011">Rechtes Infofenster umschalten</t>
       <!-- area: fps (2xxxx) -->
-      <t id="20001">Pilotensitz einnehmen \(FPS-Modus\)</t>
+      <t id="20001">{1010, 58} \(FPS-Modus\)</t>
       <!-- area: pilot (3xxxx) -->
       <t id="30001">Satellit aussetzen</t>
       <t id="30002">Fortschrittlichen Satelliten aussetzen</t>
