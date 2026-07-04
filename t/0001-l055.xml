@@ -20,6 +20,9 @@
       <t id="30021">Lançar mina</t>
       <t id="30022">Lançar mina rastreadora</t>
       <t id="30023">Lançar mina amigo-inimigo</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">Lançar sonda de recursos</t>
+      <t id="30041">Lançar baliza de navegação</t>
       <t id="30091">Lançado: %s</t>
       <t id="30092">Nenhum %s disponível para lançar.</t>
       <t id="30101">Ejetar mercadorias ilegais</t>

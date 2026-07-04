@@ -20,6 +20,9 @@
       <t id="30021">機雷を発射</t>
       <t id="30022">追跡機雷を発射</t>
       <t id="30023">識別機雷を発射</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">資源探査機を発射</t>
+      <t id="30041">航法ビーコンを発射</t>
       <t id="30091">発射しました: %s</t>
       <t id="30092">発射できる%sがありません。</t>
       <t id="30101">違法物資を投棄</t>

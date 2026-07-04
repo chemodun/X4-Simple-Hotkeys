@@ -20,6 +20,9 @@
       <t id="30021">Mayın Fırlat</t>
       <t id="30022">Takip Mayını Fırlat</t>
       <t id="30023">Dost-Düşman Mayını Fırlat</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">Kaynak Sondası Fırlat</t>
+      <t id="30041">Navigasyon Feneri Fırlat</t>
       <t id="30091">Fırlatıldı: %s</t>
       <t id="30092">Fırlatılacak %s yok.</t>
       <t id="30101">Yasadışı Kargoyu At</t>

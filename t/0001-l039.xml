@@ -20,6 +20,9 @@
       <t id="30021">Lancia mina</t>
       <t id="30022">Lancia mina traccia</t>
       <t id="30023">Lancia mina amico-nemico</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">Lancia sonda di risorse</t>
+      <t id="30041">Lancia faro di navigazione</t>
       <t id="30091">Lanciato: %s</t>
       <t id="30092">Nessun %s disponibile da lanciare.</t>
       <t id="30101">Espelli merci illegali</t>

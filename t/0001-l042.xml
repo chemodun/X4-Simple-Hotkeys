@@ -20,6 +20,9 @@
       <t id="30021">Vypustit minu</t>
       <t id="30022">Vypustit sledovací minu</t>
       <t id="30023">Vypustit minu přítel-nepřítel</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">Vypustit sondu na zdroje</t>
+      <t id="30041">Vypustit navigační maják</t>
       <t id="30091">Vypuštěno: %s</t>
       <t id="30092">Žádné %s k vypuštění.</t>
       <t id="30101">Vyhodit nelegální zboží</t>

@@ -20,6 +20,9 @@
       <t id="30021">Wystrzel minę</t>
       <t id="30022">Wystrzel minę śledzącą</t>
       <t id="30023">Wystrzel minę swój-wróg</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">Wystrzel sondę zasobów</t>
+      <t id="30041">Wystrzel latarnię nawigacyjną</t>
       <t id="30091">Wystrzelono: %s</t>
       <t id="30092">Brak %s do wystrzelenia.</t>
       <t id="30101">Wyrzuć nielegalne towary</t>

@@ -20,6 +20,9 @@
       <t id="30021">发射水雷</t>
       <t id="30022">发射追踪水雷</t>
       <t id="30023">发射敌我识别水雷</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">发射资源探测器</t>
+      <t id="30041">发射导航信标</t>
       <t id="30091">已发射：%s</t>
       <t id="30092">没有可发射的%s。</t>
       <t id="30101">抛弃违禁货物</t>

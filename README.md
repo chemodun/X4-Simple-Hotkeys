@@ -37,7 +37,9 @@ All of the actions below show up automatically on the *Native Hotkey API*'s **Ho
 - **Launch Satellite / Launch Advanced Satellite** - launches a satellite or advanced satellite, if one is carried.
 - **Launch Laser Tower Mk1 / Mk2** - launches a laser tower of the chosen mark, if one is carried.
 - **Launch Mine / Launch Tracker Mine / Launch Friend-or-Foe Mine** - launches the chosen mine type, if one is carried.
+- **Map: Launch ...** - map-only counterpart of every launch action above (Satellite, Advanced Satellite, Laser Tower Mk1/Mk2, Mine, Tracker Mine, Friend-or-Foe Mine), plus **Map: Launch Resource Probe** / **Map: Launch Navigation Beacon** (no piloting counterpart - vanilla already has hotkeys for those from the ship you're piloting): launches onto the selected player-owned ship on the map instead of the ship you're piloting, if it's carrying one.
 - **Toggle Right Info Panel** - map only: toggles the map's right-side info panel for the current selection, mirroring the existing sidebar icon (there's no vanilla hotkey for either side's info panel, only mouse clicks).
+- **Take Command of Ship (FPS Mode)** - lets you take the pilot/flight-control seat of the ship you're walking in via hotkey, same as double-clicking the native prompt, without needing the mouse.
 
 Please not forget - you can disable any of these actions in appropriate **Hotkey Requests** section of the *Native Hotkey API*'s menu, if you don't want to use them.
 
@@ -54,6 +56,12 @@ Please not forget - you can disable any of these actions in appropriate **Hotkey
 - [kuertee](https://next.nexusmods.com/profile/kuertee?gameId=2659) - for the `UI Extensions and HUD` that the *Native Hotkey API* (and therefore this mod) relies on.
 
 ## Changelog
+
+### [1.03] - 2026-07-05
+
+- **Added**
+  - Map-only counterpart of the entire deployable launch family (Satellite, Advanced Satellite, Laser Tower Mk1/Mk2, Mine, Tracker Mine, Friend-or-Foe Mine, Resource Probe, Navigation Beacon) - launches onto the selected player-owned ship on the map instead of the ship you're piloting. Resource Probe / Navigation Beacon reintroduce the two deployables removed in 1.02, now map-only.
+  - Take Command of Ship (FPS Mode) - takes the pilot/flight-control seat of the ship you're walking in via hotkey, without needing to double-click the native prompt.
 
 ### [1.02] - 2026-06-30
 

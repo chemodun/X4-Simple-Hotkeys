@@ -20,6 +20,9 @@
       <t id="30021">Launch Mine</t>
       <t id="30022">Launch Tracker Mine</t>
       <t id="30023">Launch Friend-or-Foe Mine</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">Launch Resource Probe</t>
+      <t id="30041">Launch Navigation Beacon</t>
       <t id="30091">Launched: %s</t>
       <t id="30092">No %s available to launch.</t>
       <t id="30101">Eject Illegal Wares</t>

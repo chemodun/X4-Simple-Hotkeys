@@ -2,12 +2,66 @@
 <mdscript name="SimpleHotkeys" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <!--
   MD-registered actions for Simple Hotkeys. Each one is registered through
-  md.HotkeyApi.Register_Action every time md.HotkeyApi.Reloaded fires, area
-  "pilot" (the player is at the controls of their own ship, no menu open) -
-  the Native Hotkey API itself already guarantees that before any of these
-  cues are signalled, so none of them re-check player.occupiedship.
+  md.HotkeyApi.Register_Action every time md.HotkeyApi.Reloaded fires. Most
+  are area "pilot" (the player is at the controls of their own ship, no menu
+  open) - the Native Hotkey API itself already guarantees that before any of
+  these cues are signalled, so those don't re-check player.occupiedship. The
+  two map-only launch actions (resource probe / nav beacon) fire on the
+  currently selected map object instead, and do check $object.isplayerowned
+  themselves - a map selection can be any object, not necessarily owned by
+  the player.
   -->
   <cues>
+
+    <!--
+      Shared by Launch_Deployable_Cue and Launch_Deployable_On_Selected_Cue:
+      resolves the caller's $id (set before including this) to $macro (the
+      deployable macro to check/launch) and $launchType (which launch_*
+      action to call - 'satellite'/'lasertower'/'mine'/'resourceprobe'/
+      'navbeacon'). The map-mode ids share the same macro as their pilot
+      counterpart under a '_map' suffix (see registrations below) so both
+      forms resolve through the same branch.
+      -->
+    <library name="Resolve_Deployable_Macro" purpose="include_actions">
+      <actions>
+        <do_if value="$id == 'simple_hotkeys_launch_satellite' or $id == 'simple_hotkeys_launch_satellite_map'">
+          <set_value name="$macro" exact="macro.eq_arg_satellite_01_macro" />
+          <set_value name="$launchType" exact="'satellite'" />
+        </do_if>
+        <do_elseif value="$id == 'simple_hotkeys_launch_adv_satellite' or $id == 'simple_hotkeys_launch_adv_satellite_map'">
+          <set_value name="$macro" exact="macro.eq_arg_satellite_02_macro" />
+          <set_value name="$launchType" exact="'satellite'" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk1' or $id == 'simple_hotkeys_launch_laser_tower_mk1_map'">
+          <set_value name="$macro" exact="macro.ship_gen_xs_lasertower_01_a_macro" />
+          <set_value name="$launchType" exact="'lasertower'" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk2' or $id == 'simple_hotkeys_launch_laser_tower_mk2_map'">
+          <set_value name="$macro" exact="macro.ship_gen_s_lasertower_01_a_macro" />
+          <set_value name="$launchType" exact="'lasertower'" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_mine' or $id == 'simple_hotkeys_launch_mine_map'">
+          <set_value name="$macro" exact="macro.weapon_gen_mine_01_macro" />
+          <set_value name="$launchType" exact="'mine'" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_tracker_mine' or $id == 'simple_hotkeys_launch_tracker_mine_map'">
+          <set_value name="$macro" exact="macro.weapon_gen_mine_02_macro" />
+          <set_value name="$launchType" exact="'mine'" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_friend_foe_mine' or $id == 'simple_hotkeys_launch_friend_foe_mine_map'">
+          <set_value name="$macro" exact="macro.weapon_gen_mine_03_macro" />
+          <set_value name="$launchType" exact="'mine'" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_resource_probe'">
+          <set_value name="$macro" exact="macro.eq_arg_resourceprobe_01_macro" />
+          <set_value name="$launchType" exact="'resourceprobe'" />
+        </do_elseif>
+        <do_elseif value="$id == 'simple_hotkeys_launch_nav_beacon'">
+          <set_value name="$macro" exact="macro.env_deco_nav_beacon_t1_macro" />
+          <set_value name="$launchType" exact="'navbeacon'" />
+        </do_elseif>
+      </actions>
+    </library>
 
     <cue name="Register_On_Reloaded" instantiate="true">
       <conditions>
@@ -121,6 +175,108 @@
             $version          = 1,
             $actionCue        = Launch_Deployable_Cue,
           ]" />
+
+        <!--
+          Map-only counterparts to the whole deployable launch family above:
+          fire on the selected map object (isObjectRequired=true) rather
+          than player.occupiedship - see Launch_Deployable_On_Selected_Cue.
+          Satellite/laser tower/mine ids reuse their pilot sibling's own
+          text id (just prefixed "Map: ") under a '_map'-suffixed action id
+          (a second, independent hotkey slot); resource probe/nav beacon
+          have no pilot sibling at all (removed in 1.02 - vanilla already
+          has hotkeys for those from the ship you're piloting), so they get
+          their own text ids and keep the plain (unsuffixed) action id.
+          -->
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_satellite_map',
+            $area             = 'map',
+            $isObjectRequired = true,
+            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30001}],
+            $version          = 1,
+            $actionCue        = Launch_Deployable_On_Selected_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_adv_satellite_map',
+            $area             = 'map',
+            $isObjectRequired = true,
+            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30002}],
+            $version          = 1,
+            $actionCue        = Launch_Deployable_On_Selected_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_laser_tower_mk1_map',
+            $area             = 'map',
+            $isObjectRequired = true,
+            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30011}],
+            $version          = 1,
+            $actionCue        = Launch_Deployable_On_Selected_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_laser_tower_mk2_map',
+            $area             = 'map',
+            $isObjectRequired = true,
+            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30012}],
+            $version          = 1,
+            $actionCue        = Launch_Deployable_On_Selected_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_mine_map',
+            $area             = 'map',
+            $isObjectRequired = true,
+            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30021}],
+            $version          = 1,
+            $actionCue        = Launch_Deployable_On_Selected_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_tracker_mine_map',
+            $area             = 'map',
+            $isObjectRequired = true,
+            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30022}],
+            $version          = 1,
+            $actionCue        = Launch_Deployable_On_Selected_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_friend_foe_mine_map',
+            $area             = 'map',
+            $isObjectRequired = true,
+            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30023}],
+            $version          = 1,
+            $actionCue        = Launch_Deployable_On_Selected_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_resource_probe',
+            $area             = 'map',
+            $isObjectRequired = true,
+            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30031}],
+            $version          = 1,
+            $actionCue        = Launch_Deployable_On_Selected_Cue,
+          ]" />
+        <signal_cue_instantly
+          cue="md.HotkeyApi.Register_Action"
+          param="table[
+            $id               = 'simple_hotkeys_launch_nav_beacon',
+            $area             = 'map',
+            $isObjectRequired = true,
+            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30041}],
+            $version          = 1,
+            $actionCue        = Launch_Deployable_On_Selected_Cue,
+          ]" />
       </actions>
     </cue>
 
@@ -180,9 +336,10 @@
     </cue>
 
     <!--
-      Shared by every "launch X" id - picks the deployable macro from
-      event.param.$id, checks the player's ship actually carries one, then
-      calls the matching launch_* action.
+      Shared by every pilot-mode "launch X" id - resolves the deployable
+      macro/launch type via Resolve_Deployable_Macro, checks the player's
+      own ship actually carries one, then calls the matching launch_*
+      action on it.
       -->
     <cue name="Launch_Deployable_Cue" instantiate="true" namespace="this">
       <conditions>
@@ -190,37 +347,16 @@
       </conditions>
       <actions>
         <set_value name="$id" exact="event.param.$id" />
-
-        <do_if value="$id == 'simple_hotkeys_launch_satellite'">
-          <set_value name="$macro" exact="macro.eq_arg_satellite_01_macro" />
-        </do_if>
-        <do_elseif value="$id == 'simple_hotkeys_launch_adv_satellite'">
-          <set_value name="$macro" exact="macro.eq_arg_satellite_02_macro" />
-        </do_elseif>
-        <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk1'">
-          <set_value name="$macro" exact="macro.ship_gen_xs_lasertower_01_a_macro" />
-        </do_elseif>
-        <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk2'">
-          <set_value name="$macro" exact="macro.ship_gen_s_lasertower_01_a_macro" />
-        </do_elseif>
-        <do_elseif value="$id == 'simple_hotkeys_launch_mine'">
-          <set_value name="$macro" exact="macro.weapon_gen_mine_01_macro" />
-        </do_elseif>
-        <do_elseif value="$id == 'simple_hotkeys_launch_tracker_mine'">
-          <set_value name="$macro" exact="macro.weapon_gen_mine_02_macro" />
-        </do_elseif>
-        <do_elseif value="$id == 'simple_hotkeys_launch_friend_foe_mine'">
-          <set_value name="$macro" exact="macro.weapon_gen_mine_03_macro" />
-        </do_elseif>
+        <include_actions ref="Resolve_Deployable_Macro" />
 
         <do_if value="$macro? and player.occupiedship.ammostorage.{$macro}.count gt 0">
-          <do_if value="$id == 'simple_hotkeys_launch_satellite' or $id == 'simple_hotkeys_launch_adv_satellite'">
+          <do_if value="$launchType == 'satellite'">
             <launch_satellite object="player.occupiedship" macro="$macro" />
           </do_if>
-          <do_elseif value="$id == 'simple_hotkeys_launch_laser_tower_mk1' or $id == 'simple_hotkeys_launch_laser_tower_mk2'">
+          <do_elseif value="$launchType == 'lasertower'">
             <launch_lasertower object="player.occupiedship" macro="$macro" />
           </do_elseif>
-          <do_elseif value="$id == 'simple_hotkeys_launch_mine' or $id == 'simple_hotkeys_launch_tracker_mine' or $id == 'simple_hotkeys_launch_friend_foe_mine'">
+          <do_elseif value="$launchType == 'mine'">
             <launch_mine object="player.occupiedship" macro="$macro" />
           </do_elseif>
           <show_notification text="{1972092432, 30091}.[$macro.name]" />
@@ -228,6 +364,49 @@
         <do_else>
           <show_notification text="{1972092432, 30092}.[$macro.name]" />
         </do_else>
+      </actions>
+    </cue>
+
+    <!--
+      Map-only counterpart to Launch_Deployable_Cue, covering the whole
+      deployable family: launches onto event.param.$object (the selected
+      map object, guaranteed present by isObjectRequired=true) instead of
+      player.occupiedship. Silently ignored for a non-player-owned
+      selection, mirroring the rename action's own convention (no
+      fail-sound/message).
+      -->
+    <cue name="Launch_Deployable_On_Selected_Cue" instantiate="true" namespace="this">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <do_if value="event.param.$object.isplayerowned">
+          <set_value name="$id" exact="event.param.$id" />
+          <set_value name="$object" exact="event.param.$object" />
+          <include_actions ref="Resolve_Deployable_Macro" />
+
+          <do_if value="$macro? and $object.ammostorage.{$macro}.count gt 0">
+            <do_if value="$launchType == 'satellite'">
+              <launch_satellite object="$object" macro="$macro" />
+            </do_if>
+            <do_elseif value="$launchType == 'lasertower'">
+              <launch_lasertower object="$object" macro="$macro" />
+            </do_elseif>
+            <do_elseif value="$launchType == 'mine'">
+              <launch_mine object="$object" macro="$macro" />
+            </do_elseif>
+            <do_elseif value="$launchType == 'resourceprobe'">
+              <launch_resourceprobe object="$object" macro="$macro" />
+            </do_elseif>
+            <do_elseif value="$launchType == 'navbeacon'">
+              <launch_navbeacon object="$object" macro="$macro" />
+            </do_elseif>
+            <show_notification text="{1972092432, 30091}.[$macro.name]" />
+          </do_if>
+          <do_else>
+            <show_notification text="{1972092432, 30092}.[$macro.name]" />
+          </do_else>
+        </do_if>
       </actions>
     </cue>
 

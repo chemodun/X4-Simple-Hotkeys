@@ -20,6 +20,9 @@
       <t id="30021">Mine aussetzen</t>
       <t id="30022">Ortungsmine aussetzen</t>
       <t id="30023">Freund-Feind-Mine aussetzen</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">Rohstoffsonde aussetzen</t>
+      <t id="30041">Navigationsbake aussetzen</t>
       <t id="30091">Ausgesetzt: %s</t>
       <t id="30092">Kein(e) %s zum Aussetzen verfügbar.</t>
       <t id="30101">Illegale Waren abwerfen</t>

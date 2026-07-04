@@ -20,6 +20,9 @@
       <t id="30021">發射水雷</t>
       <t id="30022">發射追蹤水雷</t>
       <t id="30023">發射敵我識別水雷</t>
+      <!-- area: map (kept beside 3xxxx Launch family; see md/simple_hotkeys.xml) -->
+      <t id="30031">發射資源探測器</t>
+      <t id="30041">發射導航信標</t>
       <t id="30091">已發射：%s</t>
       <t id="30092">沒有可發射的%s。</t>
       <t id="30101">拋棄違禁貨物</t>
