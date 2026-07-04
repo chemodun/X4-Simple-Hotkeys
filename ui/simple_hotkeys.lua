@@ -162,7 +162,11 @@ local function TryCompSlotAction(compSlot, label, desiredText)
   return matched
 end
 
-
+-- Performs the "Take Command of Ship" action on the given compSlot, then
+-- checks whether the player now controls the ship. If not, it will try again
+-- after a short delay, up to maxIterations times. This mirrors the behavior of
+-- the right-click interact menu's "Take Command" entry, which also does a
+-- second click if the first fails.
 local function PerformTakePilotSeatAction(compSlot, action, iteration, maxIterations)
   if iteration > maxIterations then
     debugLog("PerformTakePilotSeatAction: exceeded max iterations (%d) - aborting", maxIterations)
