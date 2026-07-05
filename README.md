@@ -11,12 +11,12 @@ Most actions only fire while the player is actually piloting their own ship (no 
 ## Requirements
 
 - **X4: Foundations**: Version **9.00** or higher.
-- **Native Hotkey API** by Chem O`Dun, version **8.00.03** or higher:
+- **Native Hotkey API** by Chem O`Dun, version **8.00.05** or higher:
   - Available on Nexus Mods: [Native Hotkey API](https://www.nexusmods.com/x4foundations/mods/2181)
   - Available on Steam Workshop: [Native Hotkey API](https://steamcommunity.com/sharedfiles/filedetails/?id=3750545906)
 - Indirectly depends on the **UI Extensions and HUD** mod by kuertee, which is a dependency of the *Native Hotkey API*:
-  - For Game Version **8.00HF4** or higher - Version **v8.0.4.9** or higher on Nexus Mods: [UI Extensions and HUD](https://www.nexusmods.com/x4foundations/mods/552)
-  - For Game Version **9.00** or higher - Version **v9.0.0.6** or higher on Nexus Mods: [UI Extensions and HUD](https://www.nexusmods.com/x4foundations/mods/552)
+  - For Game Version **8.00HF4** or higher - Version **v8.0.4.10** or higher on Nexus Mods: [UI Extensions and HUD](https://www.nexusmods.com/x4foundations/mods/552)
+  - For Game Version **9.00** or higher - Version **v9.0.0.7** or higher on Nexus Mods: [UI Extensions and HUD](https://www.nexusmods.com/x4foundations/mods/552)
 
 ## Installation
 
@@ -39,7 +39,7 @@ All of the actions below show up automatically on the *Native Hotkey API*'s **Ho
 - **Launch Mine / Launch Tracker Mine / Launch Friend-or-Foe Mine** - launches the chosen mine type, if one is carried.
 - **Map: Launch ...** - map-only counterpart of every launch action above (Satellite, Advanced Satellite, Laser Tower Mk1/Mk2, Mine, Tracker Mine, Friend-or-Foe Mine), plus **Map: Launch Resource Probe** / **Map: Launch Navigation Beacon** (no piloting counterpart - vanilla already has hotkeys for those from the ship you're piloting): launches onto the selected player-owned ship on the map instead of the ship you're piloting, if it's carrying one.
 - **Toggle Right Info Panel** - map only: toggles the map's right-side info panel for the current selection, mirroring the existing sidebar icon (there's no vanilla hotkey for either side's info panel, only mouse clicks).
-- **Take Command of Ship (FPS Mode)** - lets you take the pilot/flight-control seat of the ship you're walking in via hotkey, where appropriate "option" is shown on walking crosshair. Requires the Hotkey API version 8.00.05!
+- **Take Command of Ship (FPS Mode)** - lets you take the pilot/flight-control seat of the ship you're walking in via hotkey, where appropriate "option" is shown on walking crosshair.
 
 Please not forget - you can disable any of these actions in appropriate **Hotkey Requests** section of the *Native Hotkey API*'s menu, if you don't want to use them.
 
