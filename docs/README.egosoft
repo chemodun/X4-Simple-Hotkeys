@@ -43,7 +43,7 @@ All of the actions below show up automatically on the [i]Native Hotkey API[/i]'s
 [*] [b]Launch Mine / Launch Tracker Mine / Launch Friend-or-Foe Mine[/b] - launches the chosen mine type, if one is carried.
 [*] [b]Map: Launch ...[/b] - map-only counterpart of every launch action above (Satellite, Advanced Satellite, Laser Tower Mk1/Mk2, Mine, Tracker Mine, Friend-or-Foe Mine), plus [b]Map: Launch Resource Probe[/b] / [b]Map: Launch Navigation Beacon[/b] (no piloting counterpart - vanilla already has hotkeys for those from the ship you're piloting): launches onto the selected player-owned ship on the map instead of the ship you're piloting, if it's carrying one.
 [*] [b]Toggle Right Info Panel[/b] - map only: toggles the map's right-side info panel for the current selection, mirroring the existing sidebar icon (there's no vanilla hotkey for either side's info panel, only mouse clicks).
-[*] [b]Take Command of Ship (FPS Mode)[/b] - lets you take the pilot/flight-control seat of the ship you're walking in via hotkey, same as double-clicking the native prompt, without needing the mouse.
+[*] [b]Take Command of Ship (FPS Mode)[/b] - lets you take the pilot/flight-control seat of the ship you're walking in via hotkey, where appropriate "option" is shown on walking crosshair.
 [/list]
 Please not forget - you can disable any of these actions in appropriate [b]Hotkey Requests[/b] section of the [i]Native Hotkey API[/i]'s menu, if you don't want to use them.
 
@@ -65,8 +65,8 @@ Please not forget - you can disable any of these actions in appropriate [b]Hotke
 [list]
 [*] [b]Added[/b]
 [list]
-[*] Map-only counterpart of the entire deployable launch family (Satellite, Advanced Satellite, Laser Tower Mk1/Mk2, Mine, Tracker Mine, Friend-or-Foe Mine, Resource Probe, Navigation Beacon) - launches onto the selected player-owned ship on the map instead of the ship you're piloting. Resource Probe / Navigation Beacon reintroduce the two deployables removed in 1.02, now map-only.
 [*] Take Command of Ship (FPS Mode) - takes the pilot/flight-control seat of the ship you're walking in via hotkey, without needing to double-click the native prompt.
+[*] Map-only counterpart of the entire deployable launch family (Satellite, Advanced Satellite, Laser Tower Mk1/Mk2, Mine, Tracker Mine, Friend-or-Foe Mine, Resource Probe, Navigation Beacon) - launches onto the selected player-owned ship on the map instead of the ship you're piloting. Resource Probe / Navigation Beacon reintroduce the two deployables removed in 1.02, now map-only.
 [/list]
 [/list]
 [size=125][u][1.02] - 2026-06-30[/u][/size]
