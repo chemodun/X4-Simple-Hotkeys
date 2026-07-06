@@ -3,12 +3,12 @@
   id="ws_3751021954"
   name="Simple Hotkeys"
   author="Chem O`Dun"
-  version="103"
-  date="2026-07-05"
+  version="104"
+  date="2026-07-06"
   save="false"
   sync="false"
   enabled="true"
-  lastupdate="1783259207"
+  lastupdate="1783367910"
   description="Small collection of simple hotkey actions built on the Native Hotkey API: rename, follow target, eject illegal wares, launch deployables, toggle zoom, take pilot seat, and print target's combined skill.">
   <text language="7"
     description="Small collection of simple hotkey actions built on the Native Hotkey API: rename, follow target, eject illegal wares, launch deployables, toggle zoom, take pilot seat, and print target's combined skill."></text>
@@ -58,5 +58,5 @@
   <text language="380"
     description="Невелика колекція простих дій гарячих клавіш на основі рідного Hotkey API: перейменування, переслідування цілі, викидання нелегальних товарів, запуск одноразових пристроїв, перемикання масштабу, зайняття крісла пілота та показ сумарного навика цілі."></text>
   <dependency version="800"></dependency>
-  <dependency id="ws_3750545906" optional="false" name="Native Hotkey API" version="80005"></dependency>
+  <dependency id="ws_3750545906" optional="false" name="Native Hotkey API" version="80006"></dependency>
 </content>
