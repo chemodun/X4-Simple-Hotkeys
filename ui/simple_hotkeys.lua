@@ -70,8 +70,8 @@ local function OpenRenamePopup(object)
   end
 end
 
-local function OnRenameAction(params)
-  local object = params and params.object
+local function OnRenameAction(data)
+  local object = data and data.object
   if not object then
     return
   end
@@ -220,8 +220,8 @@ local function OnTakePilotSeatAction(data)
     return
   end
 
-  if data == nil or data.object == nil or data.object == 0 then
-    debugLog("OnTakePilotSeatAction: no object provided - ignoring")
+  if data == nil or data.softTarget == nil then
+    debugLog("OnTakePilotSeatAction: no softTarget provided - ignoring")
     return
   end
 
@@ -235,10 +235,9 @@ local function OnTakePilotSeatAction(data)
   local takeCommandText = ReadText(1010, 58)   -- "Take Command of Ship"
 
   -- Attempt 1: the crosshair's actual current softtarget + connection.
-  local softTarget = C.GetSofttarget2()
-  local softTargetId = tonumber(softTarget.softtargetID) or 0
-  local softTargetConnection = ffi.string(softTarget.softtargetConnectionName)
-  debugLog("OnTakePilotSeatAction: softTarget id=%s connection='%s' messageID=%s", tostring(softTargetId), softTargetConnection, tostring(softTarget.messageID))
+  local softTargetId = tonumber(data.softTarget.softtargetID) or 0
+  local softTargetConnection = ffi.string(data.softTarget.softtargetConnectionName)
+  debugLog("OnTakePilotSeatAction: softTarget id=%s connection='%s' messageID=%s", tostring(softTargetId), softTargetConnection, tostring(data.softTarget.messageID))
 
   if (softTargetId == data.object) and IsValidComponent(softTargetId) then
     local softTargetCompSlot = ffi.new("UIComponentSlot")
@@ -284,7 +283,7 @@ local function RegisterActions()
   HotkeyApi.RegisterAction({
     id = "simple_hotkeys_take_pilot_seat",
     area = "fps",
-    isObjectRequired = false,
+    isObjectRequired = true,
     name = ReadText(PAGE_ID, 20001),
     version = 1,
     actionLua = OnTakePilotSeatAction,

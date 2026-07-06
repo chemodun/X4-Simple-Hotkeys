@@ -11,7 +11,7 @@ Most actions only fire while the player is actually piloting their own ship (no 
 ## Requirements
 
 - **X4: Foundations**: Version **9.00** or higher.
-- **Native Hotkey API** by Chem O`Dun, version **8.00.05** or higher:
+- **Native Hotkey API** by Chem O`Dun, version **8.00.06** or higher:
   - Available on Nexus Mods: [Native Hotkey API](https://www.nexusmods.com/x4foundations/mods/2181)
   - Available on Steam Workshop: [Native Hotkey API](https://steamcommunity.com/sharedfiles/filedetails/?id=3750545906)
 - Indirectly depends on the **UI Extensions and HUD** mod by kuertee, which is a dependency of the *Native Hotkey API*:
@@ -56,6 +56,11 @@ Please not forget - you can disable any of these actions in appropriate **Hotkey
 - [kuertee](https://next.nexusmods.com/profile/kuertee?gameId=2659) - for the `UI Extensions and HUD` that the *Native Hotkey API* (and therefore this mod) relies on.
 
 ## Changelog
+
+### [1.04] - 2026-07-06
+
+- **Fixed**
+  - Usage the `softTarget` data in FPS mode.
 
 ### [1.03] - 2026-07-05
 
