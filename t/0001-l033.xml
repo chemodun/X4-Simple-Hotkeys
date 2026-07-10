@@ -35,6 +35,11 @@
       <t id="31031">Zoom avant \(mode pilotage\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
       <t id="40001">Renommer l'objet sélectionné/ciblé</t>
+
+      <!-- options menu -->
+      <t id="100100">Raccourcis de lancement</t>
+      <t id="100101">Activer les raccourcis de lancement en mode pilotage pour le vaisseau actuel</t>
+      <t id="100102">Activer les raccourcis de lancement en mode carte pour le vaisseau sélectionné</t>
     </page>
   </add>
 </diff>

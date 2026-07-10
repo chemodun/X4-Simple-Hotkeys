@@ -35,6 +35,11 @@
       <t id="31031">Aproximar zoom \(modo de voo\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
       <t id="40001">Renomear objeto selecionado/alvo</t>
+
+      <!-- options menu -->
+      <t id="100100">Teclas de atalho de lançamento</t>
+      <t id="100101">Ativar teclas de atalho de lançamento no modo de voo para a nave atual</t>
+      <t id="100102">Ativar teclas de atalho de lançamento no modo mapa para a nave selecionada</t>
     </page>
   </add>
 </diff>

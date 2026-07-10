@@ -35,6 +35,11 @@
       <t id="31031">Powiększ \(tryb lotu\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
       <t id="40001">Zmień nazwę wybranego/celowanego obiektu</t>
+
+      <!-- options menu -->
+      <t id="100100">Skróty startowe</t>
+      <t id="100101">Włącz skróty startowe w trybie lotu dla aktualnego statku</t>
+      <t id="100102">Włącz skróty startowe w trybie mapy dla wybranego statku</t>
     </page>
   </add>
 </diff>

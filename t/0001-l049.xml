@@ -35,6 +35,11 @@
       <t id="31031">Heranzoomen \(Flugmodus\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
       <t id="40001">Ausgewähltes/Angepeiltes Objekt umbenennen</t>
+
+      <!-- options menu -->
+      <t id="100100">Start-Hotkeys</t>
+      <t id="100101">Start-Hotkeys im Flugmodus für das aktuelle Schiff aktivieren</t>
+      <t id="100102">Start-Hotkeys im Kartenmodus für das ausgewählte Schiff aktivieren</t>
     </page>
   </add>
 </diff>

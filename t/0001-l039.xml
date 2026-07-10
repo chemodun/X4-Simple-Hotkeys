@@ -35,6 +35,11 @@
       <t id="31031">Zoom avanti \(modalità di volo\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
       <t id="40001">Rinomina oggetto selezionato/bersaglio</t>
+
+      <!-- options menu -->
+      <t id="100100">Tasti di scelta rapida di lancio</t>
+      <t id="100101">Attiva i tasti di scelta rapida di lancio in modalità di volo per la nave attuale</t>
+      <t id="100102">Attiva i tasti di scelta rapida di lancio in modalità mappa per la nave selezionata</t>
     </page>
   </add>
 </diff>

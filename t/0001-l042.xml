@@ -35,6 +35,11 @@
       <t id="31031">Přiblížit \(režim letu\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
       <t id="40001">Přejmenovat vybraný/cílený objekt</t>
+
+      <!-- options menu -->
+      <t id="100100">Klávesové zkratky vypouštění</t>
+      <t id="100101">Povolit klávesové zkratky vypouštění v režimu letu pro aktuální loď</t>
+      <t id="100102">Povolit klávesové zkratky vypouštění v režimu mapy pro vybranou loď</t>
     </page>
   </add>
 </diff>

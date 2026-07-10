@@ -35,6 +35,11 @@
       <t id="31031">Acercar zoom \(modo de vuelo\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
       <t id="40001">Renombrar objeto seleccionado/objetivo</t>
+
+      <!-- options menu -->
+      <t id="100100">Teclas rápidas de lanzamiento</t>
+      <t id="100101">Activar las teclas rápidas de lanzamiento en modo de vuelo para la nave actual</t>
+      <t id="100102">Activar las teclas rápidas de lanzamiento en modo mapa para la nave seleccionada</t>
     </page>
   </add>
 </diff>

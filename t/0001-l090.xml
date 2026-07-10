@@ -35,6 +35,11 @@
       <t id="31031">Yakınlaştır \(Uçuş Modu\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
       <t id="40001">Seçili/Hedeflenen Nesneyi Yeniden Adlandır</t>
+
+      <!-- options menu -->
+      <t id="100100">Fırlatma Kısayolları</t>
+      <t id="100101">Uçuş modunda mevcut gemi için fırlatma kısayollarını etkinleştir</t>
+      <t id="100102">Harita modunda seçili gemi için fırlatma kısayollarını etkinleştir</t>
     </page>
   </add>
 </diff>

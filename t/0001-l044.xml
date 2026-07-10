@@ -35,6 +35,11 @@
       <t id="31031">Zoom In \(Flight Mode\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
       <t id="40001">Rename Selected/Targeted Object</t>
+
+      <!-- options menu -->
+      <t id="100100">Launch Hotkeys</t>
+      <t id="100101">Enable Launch Hotkeys in Pilot Mode for Current Ship</t>
+      <t id="100102">Enable Launch Hotkeys in Map Mode for Selected Ship</t>
     </page>
   </add>
 </diff>

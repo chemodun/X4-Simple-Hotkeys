@@ -3,8 +3,8 @@
   id="ws_3751021954"
   name="Simple Hotkeys"
   author="Chem O`Dun"
-  version="104"
-  date="2026-07-06"
+  version="105"
+  date="2026-07-10"
   save="false"
   sync="false"
   enabled="true"
@@ -59,4 +59,6 @@
     description="Невелика колекція простих дій гарячих клавіш на основі рідного Hotkey API: перейменування, переслідування цілі, викидання нелегальних товарів, запуск одноразових пристроїв, перемикання масштабу, зайняття крісла пілота та показ сумарного навика цілі."></text>
   <dependency version="800"></dependency>
   <dependency id="ws_3750545906" optional="false" name="Native Hotkey API" version="80006"></dependency>
+  <dependency id="ws_2042901274" optional="false" name="SirNukes Mod Support APIs" version="195"></dependency>
+  <dependency id="ws_3715253556" optional="false" name="Options Helper" version="110"></dependency>
 </content>

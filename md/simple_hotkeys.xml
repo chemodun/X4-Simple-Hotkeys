@@ -14,6 +14,93 @@
   <cues>
 
     <!--
+      Reads (or initialises) mod config from player.entity.$SimpleHotkeysConfig.
+      Leaves a local $config reference; caller must <remove_value name="$config" />.
+      -->
+    <library name="DefaultConfig" purpose="include_actions" version="1">
+      <actions>
+        <do_if value="@player.entity.$SimpleHotkeysConfig == null">
+          <set_value name="player.entity.$SimpleHotkeysConfig" exact="table[
+            $launchHotkeysPilotEnabled = true,
+            $launchHotkeysMapEnabled   = true,
+          ]" />
+        </do_if>
+        <set_value name="$config" exact="player.entity.$SimpleHotkeysConfig" />
+        <!-- forward-compat: fill keys added in later versions -->
+        <do_if value="$config.$launchHotkeysPilotEnabled? == false">
+          <set_value name="$config.$launchHotkeysPilotEnabled" exact="true" />
+        </do_if>
+        <do_if value="$config.$launchHotkeysMapEnabled? == false">
+          <set_value name="$config.$launchHotkeysMapEnabled" exact="true" />
+        </do_if>
+      </actions>
+    </library>
+
+    <!-- *** Options menu *** -->
+
+    <cue name="Register_Menu" instantiate="true">
+      <conditions>
+        <event_cue_signalled cue="md.Simple_Menu_API.Reloaded" />
+      </conditions>
+      <actions>
+        <signal_cue_instantly cue="md.Simple_Menu_API.Register_Options_Menu"
+          param="table[
+            $id      = 'simple_hotkeys_options',
+            $columns = 12,
+            $title   = {1972092432, 1},
+            $onOpen  = SimpleHotkeys_Options_Menu,
+          ]" />
+      </actions>
+    </cue>
+
+    <cue name="SimpleHotkeys_Options_Menu" instantiate="true">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <include_actions ref="DefaultConfig" />
+
+        <run_actions ref="md.Options_Helper.Add_Title_Row">
+          <param name="title" value="{1972092432, 100100}" />
+          <param name="columns" value="12" />
+        </run_actions>
+
+        <run_actions ref="md.Options_Helper.Add_Checkbox">
+          <param name="id" value="'launchHotkeysPilotEnabled'" />
+          <param name="col" value="1" />
+          <param name="textColSpan" value="11" />
+          <param name="text" value="{1972092432, 100101}" />
+          <param name="data" value="$config" />
+          <param name="handle" value="Handle_Checkbox_Changed" />
+        </run_actions>
+
+        <run_actions ref="md.Options_Helper.Add_Checkbox">
+          <param name="id" value="'launchHotkeysMapEnabled'" />
+          <param name="col" value="1" />
+          <param name="textColSpan" value="11" />
+          <param name="text" value="{1972092432, 100102}" />
+          <param name="data" value="$config" />
+          <param name="handle" value="Handle_Checkbox_Changed" />
+        </run_actions>
+
+        <remove_value name="$config" />
+      </actions>
+    </cue>
+
+    <cue name="Handle_Checkbox_Changed" instantiate="true">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <include_actions ref="DefaultConfig" />
+        <set_value name="$resultTable" exact="$config" />
+        <include_actions ref="md.Options_Helper.Process_Checkbox_Changed" />
+        <remove_value name="$resultTable" />
+        <remove_value name="$config" />
+      </actions>
+    </cue>
+
+    <!--
       Shared by Launch_Deployable_Cue and Launch_Deployable_On_Selected_Cue:
       resolves the caller's $id (set before including this) to $macro (the
       deployable macro to check/launch) and $launchType (which launch_*
@@ -63,11 +150,12 @@
       </actions>
     </library>
 
-    <cue name="Register_On_Reloaded" instantiate="true">
+    <cue name="Register_On_Reloaded" instantiate="true" version="2">
       <conditions>
         <event_cue_signalled cue="md.HotkeyApi.Reloaded" />
       </conditions>
       <actions>
+        <include_actions ref="DefaultConfig" />
         <signal_cue_instantly
           cue="md.HotkeyApi.Register_Action"
           param="table[
@@ -104,77 +192,82 @@
           same Launch_Deployable_Cue, which picks the macro/launch action
           from event.param.$id (the registered id is passed back on every
           invocation, so there is no need for any extra per-id payload).
+          Gated on $config.$launchHotkeysPilotEnabled (Options menu, "Launch
+          Hotkeys" section) - when disabled, none of these ids get a slot at
+          all, so they simply don't show up as bindable hotkeys.
           -->
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_satellite',
-            $area             = 'pilot',
-            $isObjectRequired = false,
-            $name             = {1972092432, 30001},
-            $version          = 1,
-            $actionCue        = Launch_Deployable_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_adv_satellite',
-            $area             = 'pilot',
-            $isObjectRequired = false,
-            $name             = {1972092432, 30002},
-            $version          = 1,
-            $actionCue        = Launch_Deployable_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_laser_tower_mk1',
-            $area             = 'pilot',
-            $isObjectRequired = false,
-            $name             = {1972092432, 30011},
-            $version          = 1,
-            $actionCue        = Launch_Deployable_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_laser_tower_mk2',
-            $area             = 'pilot',
-            $isObjectRequired = false,
-            $name             = {1972092432, 30012},
-            $version          = 1,
-            $actionCue        = Launch_Deployable_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_mine',
-            $area             = 'pilot',
-            $isObjectRequired = false,
-            $name             = {1972092432, 30021},
-            $version          = 1,
-            $actionCue        = Launch_Deployable_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_tracker_mine',
-            $area             = 'pilot',
-            $isObjectRequired = false,
-            $name             = {1972092432, 30022},
-            $version          = 1,
-            $actionCue        = Launch_Deployable_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_friend_foe_mine',
-            $area             = 'pilot',
-            $isObjectRequired = false,
-            $name             = {1972092432, 30023},
-            $version          = 1,
-            $actionCue        = Launch_Deployable_Cue,
-          ]" />
+        <do_if value="$config.$launchHotkeysPilotEnabled">
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_satellite',
+              $area             = 'pilot',
+              $isObjectRequired = false,
+              $name             = {1972092432, 30001},
+              $version          = 1,
+              $actionCue        = Launch_Deployable_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_adv_satellite',
+              $area             = 'pilot',
+              $isObjectRequired = false,
+              $name             = {1972092432, 30002},
+              $version          = 1,
+              $actionCue        = Launch_Deployable_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_laser_tower_mk1',
+              $area             = 'pilot',
+              $isObjectRequired = false,
+              $name             = {1972092432, 30011},
+              $version          = 1,
+              $actionCue        = Launch_Deployable_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_laser_tower_mk2',
+              $area             = 'pilot',
+              $isObjectRequired = false,
+              $name             = {1972092432, 30012},
+              $version          = 1,
+              $actionCue        = Launch_Deployable_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_mine',
+              $area             = 'pilot',
+              $isObjectRequired = false,
+              $name             = {1972092432, 30021},
+              $version          = 1,
+              $actionCue        = Launch_Deployable_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_tracker_mine',
+              $area             = 'pilot',
+              $isObjectRequired = false,
+              $name             = {1972092432, 30022},
+              $version          = 1,
+              $actionCue        = Launch_Deployable_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_friend_foe_mine',
+              $area             = 'pilot',
+              $isObjectRequired = false,
+              $name             = {1972092432, 30023},
+              $version          = 1,
+              $actionCue        = Launch_Deployable_Cue,
+            ]" />
+        </do_if>
 
         <!--
           Map-only counterparts to the whole deployable launch family above:
@@ -186,97 +279,103 @@
           have no pilot sibling at all (removed in 1.02 - vanilla already
           has hotkeys for those from the ship you're piloting), so they get
           their own text ids and keep the plain (unsuffixed) action id.
+          Gated on $config.$launchHotkeysMapEnabled (Options menu, "Launch
+          Hotkeys" section) - covers this whole map-mode family, including
+          resource probe/nav beacon.
           -->
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_satellite_map',
-            $area             = 'map',
-            $isObjectRequired = true,
-            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30001}],
-            $version          = 1,
-            $actionCue        = Launch_Deployable_On_Selected_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_adv_satellite_map',
-            $area             = 'map',
-            $isObjectRequired = true,
-            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30002}],
-            $version          = 1,
-            $actionCue        = Launch_Deployable_On_Selected_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_laser_tower_mk1_map',
-            $area             = 'map',
-            $isObjectRequired = true,
-            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30011}],
-            $version          = 1,
-            $actionCue        = Launch_Deployable_On_Selected_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_laser_tower_mk2_map',
-            $area             = 'map',
-            $isObjectRequired = true,
-            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30012}],
-            $version          = 1,
-            $actionCue        = Launch_Deployable_On_Selected_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_mine_map',
-            $area             = 'map',
-            $isObjectRequired = true,
-            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30021}],
-            $version          = 1,
-            $actionCue        = Launch_Deployable_On_Selected_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_tracker_mine_map',
-            $area             = 'map',
-            $isObjectRequired = true,
-            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30022}],
-            $version          = 1,
-            $actionCue        = Launch_Deployable_On_Selected_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_friend_foe_mine_map',
-            $area             = 'map',
-            $isObjectRequired = true,
-            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30023}],
-            $version          = 1,
-            $actionCue        = Launch_Deployable_On_Selected_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_resource_probe',
-            $area             = 'map',
-            $isObjectRequired = true,
-            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30031}],
-            $version          = 1,
-            $actionCue        = Launch_Deployable_On_Selected_Cue,
-          ]" />
-        <signal_cue_instantly
-          cue="md.HotkeyApi.Register_Action"
-          param="table[
-            $id               = 'simple_hotkeys_launch_nav_beacon',
-            $area             = 'map',
-            $isObjectRequired = true,
-            $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30041}],
-            $version          = 1,
-            $actionCue        = Launch_Deployable_On_Selected_Cue,
-          ]" />
+        <do_if value="$config.$launchHotkeysMapEnabled">
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_satellite_map',
+              $area             = 'map',
+              $isObjectRequired = true,
+              $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30001}],
+              $version          = 1,
+              $actionCue        = Launch_Deployable_On_Selected_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_adv_satellite_map',
+              $area             = 'map',
+              $isObjectRequired = true,
+              $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30002}],
+              $version          = 1,
+              $actionCue        = Launch_Deployable_On_Selected_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_laser_tower_mk1_map',
+              $area             = 'map',
+              $isObjectRequired = true,
+              $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30011}],
+              $version          = 1,
+              $actionCue        = Launch_Deployable_On_Selected_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_laser_tower_mk2_map',
+              $area             = 'map',
+              $isObjectRequired = true,
+              $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30012}],
+              $version          = 1,
+              $actionCue        = Launch_Deployable_On_Selected_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_mine_map',
+              $area             = 'map',
+              $isObjectRequired = true,
+              $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30021}],
+              $version          = 1,
+              $actionCue        = Launch_Deployable_On_Selected_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_tracker_mine_map',
+              $area             = 'map',
+              $isObjectRequired = true,
+              $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30022}],
+              $version          = 1,
+              $actionCue        = Launch_Deployable_On_Selected_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_friend_foe_mine_map',
+              $area             = 'map',
+              $isObjectRequired = true,
+              $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30023}],
+              $version          = 1,
+              $actionCue        = Launch_Deployable_On_Selected_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_resource_probe',
+              $area             = 'map',
+              $isObjectRequired = true,
+              $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30031}],
+              $version          = 1,
+              $actionCue        = Launch_Deployable_On_Selected_Cue,
+            ]" />
+          <signal_cue_instantly
+            cue="md.HotkeyApi.Register_Action"
+            param="table[
+              $id               = 'simple_hotkeys_launch_nav_beacon',
+              $area             = 'map',
+              $isObjectRequired = true,
+              $name             = '%s: %s'.[{1001, 3245}, {1972092432, 30041}],
+              $version          = 1,
+              $actionCue        = Launch_Deployable_On_Selected_Cue,
+            ]" />
+        </do_if>
+        <remove_value name="$config" />
       </actions>
     </cue>
 
