@@ -254,6 +254,123 @@ local function OnTakePilotSeatAction(data)
   end
 end
 
+-- Opens the given left-panel group (menu_map.lua's "objectlist"/
+-- "propertyowned" infoTableMode) straight to the given category tab.
+--  - If MapMenu is already open, switches live: forces the panel onto the
+--    right group first (only if it isn't already showing it, to avoid an
+--    unnecessary reset) via buttonToggleObjectList, then picks the tab via
+--    buttonObjectSubMode/buttonPropertySubMode directly - same calls the
+--    real tab-strip buttons make.
+--  - Otherwise opens MapMenu fresh landing straight on that tab via mode
+--    "infomode"/{groupMode, category} (mirrors OpenRenamePopup's own
+--    dual-path pattern, using "infomode" instead of "renamecontext").
+local function SwitchOrOpenMapTab(groupMode, subModeButtonName, category, col)
+  local mapMenu = Helper.getMenu("MapMenu")
+  if mapMenu and mapMenu.shown then
+    if mapMenu.infoTableMode ~= groupMode then
+      mapMenu.buttonToggleObjectList(groupMode, true, true)
+    end
+    mapMenu[subModeButtonName](category, col)
+  else
+    OpenMenu("MapMenu", Helper.convertComponentIDs({ 0, 0, true, nil, nil, "infomode", { groupMode, category } }), nil)
+  end
+end
+
+-- Object List / Property Owned tab groups, driven by the Options menu's
+-- $objectListHotkeysMode/$propertyOwnedHotkeysMode dropdowns. Category keys
+-- and their vanilla text refs (page 1001) come straight from menu_map.lua's
+-- config.objectCategories/config.propertyCategories, in the same order, so
+-- action names always match the actual in-game tab label/translation and
+-- "col" lines up reasonably with the real tab-strip column.
+local TAB_GROUPS = {
+  {
+    idPrefix      = "simple_hotkeys_objectlist_",
+    configKey     = "objectListHotkeysMode",
+    groupMode     = "objectlist",
+    subModeButton = "buttonObjectSubMode",
+    groupNamePage = 1001,
+    groupNameId   = 3224, -- "Object List"
+    categories = {
+      { key = "objectall",   namePage = 1001, nameId = 8380 }, -- "All"
+      { key = "stations",    namePage = 1001, nameId = 8379 }, -- "Stations"
+      { key = "ships",       namePage = 1001, nameId = 6 },    -- "Ships"
+      { key = "deployables", namePage = 1001, nameId = 1332 }, -- "Deployables"
+    },
+  },
+  {
+    idPrefix      = "simple_hotkeys_propertyowned_",
+    configKey     = "propertyOwnedHotkeysMode",
+    groupMode     = "propertyowned",
+    subModeButton = "buttonPropertySubMode",
+    groupNamePage = 1001,
+    groupNameId   = 1000, -- "Property Owned"
+    categories = {
+      { key = "propertyall",     namePage = 1001, nameId = 8380 }, -- "All"
+      { key = "stations",        namePage = 1001, nameId = 8379 }, -- "Stations"
+      { key = "fleets",          namePage = 1001, nameId = 8326 }, -- "Fleets"
+      { key = "unassignedships", namePage = 1001, nameId = 8327 }, -- "Unassigned Ships"
+      { key = "inventoryships",  namePage = 1001, nameId = 8381 }, -- "Inventory Ships"
+      { key = "deployables",     namePage = 1001, nameId = 1332 }, -- "Deployables"
+    },
+  },
+}
+
+-- Registers 0/1/2 hotkey ids per category depending on its group's config
+-- mode: none (disabled), "_pilot" (pilotOnly/pilotAndMapSeparated), "_map"
+-- (mapOnly/pilotAndMapSeparated), or "_unified" (pilotAndMapUnified) - three
+-- fully independent ids/slots per tab, never reused across modes. Display
+-- names are entirely vanilla-ref-composed (group + category) with one of
+-- our own three prefixes (ids 30000/10000/40000).
+local function RegisterTabHotkeys()
+  local playerId = ConvertStringTo64Bit(tostring(C.GetPlayerID()))
+  local cfg = GetNPCBlackboard(playerId, "$SimpleHotkeysConfig") or {}
+
+  for _, group in ipairs(TAB_GROUPS) do
+    local mode = cfg[group.configKey] or "disabled"
+    if mode ~= "disabled" then
+      local groupName = ReadText(group.groupNamePage, group.groupNameId)
+      for col, cat in ipairs(group.categories) do
+        local catName = ReadText(cat.namePage, cat.nameId)
+        local baseName = string.format("%s: %s", groupName, catName)
+        local action = function()
+          SwitchOrOpenMapTab(group.groupMode, group.subModeButton, cat.key, col)
+        end
+
+        if mode == "pilotOnly" or mode == "pilotAndMapSeparated" then
+          HotkeyApi.RegisterAction({
+            id = group.idPrefix .. cat.key .. "_pilot",
+            area = "pilot",
+            isObjectRequired = false,
+            name = string.format("%s %s", ReadText(PAGE_ID, 30000), baseName),
+            version = 1,
+            actionLua = action,
+          })
+        end
+        if mode == "mapOnly" or mode == "pilotAndMapSeparated" then
+          HotkeyApi.RegisterAction({
+            id = group.idPrefix .. cat.key .. "_map",
+            area = "map",
+            isObjectRequired = false,
+            name = string.format("%s %s", ReadText(PAGE_ID, 10000), baseName),
+            version = 1,
+            actionLua = action,
+          })
+        end
+        if mode == "pilotAndMapUnified" then
+          HotkeyApi.RegisterAction({
+            id = group.idPrefix .. cat.key .. "_unified",
+            area = "pilot;map",
+            isObjectRequired = false,
+            name = string.format("%s %s", ReadText(PAGE_ID, 40000), baseName),
+            version = 1,
+            actionLua = action,
+          })
+        end
+      end
+    end
+  end
+end
+
 local function RegisterActions()
   if not (HotkeyApi and HotkeyApi.RegisterAction) then
     DebugError("Simple Hotkeys: HotkeyApi.RegisterAction not available - is hotkey_api loaded?")
@@ -297,6 +414,8 @@ local function RegisterActions()
     version = 1,
     actionLua = OnOpenRightInfoAction,
   })
+
+  RegisterTabHotkeys()
 end
 
 RegisterEvent("HotkeyApi.Register_Request", RegisterActions)

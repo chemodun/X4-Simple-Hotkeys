@@ -23,6 +23,8 @@
           <set_value name="player.entity.$SimpleHotkeysConfig" exact="table[
             $launchHotkeysPilotEnabled = true,
             $launchHotkeysMapEnabled   = true,
+            $objectListHotkeysMode     = 'disabled',
+            $propertyOwnedHotkeysMode  = 'disabled',
           ]" />
         </do_if>
         <set_value name="$config" exact="player.entity.$SimpleHotkeysConfig" />
@@ -32,6 +34,12 @@
         </do_if>
         <do_if value="$config.$launchHotkeysMapEnabled? == false">
           <set_value name="$config.$launchHotkeysMapEnabled" exact="true" />
+        </do_if>
+        <do_if value="$config.$objectListHotkeysMode? == false">
+          <set_value name="$config.$objectListHotkeysMode" exact="'disabled'" />
+        </do_if>
+        <do_if value="$config.$propertyOwnedHotkeysMode? == false">
+          <set_value name="$config.$propertyOwnedHotkeysMode" exact="'disabled'" />
         </do_if>
       </actions>
     </library>
@@ -83,6 +91,80 @@
           <param name="handle" value="Handle_Checkbox_Changed" />
         </run_actions>
 
+        <include_actions ref="md.Options_Helper.Add_Empty_Row" />
+
+        <!--
+          Shared by both dropdowns below - same 5 options/values for
+          Object List Hotkeys and Property Owned Hotkeys.
+          -->
+        <set_value name="$hotkeyModeOptions" exact="[
+          table[$text = {1972092432, 100011}, $value = 'disabled'],
+          table[$text = {1972092432, 100012}, $value = 'pilotOnly'],
+          table[$text = {1972092432, 100013}, $value = 'mapOnly'],
+          table[$text = {1972092432, 100014}, $value = 'pilotAndMapSeparated'],
+          table[$text = {1972092432, 100015}, $value = 'pilotAndMapUnified'],
+        ]" />
+
+        <run_actions ref="md.Options_Helper.Add_Title_Row">
+          <param name="title" value="{1972092432, 100200}" />
+          <param name="columns" value="12" />
+        </run_actions>
+        <set_value name="$currentIndex" exact="1" />
+        <do_if value="$config.$objectListHotkeysMode == 'pilotOnly'">
+          <set_value name="$currentIndex" exact="2" />
+        </do_if>
+        <do_elseif value="$config.$objectListHotkeysMode == 'mapOnly'">
+          <set_value name="$currentIndex" exact="3" />
+        </do_elseif>
+        <do_elseif value="$config.$objectListHotkeysMode == 'pilotAndMapSeparated'">
+          <set_value name="$currentIndex" exact="4" />
+        </do_elseif>
+        <do_elseif value="$config.$objectListHotkeysMode == 'pilotAndMapUnified'">
+          <set_value name="$currentIndex" exact="5" />
+        </do_elseif>
+        <run_actions ref="md.Options_Helper.Add_Dropdown">
+          <param name="id" value="'objectListHotkeysMode'" />
+          <param name="options" value="$hotkeyModeOptions" />
+          <param name="currentIndex" value="$currentIndex" />
+          <param name="col" value="1" />
+          <param name="textColSpan" value="7" />
+          <param name="text" value="{1972092432, 100201}" />
+          <param name="dropdownColSpan" value="5" />
+          <param name="handle" value="Handle_Dropdown_Changed" />
+        </run_actions>
+
+        <include_actions ref="md.Options_Helper.Add_Empty_Row" />
+
+        <run_actions ref="md.Options_Helper.Add_Title_Row">
+          <param name="title" value="{1972092432, 100300}" />
+          <param name="columns" value="12" />
+        </run_actions>
+        <set_value name="$currentIndex" exact="1" />
+        <do_if value="$config.$propertyOwnedHotkeysMode == 'pilotOnly'">
+          <set_value name="$currentIndex" exact="2" />
+        </do_if>
+        <do_elseif value="$config.$propertyOwnedHotkeysMode == 'mapOnly'">
+          <set_value name="$currentIndex" exact="3" />
+        </do_elseif>
+        <do_elseif value="$config.$propertyOwnedHotkeysMode == 'pilotAndMapSeparated'">
+          <set_value name="$currentIndex" exact="4" />
+        </do_elseif>
+        <do_elseif value="$config.$propertyOwnedHotkeysMode == 'pilotAndMapUnified'">
+          <set_value name="$currentIndex" exact="5" />
+        </do_elseif>
+        <run_actions ref="md.Options_Helper.Add_Dropdown">
+          <param name="id" value="'propertyOwnedHotkeysMode'" />
+          <param name="options" value="$hotkeyModeOptions" />
+          <param name="currentIndex" value="$currentIndex" />
+          <param name="col" value="1" />
+          <param name="textColSpan" value="7" />
+          <param name="text" value="{1972092432, 100301}" />
+          <param name="dropdownColSpan" value="5" />
+          <param name="handle" value="Handle_Dropdown_Changed" />
+        </run_actions>
+
+        <remove_value name="$hotkeyModeOptions" />
+        <remove_value name="$currentIndex" />
         <remove_value name="$config" />
       </actions>
     </cue>
@@ -95,6 +177,19 @@
         <include_actions ref="DefaultConfig" />
         <set_value name="$resultTable" exact="$config" />
         <include_actions ref="md.Options_Helper.Process_Checkbox_Changed" />
+        <remove_value name="$resultTable" />
+        <remove_value name="$config" />
+      </actions>
+    </cue>
+
+    <cue name="Handle_Dropdown_Changed" instantiate="true">
+      <conditions>
+        <event_cue_signalled />
+      </conditions>
+      <actions>
+        <include_actions ref="DefaultConfig" />
+        <set_value name="$resultTable" exact="$config" />
+        <include_actions ref="md.Options_Helper.Process_Dropdown_Changed" />
         <remove_value name="$resultTable" />
         <remove_value name="$config" />
       </actions>

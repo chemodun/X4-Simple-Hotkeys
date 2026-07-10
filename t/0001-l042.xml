@@ -9,10 +9,12 @@
 
       <!-- action display names -->
       <!-- area: map (1xxxx) -->
+      <t id="10000">Mapa:</t>
       <t id="10011">Přepnout pravý informační panel</t>
       <!-- area: fps (2xxxx) -->
       <t id="20001">{1010, 58} \(režim FPS\)</t>
       <!-- area: pilot (3xxxx) -->
+      <t id="30000">Let:</t>
       <t id="30001">Vypustit satelit</t>
       <t id="30002">Vypustit pokročilý satelit</t>
       <t id="30011">Vypustit laserovou věž Mk1</t>
@@ -34,12 +36,22 @@
       <t id="31012">Kombinovaná dovednost osádky na %s \(%s\): %s</t>
       <t id="31031">Přiblížit \(režim letu\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40000">Let a mapa:</t>
       <t id="40001">Přejmenovat vybraný/cílený objekt</t>
 
       <!-- options menu -->
       <t id="100100">Klávesové zkratky vypouštění</t>
       <t id="100101">Povolit klávesové zkratky vypouštění v režimu letu pro aktuální loď</t>
       <t id="100102">Povolit klávesové zkratky vypouštění v režimu mapy pro vybranou loď</t>
+      <t id="100011">Vypnuto</t>
+      <t id="100012">Pouze režim letu</t>
+      <t id="100013">Pouze režim mapy</t>
+      <t id="100014">Let a mapa \(oddělené zkratky\)</t>
+      <t id="100015">Let a mapa \(sjednocená zkratka\)</t>
+      <t id="100200">Klávesové zkratky seznamu objektů</t>
+      <t id="100201">Klávesové zkratky karet seznamu objektů</t>
+      <t id="100300">Klávesové zkratky vlastnictví hráče</t>
+      <t id="100301">Klávesové zkratky karet vlastnictví hráče</t>
     </page>
   </add>
 </diff>

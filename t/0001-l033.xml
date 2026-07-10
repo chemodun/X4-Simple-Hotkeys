@@ -9,10 +9,12 @@
 
       <!-- action display names -->
       <!-- area: map (1xxxx) -->
+      <t id="10000">Carte :</t>
       <t id="10011">Basculer le panneau d'informations droit</t>
       <!-- area: fps (2xxxx) -->
       <t id="20001">{1010, 58} \(mode FPS\)</t>
       <!-- area: pilot (3xxxx) -->
+      <t id="30000">Pilotage :</t>
       <t id="30001">Lancer un satellite</t>
       <t id="30002">Lancer un satellite avancé</t>
       <t id="30011">Lancer une tour laser Mk1</t>
@@ -34,12 +36,22 @@
       <t id="31012">Compétence combinée de l'équipage sur %s \(%s\) : %s</t>
       <t id="31031">Zoom avant \(mode pilotage\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40000">Pilotage et carte :</t>
       <t id="40001">Renommer l'objet sélectionné/ciblé</t>
 
       <!-- options menu -->
       <t id="100100">Raccourcis de lancement</t>
       <t id="100101">Activer les raccourcis de lancement en mode pilotage pour le vaisseau actuel</t>
       <t id="100102">Activer les raccourcis de lancement en mode carte pour le vaisseau sélectionné</t>
+      <t id="100011">Désactivé</t>
+      <t id="100012">Mode pilotage uniquement</t>
+      <t id="100013">Mode carte uniquement</t>
+      <t id="100014">Pilotage et carte \(raccourcis séparés\)</t>
+      <t id="100015">Pilotage et carte \(raccourci unifié\)</t>
+      <t id="100200">Raccourcis de la liste des objets</t>
+      <t id="100201">Raccourcis des onglets de la liste des objets</t>
+      <t id="100300">Raccourcis des propriétés possédées</t>
+      <t id="100301">Raccourcis des onglets des propriétés possédées</t>
     </page>
   </add>
 </diff>

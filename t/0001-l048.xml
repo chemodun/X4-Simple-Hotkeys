@@ -9,10 +9,12 @@
 
       <!-- action display names -->
       <!-- area: map (1xxxx) -->
+      <t id="10000">Mapa:</t>
       <t id="10011">Przełącz prawy panel informacyjny</t>
       <!-- area: fps (2xxxx) -->
       <t id="20001">{1010, 58} \(tryb FPS\)</t>
       <!-- area: pilot (3xxxx) -->
+      <t id="30000">Lot:</t>
       <t id="30001">Wystrzel satelitę</t>
       <t id="30002">Wystrzel zaawansowaną satelitę</t>
       <t id="30011">Wystrzel wieżę laserową Mk1</t>
@@ -34,12 +36,22 @@
       <t id="31012">Łączna umiejętność załogi na %s \(%s\): %s</t>
       <t id="31031">Powiększ \(tryb lotu\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40000">Lot i mapa:</t>
       <t id="40001">Zmień nazwę wybranego/celowanego obiektu</t>
 
       <!-- options menu -->
       <t id="100100">Skróty startowe</t>
       <t id="100101">Włącz skróty startowe w trybie lotu dla aktualnego statku</t>
       <t id="100102">Włącz skróty startowe w trybie mapy dla wybranego statku</t>
+      <t id="100011">Wyłączone</t>
+      <t id="100012">Tylko tryb lotu</t>
+      <t id="100013">Tylko tryb mapy</t>
+      <t id="100014">Lot i mapa \(osobne skróty\)</t>
+      <t id="100015">Lot i mapa \(wspólny skrót\)</t>
+      <t id="100200">Skróty listy obiektów</t>
+      <t id="100201">Skróty kart listy obiektów</t>
+      <t id="100300">Skróty posiadanych obiektów</t>
+      <t id="100301">Skróty kart posiadanych obiektów</t>
     </page>
   </add>
 </diff>

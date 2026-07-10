@@ -9,10 +9,12 @@
 
       <!-- action display names -->
       <!-- area: map (1xxxx) -->
+      <t id="10000">Harita:</t>
       <t id="10011">Sağ Bilgi Panelini Aç/Kapat</t>
       <!-- area: fps (2xxxx) -->
       <t id="20001">{1010, 58} \(FPS Modu\)</t>
       <!-- area: pilot (3xxxx) -->
+      <t id="30000">Uçuş:</t>
       <t id="30001">Uydu Fırlat</t>
       <t id="30002">Gelişmiş Uydu Fırlat</t>
       <t id="30011">Lazer Kulesi Mk1 Fırlat</t>
@@ -34,12 +36,22 @@
       <t id="31012">%s \(%s\) mürettebatının toplam yetkinliği: %s</t>
       <t id="31031">Yakınlaştır \(Uçuş Modu\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40000">Uçuş ve Harita:</t>
       <t id="40001">Seçili/Hedeflenen Nesneyi Yeniden Adlandır</t>
 
       <!-- options menu -->
       <t id="100100">Fırlatma Kısayolları</t>
       <t id="100101">Uçuş modunda mevcut gemi için fırlatma kısayollarını etkinleştir</t>
       <t id="100102">Harita modunda seçili gemi için fırlatma kısayollarını etkinleştir</t>
+      <t id="100011">Devre Dışı</t>
+      <t id="100012">Yalnızca Uçuş Modu</t>
+      <t id="100013">Yalnızca Harita Modu</t>
+      <t id="100014">Uçuş ve Harita \(Ayrı Kısayollar\)</t>
+      <t id="100015">Uçuş ve Harita \(Birleşik Kısayol\)</t>
+      <t id="100200">Nesne Listesi Kısayolları</t>
+      <t id="100201">Nesne Listesi Sekmesi Kısayolları</t>
+      <t id="100300">Sahip Olunanlar Kısayolları</t>
+      <t id="100301">Sahip Olunanlar Sekmesi Kısayolları</t>
     </page>
   </add>
 </diff>

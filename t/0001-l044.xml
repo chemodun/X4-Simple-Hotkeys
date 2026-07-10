@@ -9,10 +9,12 @@
 
       <!-- action display names -->
       <!-- area: map (1xxxx) -->
+      <t id="10000">Map:</t>
       <t id="10011">Toggle Right Info Panel</t>
       <!-- area: fps (2xxxx) -->
       <t id="20001">{1010, 58} \(FPS Mode\)</t>
       <!-- area: pilot (3xxxx) -->
+      <t id="30000">Pilot:</t>
       <t id="30001">Launch Satellite</t>
       <t id="30002">Launch Advanced Satellite</t>
       <t id="30011">Launch Laser Tower Mk1</t>
@@ -34,12 +36,22 @@
       <t id="31012">Combined skill of crew on %s \(%s\): %s</t>
       <t id="31031">Zoom In \(Flight Mode\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40000">Pilot and Map:</t>
       <t id="40001">Rename Selected/Targeted Object</t>
 
       <!-- options menu -->
       <t id="100100">Launch Hotkeys</t>
       <t id="100101">Enable Launch Hotkeys in Pilot Mode for Current Ship</t>
       <t id="100102">Enable Launch Hotkeys in Map Mode for Selected Ship</t>
+      <t id="100011">Disabled</t>
+      <t id="100012">Pilot Mode Only</t>
+      <t id="100013">Map Mode Only</t>
+      <t id="100014">Pilot &amp; Map \(Separate Hotkeys\)</t>
+      <t id="100015">Pilot &amp; Map \(Unified Hotkey\)</t>
+      <t id="100200">Object List Hotkeys</t>
+      <t id="100201">Object List Tab Hotkeys</t>
+      <t id="100300">Property Owned Hotkeys</t>
+      <t id="100301">Property Owned Tab Hotkeys</t>
     </page>
   </add>
 </diff>

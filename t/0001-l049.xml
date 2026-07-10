@@ -9,10 +9,12 @@
 
       <!-- action display names -->
       <!-- area: map (1xxxx) -->
+      <t id="10000">Karte:</t>
       <t id="10011">Rechtes Infofenster umschalten</t>
       <!-- area: fps (2xxxx) -->
       <t id="20001">{1010, 58} \(FPS-Modus\)</t>
       <!-- area: pilot (3xxxx) -->
+      <t id="30000">Flug:</t>
       <t id="30001">Satellit aussetzen</t>
       <t id="30002">Fortschrittlichen Satelliten aussetzen</t>
       <t id="30011">Lasertower Mk1 aussetzen</t>
@@ -34,12 +36,22 @@
       <t id="31012">Gesamtfähigkeit der Crew auf %s \(%s\): %s</t>
       <t id="31031">Heranzoomen \(Flugmodus\)</t>
       <!-- area: map; pilot (1xxxx + 3xxxx = 4xxxx) -->
+      <t id="40000">Flug und Karte:</t>
       <t id="40001">Ausgewähltes/Angepeiltes Objekt umbenennen</t>
 
       <!-- options menu -->
       <t id="100100">Start-Hotkeys</t>
       <t id="100101">Start-Hotkeys im Flugmodus für das aktuelle Schiff aktivieren</t>
       <t id="100102">Start-Hotkeys im Kartenmodus für das ausgewählte Schiff aktivieren</t>
+      <t id="100011">Deaktiviert</t>
+      <t id="100012">Nur Flugmodus</t>
+      <t id="100013">Nur Kartenmodus</t>
+      <t id="100014">Flug und Karte \(getrennte Hotkeys\)</t>
+      <t id="100015">Flug und Karte \(gemeinsamer Hotkey\)</t>
+      <t id="100200">Objektlisten-Hotkeys</t>
+      <t id="100201">Objektlisten-Tab-Hotkeys</t>
+      <t id="100300">Besitz-Hotkeys</t>
+      <t id="100301">Besitz-Tab-Hotkeys</t>
     </page>
   </add>
 </diff>
