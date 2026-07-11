@@ -102,7 +102,7 @@ Changing any of these dropdowns takes effect immediately - no need to reopen Opt
 [list]
 [*] [b]Added[/b]
 [list]
-[*] New configurable hotkeys for every Object List tab, Property Owned tab, and Player Info section.
+[*] New configurable hotkeys for every Object List tab, Property Owned tab, and left bar items in the Player Info section.
 [*] Extension Options, built directly into the [i]Native Hotkey API[/i]'s own [b]Hotkey Management[/b] page in Options (no extra dependencies needed).
 [/list]
 [/list]
