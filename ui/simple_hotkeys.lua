@@ -490,43 +490,51 @@ local function RegisterPlayerInfoHotkeys()
     return
   end
 
-  local groupName = ReadText(PLAYER_INFO_GROUP_NAME_PAGE, PLAYER_INFO_GROUP_NAME_ID)
-  for _, cat in ipairs(PLAYER_INFO_CATEGORIES) do
-    local catName = ReadText(cat.namePage, cat.nameId)
-    local baseName = string.format("%s: %s", groupName, catName)
-    local action = function()
-      SwitchOrOpenPlayerInfo(cat.key)
-    end
+  local playerInfoConfig = GetMenuConfig("PlayerInfoMenu")
+  local leftBar = playerInfoConfig and playerInfoConfig.leftBar
+  if not leftBar then
+    debugLog("RegisterPlayerInfoHotkeys: PlayerInfoMenu.uix_getConfig().leftBar not available - skipping this cycle")
+    return
+  end
 
-    if mode == "pilotOnly" or mode == "pilotAndMapSeparated" then
-      HotkeyApi.RegisterAction({
-        id = "simple_hotkeys_playerinfo_" .. cat.key .. "_pilot",
-        area = "pilot",
-        isObjectRequired = false,
-        name = string.format("%s %s", ReadText(PAGE_ID, 30000), baseName),
-        version = 1,
-        actionLua = action,
-      })
-    end
-    if mode == "mapOnly" or mode == "pilotAndMapSeparated" then
-      HotkeyApi.RegisterAction({
-        id = "simple_hotkeys_playerinfo_" .. cat.key .. "_map",
-        area = "map",
-        isObjectRequired = false,
-        name = string.format("%s %s", ReadText(PAGE_ID, 10000), baseName),
-        version = 1,
-        actionLua = action,
-      })
-    end
-    if mode == "pilotAndMapUnified" then
-      HotkeyApi.RegisterAction({
-        id = "simple_hotkeys_playerinfo_" .. cat.key .. "_unified",
-        area = "pilot;map",
-        isObjectRequired = false,
-        name = string.format("%s %s", ReadText(PAGE_ID, 40000), baseName),
-        version = 1,
-        actionLua = action,
-      })
+  local groupName = ReadText(PLAYER_INFO_GROUP_NAME_PAGE, PLAYER_INFO_GROUP_NAME_ID)
+  for _, entry in ipairs(leftBar) do
+    if entry.mode then
+      local baseName = string.format("%s: %s", groupName, entry.name)
+      local action = function()
+        SwitchOrOpenPlayerInfo(entry.mode)
+      end
+
+      if mode == "pilotOnly" or mode == "pilotAndMapSeparated" then
+        HotkeyApi.RegisterAction({
+          id = "simple_hotkeys_playerinfo_" .. entry.mode .. "_pilot",
+          area = "pilot",
+          isObjectRequired = false,
+          name = string.format("%s %s", ReadText(PAGE_ID, 30000), baseName),
+          version = 1,
+          actionLua = action,
+        })
+      end
+      if mode == "mapOnly" or mode == "pilotAndMapSeparated" then
+        HotkeyApi.RegisterAction({
+          id = "simple_hotkeys_playerinfo_" .. entry.mode .. "_map",
+          area = "map",
+          isObjectRequired = false,
+          name = string.format("%s %s", ReadText(PAGE_ID, 10000), baseName),
+          version = 1,
+          actionLua = action,
+        })
+      end
+      if mode == "pilotAndMapUnified" then
+        HotkeyApi.RegisterAction({
+          id = "simple_hotkeys_playerinfo_" .. entry.mode .. "_unified",
+          area = "pilot;map",
+          isObjectRequired = false,
+          name = string.format("%s %s", ReadText(PAGE_ID, 40000), baseName),
+          version = 1,
+          actionLua = action,
+        })
+      end
     end
   end
 end
