@@ -522,12 +522,18 @@ local function OnDisplayOptions(options, config)
       return options -- already appended on a previous render
     end
   end
-
+  table.insert(page, { id = "separator", name = " " })
+  table.insert(page, { id = "separator", name = " " })
+  table.insert(page, { id = "header", name = " " })
+  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 1) end })
+  table.insert(page, { id = "separator", name = " " })
   table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100100) end })
   table.insert(page, BuildToggleRow("simple_hotkeys_launch_pilot_toggle", 100101, "launchHotkeysPilotEnabled"))
   table.insert(page, BuildToggleRow("simple_hotkeys_launch_map_toggle", 100102, "launchHotkeysMapEnabled"))
+  table.insert(page, { id = "separator", name = " " })
   table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100200) end })
   table.insert(page, BuildDropdownRow("simple_hotkeys_objectlist_mode", 100201, "objectListHotkeysMode"))
+  table.insert(page, { id = "separator", name = " " })
   table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100300) end })
   table.insert(page, BuildDropdownRow("simple_hotkeys_propertyowned_mode", 100301, "propertyOwnedHotkeysMode"))
 
