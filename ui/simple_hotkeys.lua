@@ -46,6 +46,43 @@ local function debugLog(fmt, ...)
   end
 end
 
+-- Shared mod-config state (player.entity.$SimpleHotkeysConfig). This mod is
+-- now the sole writer of these keys - MD's own DefaultConfig library
+-- (md/simple_hotkeys.xml) still creates/reads them for Register_On_Reloaded's
+-- hotkey-gating logic, but no longer owns the UI for changing them (see the
+-- Options-page section near the bottom of this file). Loaded once and cached
+-- here; row closures below capture this table by reference, so mutating it
+-- in place keeps every already-built row's displayed value current without
+-- needing to rebuild them.
+local playerId = nil
+local optionsConfig = nil
+
+local function GetPlayerId()
+  if not playerId then
+    playerId = ConvertStringTo64Bit(tostring(C.GetPlayerID()))
+  end
+  return playerId
+end
+
+local function LoadOptionsConfig()
+  if optionsConfig then
+    return optionsConfig
+  end
+  local cfg = GetNPCBlackboard(GetPlayerId(), "$SimpleHotkeysConfig") or {}
+  -- MD booleans arrive as 1/0, not true/false - normalise, defaulting a
+  -- genuinely missing key to true (matches DefaultConfig's own default).
+  cfg.launchHotkeysPilotEnabled = (cfg.launchHotkeysPilotEnabled == nil) or (cfg.launchHotkeysPilotEnabled == true) or (cfg.launchHotkeysPilotEnabled == 1)
+  cfg.launchHotkeysMapEnabled = (cfg.launchHotkeysMapEnabled == nil) or (cfg.launchHotkeysMapEnabled == true) or (cfg.launchHotkeysMapEnabled == 1)
+  cfg.objectListHotkeysMode = cfg.objectListHotkeysMode or "disabled"
+  cfg.propertyOwnedHotkeysMode = cfg.propertyOwnedHotkeysMode or "disabled"
+  optionsConfig = cfg
+  return optionsConfig
+end
+
+local function SaveOptionsConfig()
+  SetNPCBlackboard(GetPlayerId(), "$SimpleHotkeysConfig", optionsConfig)
+end
+
 -- Renames an object by reusing vanilla's own rename popup (menu_map.lua's
 -- "renamecontext" mode - the same flow the right-click interact menu's
 -- "Rename" entry drives), rather than building a custom dialog from
@@ -322,8 +359,7 @@ local TAB_GROUPS = {
 -- names are entirely vanilla-ref-composed (group + category) with one of
 -- our own three prefixes (ids 30000/10000/40000).
 local function RegisterTabHotkeys()
-  local playerId = ConvertStringTo64Bit(tostring(C.GetPlayerID()))
-  local cfg = GetNPCBlackboard(playerId, "$SimpleHotkeysConfig") or {}
+  local cfg = LoadOptionsConfig()
 
   for _, group in ipairs(TAB_GROUPS) do
     local mode = cfg[group.configKey] or "disabled"
@@ -371,6 +407,136 @@ local function RegisterTabHotkeys()
   end
 end
 
+-- *** Extension Options: nested inside hotkey_api's own Management page ***
+--
+-- Instead of a separate SirNukes Simple_Menu_API/options_helper-based menu,
+-- this mod's settings are appended directly into hotkey_api's native
+-- "Hotkey Management" Options page (config.optionDefinitions[HotkeyApi.
+-- managementPageId]), via the same displayOptions_modifyOptions UIX hook
+-- hotkey_api itself uses (gameoptions.xpl). This drops the
+-- sn_mod_support_apis/options_helper dependencies entirely.
+--
+-- Row-append ordering: gameoptions.xpl dispatches every registered
+-- "displayOptions_modifyOptions" callback via pairs() over a hash-keyed
+-- table, not insertion order - which mod's callback fires first on a given
+-- render is not reliably tied to load/dependency order. To guarantee
+-- hotkey_api's own page/rows exist before this mod appends to them, this
+-- mod calls HotkeyApi.OnDisplayOptions(options, config) itself first - it's
+-- idempotent (guarded by "only create if the page doesn't already exist"),
+-- so calling it here is safe even if the shared callback list also invokes
+-- it again later in the same render.
+
+local HOTKEY_MODE_OPTIONS = {
+  { id = "disabled",             textId = 100011 },
+  { id = "pilotOnly",            textId = 100012 },
+  { id = "mapOnly",              textId = 100013 },
+  { id = "pilotAndMapSeparated", textId = 100014 },
+  { id = "pilotAndMapUnified",   textId = 100015 },
+}
+
+-- Shared by both dropdown rows below - all four fields (id/icon/text/
+-- displayremoveoption) are required by createDropDown, omitting any of them
+-- throws "Invalid dropdown descriptor" at runtime.
+local function BuildHotkeyModeOptions()
+  local options = {}
+  for _, entry in ipairs(HOTKEY_MODE_OPTIONS) do
+    table.insert(options, { id = entry.id, icon = "", text = ReadText(PAGE_ID, entry.textId), displayremoveoption = false })
+  end
+  return options
+end
+
+local function ToggleConfigFlag(configKey)
+  return function()
+    local cfg = LoadOptionsConfig()
+    cfg[configKey] = not cfg[configKey]
+    SaveOptionsConfig()
+  end
+end
+
+local function OnHotkeyModeChanged(configKey)
+  return function(_, selectedId)
+    local cfg = LoadOptionsConfig()
+    cfg[configKey] = selectedId
+    SaveOptionsConfig()
+  end
+end
+
+-- valuetype="button": generic vanilla renderer has no real checkbox widget
+-- outside a fully custom-rendered page (see hotkey_api's own debug toggle,
+-- which uses the same button/text-flip approach for the same reason).
+-- "Enabled"/"Disabled" reuse vanilla's own text refs (page 1001) - no new
+-- translation needed.
+local function BuildToggleRow(id, nameTextId, configKey)
+  return {
+    id = id,
+    name = function() return ReadText(PAGE_ID, nameTextId) end,
+    value = function() return LoadOptionsConfig()[configKey] and ReadText(1001, 4825) or ReadText(1001, 8942) end,
+    valuetype = "button",
+    callback = ToggleConfigFlag(configKey),
+  }
+end
+
+-- valuetype="dropdown": a real dropdown widget, natively supported by the
+-- generic renderer (confirmed via vanilla's own "online" page definitions).
+local function BuildDropdownRow(id, nameTextId, configKey)
+  return {
+    id = id,
+    name = function() return ReadText(PAGE_ID, nameTextId) end,
+    value = function() return BuildHotkeyModeOptions(), LoadOptionsConfig()[configKey] end,
+    valuetype = "dropdown",
+    callback = OnHotkeyModeChanged(configKey),
+  }
+end
+
+local function OnDisplayOptions(options, config)
+  if not (HotkeyApi and HotkeyApi.OnDisplayOptions and HotkeyApi.managementPageId) then
+    return options
+  end
+
+  options = HotkeyApi.OnDisplayOptions(options, config)
+
+  local page = config and config.optionDefinitions and config.optionDefinitions[HotkeyApi.managementPageId]
+  if not page then
+    -- hotkey_api hasn't created its page this render (e.g. config not ready
+    -- yet) - nothing safe to append to.
+    return options
+  end
+
+  for _, row in ipairs(page) do
+    if type(row) == "table" and row.id == "simple_hotkeys_launch_pilot_toggle" then
+      return options -- already appended on a previous render
+    end
+  end
+
+  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100100) end })
+  table.insert(page, BuildToggleRow("simple_hotkeys_launch_pilot_toggle", 100101, "launchHotkeysPilotEnabled"))
+  table.insert(page, BuildToggleRow("simple_hotkeys_launch_map_toggle", 100102, "launchHotkeysMapEnabled"))
+  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100200) end })
+  table.insert(page, BuildDropdownRow("simple_hotkeys_objectlist_mode", 100201, "objectListHotkeysMode"))
+  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100300) end })
+  table.insert(page, BuildDropdownRow("simple_hotkeys_propertyowned_mode", 100301, "propertyOwnedHotkeysMode"))
+
+  debugLog("OnDisplayOptions: appended Simple Hotkeys rows to hotkey_api's management page")
+  return options
+end
+
+local optionsMenu = nil
+local optionsMenuHooked = false
+
+local function EnsureOptionsMenuHooked()
+  if optionsMenuHooked then
+    return
+  end
+  optionsMenu = Helper.getMenu("OptionsMenu")
+  if not (optionsMenu and type(optionsMenu.registerCallback) == "function") then
+    debugLog("EnsureOptionsMenuHooked: OptionsMenu not available yet")
+    return
+  end
+  optionsMenu.registerCallback("displayOptions_modifyOptions", OnDisplayOptions)
+  optionsMenuHooked = true
+  debugLog("EnsureOptionsMenuHooked: registered displayOptions_modifyOptions callback")
+end
+
 local function RegisterActions()
   if not (HotkeyApi and HotkeyApi.RegisterAction) then
     DebugError("Simple Hotkeys: HotkeyApi.RegisterAction not available - is hotkey_api loaded?")
@@ -416,6 +582,7 @@ local function RegisterActions()
   })
 
   RegisterTabHotkeys()
+  EnsureOptionsMenuHooked()
 end
 
 RegisterEvent("HotkeyApi.Register_Request", RegisterActions)
