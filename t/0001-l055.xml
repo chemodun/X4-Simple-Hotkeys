@@ -52,6 +52,8 @@
       <t id="100201">Teclas de atalho das abas da lista de objetos</t>
       <t id="100300">Teclas de atalho da propriedade controlada</t>
       <t id="100301">Teclas de atalho das abas da propriedade controlada</t>
+      <t id="100400">Teclas de atalho de informações do jogador</t>
+      <t id="100401">Teclas de atalho de seções de informações do jogador</t>
     </page>
   </add>
 </diff>

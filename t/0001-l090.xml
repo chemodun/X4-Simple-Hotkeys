@@ -52,6 +52,8 @@
       <t id="100201">Nesne Listesi Sekmesi Kısayolları</t>
       <t id="100300">Sahip Olunanlar Kısayolları</t>
       <t id="100301">Sahip Olunanlar Sekmesi Kısayolları</t>
+      <t id="100400">Oyuncu Bilgisi Kısayolları</t>
+      <t id="100401">Oyuncu Bilgisi Bölümü Kısayolları</t>
     </page>
   </add>
 </diff>

@@ -52,6 +52,8 @@
       <t id="100201">Object List Tab Hotkeys</t>
       <t id="100300">Property Owned Hotkeys</t>
       <t id="100301">Property Owned Tab Hotkeys</t>
+      <t id="100400">Player Info Hotkeys</t>
+      <t id="100401">Player Info Section Hotkeys</t>
     </page>
   </add>
 </diff>

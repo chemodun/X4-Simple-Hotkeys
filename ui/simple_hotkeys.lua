@@ -92,6 +92,7 @@ local function LoadOptionsConfig()
   end
   optionsConfig.objectListHotkeysMode = optionsConfig.objectListHotkeysMode or "disabled"
   optionsConfig.propertyOwnedHotkeysMode = optionsConfig.propertyOwnedHotkeysMode or "disabled"
+  optionsConfig.playerInfoHotkeysMode = optionsConfig.playerInfoHotkeysMode or "disabled"
   SyncConfigToBlackboard()
   return optionsConfig
 end
@@ -326,42 +327,51 @@ local function SwitchOrOpenMapTab(groupMode, subModeButtonName, category, col)
   end
 end
 
+-- Reads a UIX-patched menu's own live config table via kuertee_ui_extensions'
+-- menu.uix_getConfig() (menu_map.xpl/menu_playerinfo.xpl etc. - confirmed by
+-- grepping the live installed .xpl files, "--- kuertee start:" blocks: "menu.
+-- uix_getConfig = function() return config end"). Used instead of hardcoding
+-- category/leftBar lists, so this mod automatically follows any future
+-- vanilla addition/removal/rename of tabs or sections with zero code changes.
+-- kuertee_ui_extensions is already a hard transitive dependency (via
+-- hotkey_api), so this is safe to rely on unconditionally. Returns nil if the
+-- menu isn't found yet or isn't UIX-patched - callers must handle that by
+-- skipping registration for that cycle, not erroring.
+local function GetMenuConfig(menuName)
+  local m = Helper.getMenu(menuName)
+  if m and type(m.uix_getConfig) == "function" then
+    return m.uix_getConfig()
+  end
+  return nil
+end
+
 -- Object List / Property Owned tab groups, driven by the Options menu's
 -- $objectListHotkeysMode/$propertyOwnedHotkeysMode dropdowns. Category keys
--- and their vanilla text refs (page 1001) come straight from menu_map.lua's
--- config.objectCategories/config.propertyCategories, in the same order, so
--- action names always match the actual in-game tab label/translation and
--- "col" lines up reasonably with the real tab-strip column.
+-- + display names are read live from menu_map.lua's own
+-- config.objectCategories/config.propertyCategories (via GetMenuConfig) at
+-- registration time, not hardcoded - see GetMenuConfig's comment above. Only
+-- each group's own top-level name (a single fixed value, not a growing list)
+-- stays a plain vanilla text ref.
 local TAB_GROUPS = {
   {
-    idPrefix      = "simple_hotkeys_objectlist_",
-    configKey     = "objectListHotkeysMode",
-    groupMode     = "objectlist",
-    subModeButton = "buttonObjectSubMode",
-    groupNamePage = 1001,
-    groupNameId   = 3224, -- "Object List"
-    categories = {
-      { key = "objectall",   namePage = 1001, nameId = 8380 }, -- "All"
-      { key = "stations",    namePage = 1001, nameId = 8379 }, -- "Stations"
-      { key = "ships",       namePage = 1001, nameId = 6 },    -- "Ships"
-      { key = "deployables", namePage = 1001, nameId = 1332 }, -- "Deployables"
-    },
+    idPrefix        = "simple_hotkeys_objectlist_",
+    configKey       = "objectListHotkeysMode",
+    groupMode       = "objectlist",
+    subModeButton   = "buttonObjectSubMode",
+    groupNamePage   = 1001,
+    groupNameId     = 3224, -- "Object List"
+    menuName        = "MapMenu",
+    categoriesField = "objectCategories",
   },
   {
-    idPrefix      = "simple_hotkeys_propertyowned_",
-    configKey     = "propertyOwnedHotkeysMode",
-    groupMode     = "propertyowned",
-    subModeButton = "buttonPropertySubMode",
-    groupNamePage = 1001,
-    groupNameId   = 1000, -- "Property Owned"
-    categories = {
-      { key = "propertyall",     namePage = 1001, nameId = 8380 }, -- "All"
-      { key = "stations",        namePage = 1001, nameId = 8379 }, -- "Stations"
-      { key = "fleets",          namePage = 1001, nameId = 8326 }, -- "Fleets"
-      { key = "unassignedships", namePage = 1001, nameId = 8327 }, -- "Unassigned Ships"
-      { key = "inventoryships",  namePage = 1001, nameId = 8381 }, -- "Inventory Ships"
-      { key = "deployables",     namePage = 1001, nameId = 1332 }, -- "Deployables"
-    },
+    idPrefix        = "simple_hotkeys_propertyowned_",
+    configKey       = "propertyOwnedHotkeysMode",
+    groupMode       = "propertyowned",
+    subModeButton   = "buttonPropertySubMode",
+    groupNamePage   = 1001,
+    groupNameId     = 1000, -- "Property Owned"
+    menuName        = "MapMenu",
+    categoriesField = "propertyCategories",
   },
 }
 
@@ -369,53 +379,154 @@ local TAB_GROUPS = {
 -- mode: none (disabled), "_pilot" (pilotOnly/pilotAndMapSeparated), "_map"
 -- (mapOnly/pilotAndMapSeparated), or "_unified" (pilotAndMapUnified) - three
 -- fully independent ids/slots per tab, never reused across modes. Display
--- names are entirely vanilla-ref-composed (group + category) with one of
--- our own three prefixes (ids 30000/10000/40000).
+-- names are entirely vanilla-composed (group + category, both live-read) with
+-- one of our own three prefixes (ids 30000/10000/40000).
 local function RegisterTabHotkeys()
   local cfg = LoadOptionsConfig()
 
   for _, group in ipairs(TAB_GROUPS) do
     local mode = cfg[group.configKey] or "disabled"
     if mode ~= "disabled" then
-      local groupName = ReadText(group.groupNamePage, group.groupNameId)
-      for col, cat in ipairs(group.categories) do
-        local catName = ReadText(cat.namePage, cat.nameId)
-        local baseName = string.format("%s: %s", groupName, catName)
-        local action = function()
-          SwitchOrOpenMapTab(group.groupMode, group.subModeButton, cat.key, col)
-        end
+      local menuConfig = GetMenuConfig(group.menuName)
+      local categories = menuConfig and menuConfig[group.categoriesField]
+      if not categories then
+        debugLog("RegisterTabHotkeys: %s.uix_getConfig().%s not available - skipping this cycle", group.menuName, group.categoriesField)
+      else
+        local groupName = ReadText(group.groupNamePage, group.groupNameId)
+        for col, cat in ipairs(categories) do
+          if cat.category then
+            local baseName = string.format("%s: %s", groupName, cat.name)
+            local action = function()
+              SwitchOrOpenMapTab(group.groupMode, group.subModeButton, cat.category, col)
+            end
 
-        if mode == "pilotOnly" or mode == "pilotAndMapSeparated" then
-          HotkeyApi.RegisterAction({
-            id = group.idPrefix .. cat.key .. "_pilot",
-            area = "pilot",
-            isObjectRequired = false,
-            name = string.format("%s %s", ReadText(PAGE_ID, 30000), baseName),
-            version = 1,
-            actionLua = action,
-          })
-        end
-        if mode == "mapOnly" or mode == "pilotAndMapSeparated" then
-          HotkeyApi.RegisterAction({
-            id = group.idPrefix .. cat.key .. "_map",
-            area = "map",
-            isObjectRequired = false,
-            name = string.format("%s %s", ReadText(PAGE_ID, 10000), baseName),
-            version = 1,
-            actionLua = action,
-          })
-        end
-        if mode == "pilotAndMapUnified" then
-          HotkeyApi.RegisterAction({
-            id = group.idPrefix .. cat.key .. "_unified",
-            area = "pilot;map",
-            isObjectRequired = false,
-            name = string.format("%s %s", ReadText(PAGE_ID, 40000), baseName),
-            version = 1,
-            actionLua = action,
-          })
+            if mode == "pilotOnly" or mode == "pilotAndMapSeparated" then
+              HotkeyApi.RegisterAction({
+                id = group.idPrefix .. cat.category .. "_pilot",
+                area = "pilot",
+                isObjectRequired = false,
+                name = string.format("%s %s", ReadText(PAGE_ID, 30000), baseName),
+                version = 1,
+                actionLua = action,
+              })
+            end
+            if mode == "mapOnly" or mode == "pilotAndMapSeparated" then
+              HotkeyApi.RegisterAction({
+                id = group.idPrefix .. cat.category .. "_map",
+                area = "map",
+                isObjectRequired = false,
+                name = string.format("%s %s", ReadText(PAGE_ID, 10000), baseName),
+                version = 1,
+                actionLua = action,
+              })
+            end
+            if mode == "pilotAndMapUnified" then
+              HotkeyApi.RegisterAction({
+                id = group.idPrefix .. cat.category .. "_unified",
+                area = "pilot;map",
+                isObjectRequired = false,
+                name = string.format("%s %s", ReadText(PAGE_ID, 40000), baseName),
+                version = 1,
+                actionLua = action,
+              })
+            end
+          end
         end
       end
+    end
+  end
+end
+
+-- Player Info menu ("PlayerInfoMenu") sections, driven by the Options menu's
+-- $playerInfoHotkeysMode dropdown. Section keys + display names are read
+-- live from menu_playerinfo.lua's own config.leftBar (via GetMenuConfig) at
+-- registration time, not hardcoded - same reasoning as TAB_GROUPS above.
+-- Entries without a .mode field (config.leftBar's {spacing=true} decorative
+-- rows) are skipped. Unlike TAB_GROUPS, PlayerInfoMenu is a genuinely
+-- separate top-level menu from MapMenu (not a panel within it) with a single
+-- flat menu.mode (no "col"/sub-mode-button split), so it gets its own
+-- smaller registration function rather than forcing it into TAB_GROUPS'
+-- shape.
+local PLAYER_INFO_GROUP_NAME_PAGE = 1001
+local PLAYER_INFO_GROUP_NAME_ID = 8102 -- "Player Information"
+
+-- Opens PlayerInfoMenu straight to the given section.
+--  - If PlayerInfoMenu is already open, switches live via its own sidebar
+--    toggle - guarded so pressing the hotkey for the already-active section
+--    is a no-op rather than closing it: menu.buttonTogglePlayerInfo(mode)
+--    has no "force open" param (unlike MapMenu's buttonToggleObjectList), it
+--    genuinely toggles closed if mode == menu.mode already, so this guard
+--    is load-bearing here, not just an optimization.
+--  - If MapMenu is open instead, closes it and opens PlayerInfoMenu fresh
+--    via Helper.closeMenuAndOpenNewMenu (same call vanilla's own docked-menu/
+--    interact-menu entries use to jump there) - keeps "back" history so ESC
+--    returns to the map, matching vanilla's own toolbar button behavior.
+--  - Otherwise (piloting, nothing open) opens PlayerInfoMenu fresh directly.
+-- menu.mode = menu.param[3] (confirmed in menu_playerinfo.lua) - the plain
+-- leftBar mode string is passed straight through, no special-casing needed
+-- beyond "globalorders" (which this mod only opens at its top level, not a
+-- specific blacklist/traderule/fightrule entry).
+local function SwitchOrOpenPlayerInfo(category)
+  local playerInfoMenu = Helper.getMenu("PlayerInfoMenu")
+  if playerInfoMenu and playerInfoMenu.shown then
+    if playerInfoMenu.mode ~= category then
+      playerInfoMenu.buttonTogglePlayerInfo(category)
+    end
+    return
+  end
+
+  local mapMenu = Helper.getMenu("MapMenu")
+  if mapMenu and mapMenu.shown then
+    Helper.closeMenuAndOpenNewMenu(mapMenu, "PlayerInfoMenu", Helper.convertComponentIDs({ 0, 0, category }))
+  else
+    OpenMenu("PlayerInfoMenu", Helper.convertComponentIDs({ 0, 0, category }), nil)
+  end
+end
+
+local function RegisterPlayerInfoHotkeys()
+  local cfg = LoadOptionsConfig()
+  local mode = cfg.playerInfoHotkeysMode or "disabled"
+  if mode == "disabled" then
+    return
+  end
+
+  local groupName = ReadText(PLAYER_INFO_GROUP_NAME_PAGE, PLAYER_INFO_GROUP_NAME_ID)
+  for _, cat in ipairs(PLAYER_INFO_CATEGORIES) do
+    local catName = ReadText(cat.namePage, cat.nameId)
+    local baseName = string.format("%s: %s", groupName, catName)
+    local action = function()
+      SwitchOrOpenPlayerInfo(cat.key)
+    end
+
+    if mode == "pilotOnly" or mode == "pilotAndMapSeparated" then
+      HotkeyApi.RegisterAction({
+        id = "simple_hotkeys_playerinfo_" .. cat.key .. "_pilot",
+        area = "pilot",
+        isObjectRequired = false,
+        name = string.format("%s %s", ReadText(PAGE_ID, 30000), baseName),
+        version = 1,
+        actionLua = action,
+      })
+    end
+    if mode == "mapOnly" or mode == "pilotAndMapSeparated" then
+      HotkeyApi.RegisterAction({
+        id = "simple_hotkeys_playerinfo_" .. cat.key .. "_map",
+        area = "map",
+        isObjectRequired = false,
+        name = string.format("%s %s", ReadText(PAGE_ID, 10000), baseName),
+        version = 1,
+        actionLua = action,
+      })
+    end
+    if mode == "pilotAndMapUnified" then
+      HotkeyApi.RegisterAction({
+        id = "simple_hotkeys_playerinfo_" .. cat.key .. "_unified",
+        area = "pilot;map",
+        isObjectRequired = false,
+        name = string.format("%s %s", ReadText(PAGE_ID, 40000), baseName),
+        version = 1,
+        actionLua = action,
+      })
     end
   end
 end
@@ -536,6 +647,9 @@ local function OnDisplayOptions(options, config)
   table.insert(page, { id = "separator", name = " " })
   table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100300) end })
   table.insert(page, BuildDropdownRow("simple_hotkeys_propertyowned_mode", 100301, "propertyOwnedHotkeysMode"))
+  table.insert(page, { id = "separator", name = " " })
+  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100400) end })
+  table.insert(page, BuildDropdownRow("simple_hotkeys_playerinfo_mode", 100401, "playerInfoHotkeysMode"))
 
   debugLog("OnDisplayOptions: appended Simple Hotkeys rows to hotkey_api's management page")
   return options
@@ -603,6 +717,7 @@ local function RegisterActions()
   })
 
   RegisterTabHotkeys()
+  RegisterPlayerInfoHotkeys()
   EnsureOptionsMenuHooked()
 end
 

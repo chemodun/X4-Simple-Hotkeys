@@ -52,6 +52,8 @@
       <t id="100201">Objektlisten-Tab-Hotkeys</t>
       <t id="100300">Besitz-Hotkeys</t>
       <t id="100301">Besitz-Tab-Hotkeys</t>
+      <t id="100400">Spielerinformation-Hotkeys</t>
+      <t id="100401">Spielerinformation-Sektions-Hotkeys</t>
     </page>
   </add>
 </diff>

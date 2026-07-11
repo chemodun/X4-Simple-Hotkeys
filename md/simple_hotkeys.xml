@@ -25,6 +25,7 @@
             $launchHotkeysMapEnabled   = true,
             $objectListHotkeysMode     = 'disabled',
             $propertyOwnedHotkeysMode  = 'disabled',
+            $playerInfoHotkeysMode     = 'disabled',
           ]" />
         </do_if>
         <set_value name="$config" exact="player.entity.$SimpleHotkeysConfig" />
@@ -40,6 +41,9 @@
         </do_if>
         <do_if value="$config.$propertyOwnedHotkeysMode? == false">
           <set_value name="$config.$propertyOwnedHotkeysMode" exact="'disabled'" />
+        </do_if>
+        <do_if value="$config.$playerInfoHotkeysMode? == false">
+          <set_value name="$config.$playerInfoHotkeysMode" exact="'disabled'" />
         </do_if>
       </actions>
     </library>

@@ -52,6 +52,8 @@
       <t id="100201">Klávesové zkratky karet seznamu objektů</t>
       <t id="100300">Klávesové zkratky vlastnictví hráče</t>
       <t id="100301">Klávesové zkratky karet vlastnictví hráče</t>
+      <t id="100400">Klávesové zkratky informací o hráči</t>
+      <t id="100401">Klávesové zkratky sekcí informací o hráči</t>
     </page>
   </add>
 </diff>

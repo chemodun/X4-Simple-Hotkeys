@@ -52,6 +52,8 @@
       <t id="100201">Teclas rápidas de pestañas de la lista de objetos</t>
       <t id="100300">Teclas rápidas de mis propiedades</t>
       <t id="100301">Teclas rápidas de pestañas de mis propiedades</t>
+      <t id="100400">Teclas rápidas de información del jugador</t>
+      <t id="100401">Teclas rápidas de secciones de información del jugador</t>
     </page>
   </add>
 </diff>

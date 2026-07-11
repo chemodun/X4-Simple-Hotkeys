@@ -52,6 +52,8 @@
       <t id="100201">Tasti di scelta rapida delle schede della lista oggetti</t>
       <t id="100300">Tasti di scelta rapida delle proprietà possedute</t>
       <t id="100301">Tasti di scelta rapida delle schede delle proprietà possedute</t>
+      <t id="100400">Tasti di scelta rapida delle informazioni giocatore</t>
+      <t id="100401">Tasti di scelta rapida delle sezioni informazioni giocatore</t>
     </page>
   </add>
 </diff>
