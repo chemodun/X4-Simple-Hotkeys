@@ -46,14 +46,10 @@
       <t id="100011">Disabled</t>
       <t id="100012">Pilot Mode Only</t>
       <t id="100013">Map Mode Only</t>
-      <t id="100014">Pilot &amp; Map \(Separate Hotkeys\)</t>
-      <t id="100015">Pilot &amp; Map \(Unified Hotkey\)</t>
+      <t id="100014">Pilot &amp; Map \(Unified Hotkey\)</t>
       <t id="100200">Object List Hotkeys</t>
-      <t id="100201">Object List Tab Hotkeys</t>
       <t id="100300">Property Owned Hotkeys</t>
-      <t id="100301">Property Owned Tab Hotkeys</t>
       <t id="100400">Player Info Hotkeys</t>
-      <t id="100401">Player Info Section Hotkeys</t>
     </page>
   </add>
 </diff>

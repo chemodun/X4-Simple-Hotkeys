@@ -46,14 +46,10 @@
       <t id="100011">Wyłączone</t>
       <t id="100012">Tylko tryb lotu</t>
       <t id="100013">Tylko tryb mapy</t>
-      <t id="100014">Lot i mapa \(osobne skróty\)</t>
-      <t id="100015">Lot i mapa \(wspólny skrót\)</t>
+      <t id="100014">Lot i mapa \(wspólny skrót\)</t>
       <t id="100200">Skróty listy obiektów</t>
-      <t id="100201">Skróty kart listy obiektów</t>
       <t id="100300">Skróty posiadanych obiektów</t>
-      <t id="100301">Skróty kart posiadanych obiektów</t>
       <t id="100400">Skróty informacji o graczu</t>
-      <t id="100401">Skróty sekcji informacji o graczu</t>
     </page>
   </add>
 </diff>

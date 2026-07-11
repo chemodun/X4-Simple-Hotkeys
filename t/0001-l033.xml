@@ -46,14 +46,10 @@
       <t id="100011">Désactivé</t>
       <t id="100012">Mode pilotage uniquement</t>
       <t id="100013">Mode carte uniquement</t>
-      <t id="100014">Pilotage et carte \(raccourcis séparés\)</t>
-      <t id="100015">Pilotage et carte \(raccourci unifié\)</t>
+      <t id="100014">Pilotage et carte \(raccourci unifié\)</t>
       <t id="100200">Raccourcis de la liste des objets</t>
-      <t id="100201">Raccourcis des onglets de la liste des objets</t>
       <t id="100300">Raccourcis des propriétés possédées</t>
-      <t id="100301">Raccourcis des onglets des propriétés possédées</t>
       <t id="100400">Raccourcis des informations du joueur</t>
-      <t id="100401">Raccourcis des sections d'informations du joueur</t>
     </page>
   </add>
 </diff>

@@ -90,9 +90,12 @@ local function LoadOptionsConfig()
   if optionsConfig.launchHotkeysMapEnabled == nil then
     optionsConfig.launchHotkeysMapEnabled = true
   end
-  optionsConfig.objectListHotkeysMode = optionsConfig.objectListHotkeysMode or "disabled"
-  optionsConfig.propertyOwnedHotkeysMode = optionsConfig.propertyOwnedHotkeysMode or "disabled"
-  optionsConfig.playerInfoHotkeysMode = optionsConfig.playerInfoHotkeysMode or "disabled"
+  -- Nested per-item mode maps (key = the item's own key, e.g. "stations";
+  -- value = one of the usual 5 modes) - not a single flat mode string
+  -- anymore, since each item is independently configurable now.
+  optionsConfig.objectListHotkeysModes = optionsConfig.objectListHotkeysModes or {}
+  optionsConfig.propertyOwnedHotkeysModes = optionsConfig.propertyOwnedHotkeysModes or {}
+  optionsConfig.playerInfoHotkeysModes = optionsConfig.playerInfoHotkeysModes or {}
   SyncConfigToBlackboard()
   return optionsConfig
 end
@@ -327,129 +330,6 @@ local function SwitchOrOpenMapTab(groupMode, subModeButtonName, category, col)
   end
 end
 
--- Reads a UIX-patched menu's own live config table via kuertee_ui_extensions'
--- menu.uix_getConfig() (menu_map.xpl/menu_playerinfo.xpl etc. - confirmed by
--- grepping the live installed .xpl files, "--- kuertee start:" blocks: "menu.
--- uix_getConfig = function() return config end"). Used instead of hardcoding
--- category/leftBar lists, so this mod automatically follows any future
--- vanilla addition/removal/rename of tabs or sections with zero code changes.
--- kuertee_ui_extensions is already a hard transitive dependency (via
--- hotkey_api), so this is safe to rely on unconditionally. Returns nil if the
--- menu isn't found yet or isn't UIX-patched - callers must handle that by
--- skipping registration for that cycle, not erroring.
-local function GetMenuConfig(menuName)
-  local m = Helper.getMenu(menuName)
-  if m and type(m.uix_getConfig) == "function" then
-    return m.uix_getConfig()
-  end
-  return nil
-end
-
--- Object List / Property Owned tab groups, driven by the Options menu's
--- $objectListHotkeysMode/$propertyOwnedHotkeysMode dropdowns. Category keys
--- + display names are read live from menu_map.lua's own
--- config.objectCategories/config.propertyCategories (via GetMenuConfig) at
--- registration time, not hardcoded - see GetMenuConfig's comment above. Only
--- each group's own top-level name (a single fixed value, not a growing list)
--- stays a plain vanilla text ref.
-local TAB_GROUPS = {
-  {
-    idPrefix        = "simple_hotkeys_objectlist_",
-    configKey       = "objectListHotkeysMode",
-    groupMode       = "objectlist",
-    subModeButton   = "buttonObjectSubMode",
-    groupNamePage   = 1001,
-    groupNameId     = 3224, -- "Object List"
-    menuName        = "MapMenu",
-    categoriesField = "objectCategories",
-  },
-  {
-    idPrefix        = "simple_hotkeys_propertyowned_",
-    configKey       = "propertyOwnedHotkeysMode",
-    groupMode       = "propertyowned",
-    subModeButton   = "buttonPropertySubMode",
-    groupNamePage   = 1001,
-    groupNameId     = 1000, -- "Property Owned"
-    menuName        = "MapMenu",
-    categoriesField = "propertyCategories",
-  },
-}
-
--- Registers 0/1/2 hotkey ids per category depending on its group's config
--- mode: none (disabled), "_pilot" (pilotOnly/pilotAndMapSeparated), "_map"
--- (mapOnly/pilotAndMapSeparated), or "_unified" (pilotAndMapUnified) - three
--- fully independent ids/slots per tab, never reused across modes. Display
--- names are entirely vanilla-composed (group + category, both live-read) with
--- one of our own three prefixes (ids 30000/10000/40000).
-local function RegisterTabHotkeys()
-  local cfg = LoadOptionsConfig()
-
-  for _, group in ipairs(TAB_GROUPS) do
-    local mode = cfg[group.configKey] or "disabled"
-    if mode ~= "disabled" then
-      local menuConfig = GetMenuConfig(group.menuName)
-      local categories = menuConfig and menuConfig[group.categoriesField]
-      if not categories then
-        debugLog("RegisterTabHotkeys: %s.uix_getConfig().%s not available - skipping this cycle", group.menuName, group.categoriesField)
-      else
-        local groupName = ReadText(group.groupNamePage, group.groupNameId)
-        for col, cat in ipairs(categories) do
-          if cat.category then
-            local baseName = string.format("%s: %s", groupName, cat.name)
-            local action = function()
-              SwitchOrOpenMapTab(group.groupMode, group.subModeButton, cat.category, col)
-            end
-
-            if mode == "pilotOnly" or mode == "pilotAndMapSeparated" then
-              HotkeyApi.RegisterAction({
-                id = group.idPrefix .. cat.category .. "_pilot",
-                area = "pilot",
-                isObjectRequired = false,
-                name = string.format("%s %s", ReadText(PAGE_ID, 30000), baseName),
-                version = 1,
-                actionLua = action,
-              })
-            end
-            if mode == "mapOnly" or mode == "pilotAndMapSeparated" then
-              HotkeyApi.RegisterAction({
-                id = group.idPrefix .. cat.category .. "_map",
-                area = "map",
-                isObjectRequired = false,
-                name = string.format("%s %s", ReadText(PAGE_ID, 10000), baseName),
-                version = 1,
-                actionLua = action,
-              })
-            end
-            if mode == "pilotAndMapUnified" then
-              HotkeyApi.RegisterAction({
-                id = group.idPrefix .. cat.category .. "_unified",
-                area = "pilot;map",
-                isObjectRequired = false,
-                name = string.format("%s %s", ReadText(PAGE_ID, 40000), baseName),
-                version = 1,
-                actionLua = action,
-              })
-            end
-          end
-        end
-      end
-    end
-  end
-end
-
--- Player Info menu ("PlayerInfoMenu") sections, driven by the Options menu's
--- $playerInfoHotkeysMode dropdown. Section keys + display names are read
--- live from menu_playerinfo.lua's own config.leftBar (via GetMenuConfig) at
--- registration time, not hardcoded - same reasoning as TAB_GROUPS above.
--- Entries without a .mode field (config.leftBar's {spacing=true} decorative
--- rows) are skipped. Unlike TAB_GROUPS, PlayerInfoMenu is a genuinely
--- separate top-level menu from MapMenu (not a panel within it) with a single
--- flat menu.mode (no "col"/sub-mode-button split), so it gets its own
--- smaller registration function rather than forcing it into TAB_GROUPS'
--- shape.
-local PLAYER_INFO_GROUP_NAME_PAGE = 1001
-local PLAYER_INFO_GROUP_NAME_ID = 8102 -- "Player Information"
-
 -- Opens PlayerInfoMenu straight to the given section.
 --  - If PlayerInfoMenu is already open, switches live via its own sidebar
 --    toggle - guarded so pressing the hotkey for the already-active section
@@ -483,57 +363,161 @@ local function SwitchOrOpenPlayerInfo(category)
   end
 end
 
-local function RegisterPlayerInfoHotkeys()
+-- Reads a UIX-patched menu's own live config table via kuertee_ui_extensions'
+-- menu.uix_getConfig() (menu_map.xpl/menu_playerinfo.xpl etc. - confirmed by
+-- grepping the live installed .xpl files, "--- kuertee start:" blocks: "menu.
+-- uix_getConfig = function() return config end"). Used instead of hardcoding
+-- category/leftBar lists, so this mod automatically follows any future
+-- vanilla addition/removal/rename of tabs or sections with zero code changes.
+-- kuertee_ui_extensions is already a hard transitive dependency (via
+-- hotkey_api), so this is safe to rely on unconditionally. Returns nil if the
+-- menu isn't found yet or isn't UIX-patched - callers must handle that by
+-- skipping registration for that cycle, not erroring.
+local function GetMenuConfig(menuName)
+  local m = Helper.getMenu(menuName)
+  if m and type(m.uix_getConfig) == "function" then
+    return m.uix_getConfig()
+  end
+  return nil
+end
+
+-- Normalises a group's live item list (menu_map.lua's config.objectCategories/
+-- config.propertyCategories, or menu_playerinfo.lua's config.leftBar) into a
+-- plain { {key=.., name=..}, ... } array, keyed by group.keyField ("category"
+-- for the MapMenu tables, "mode" for leftBar) and using each entry's own
+-- .name (already a resolved string - vanilla calls ReadText once when
+-- building its own config, not a {page,id} ref). Entries missing the key
+-- field (leftBar's {spacing=true} decorative rows) are skipped. Returns nil
+-- if the menu/field isn't available this cycle (caller must skip, not error).
+local function GetGroupItems(group)
+  local menuConfig = GetMenuConfig(group.menuName)
+  local rawList = menuConfig and menuConfig[group.categoriesField]
+  if not rawList then
+    return nil
+  end
+  local items = {}
+  for _, entry in ipairs(rawList) do
+    local key = entry[group.keyField]
+    if key then
+      table.insert(items, { key = key, name = entry.name })
+    end
+  end
+  return items
+end
+
+-- Object List / Property Owned / Player Info groups, each independently
+-- configurable **per item** (not per whole group) via
+-- $objectListHotkeysModes/$propertyOwnedHotkeysModes/$playerInfoHotkeysModes -
+-- nested tables keyed by the item's own key (e.g. "stations"), each value one
+-- of the usual 5 modes, default "disabled". Item keys + display names are
+-- read live via GetGroupItems (see above), never hardcoded. groupNamePage/Id
+-- is the group's own single fixed vanilla name (used in each hotkey's
+-- display name, e.g. "Object List: Stations"); headerTextId is this mod's
+-- own Options-page section title (100200/100300/100400, unchanged from the
+-- earlier per-group-dropdown design).
+local TAB_GROUPS = {
+  {
+    idPrefix        = "simple_hotkeys_objectlist_",
+    configKey       = "objectListHotkeysModes",
+    groupNamePage   = 1001,
+    groupNameId     = 3224, -- "Object List"
+    headerTextId    = 100200,
+    menuName        = "MapMenu",
+    categoriesField = "objectCategories",
+    keyField        = "category",
+    makeAction = function(itemKey, col)
+      return function() SwitchOrOpenMapTab("objectlist", "buttonObjectSubMode", itemKey, col) end
+    end,
+  },
+  {
+    idPrefix        = "simple_hotkeys_propertyowned_",
+    configKey       = "propertyOwnedHotkeysModes",
+    groupNamePage   = 1001,
+    groupNameId     = 1000, -- "Property Owned"
+    headerTextId    = 100300,
+    menuName        = "MapMenu",
+    categoriesField = "propertyCategories",
+    keyField        = "category",
+    makeAction = function(itemKey, col)
+      return function() SwitchOrOpenMapTab("propertyowned", "buttonPropertySubMode", itemKey, col) end
+    end,
+  },
+  {
+    idPrefix        = "simple_hotkeys_playerinfo_",
+    configKey       = "playerInfoHotkeysModes",
+    groupNamePage   = 1001,
+    groupNameId     = 8102, -- "Player Information"
+    headerTextId    = 100400,
+    menuName        = "PlayerInfoMenu",
+    categoriesField = "leftBar",
+    keyField        = "mode",
+    makeAction = function(itemKey, _)
+      return function() SwitchOrOpenPlayerInfo(itemKey) end
+    end,
+  },
+}
+
+-- Registers exactly 0 or 1 hotkey id per item depending on that item's own
+-- per-item mode: none (disabled), "_pilot" (pilotOnly), "_map" (mapOnly), or
+-- "_unified" (pilotAndMapUnified) - three fully independent id suffixes,
+-- never reused across modes, but mutually exclusive per item now that
+-- "pilotAndMapSeparated" (registering both _pilot and _map at once) was
+-- dropped 2026-07-11: per-item configurability already lets a player choose
+-- exactly the tabs/sections they want, so the "one key for pilot, a
+-- different key for map, same item" combination wasn't judged worth the
+-- extra pool-slot cost. Display names are entirely vanilla-composed (group +
+-- item, both live-read) with one of our own three prefixes (ids
+-- 30000/10000/40000). Unified across all three groups (MapMenu's two panels
+-- + PlayerInfoMenu) via TAB_GROUPS' makeAction - PlayerInfoMenu's own action
+-- ignores "col" (single flat menu.mode, no sub-mode-button split the way
+-- MapMenu's panels have).
+local function RegisterTabHotkeys()
   local cfg = LoadOptionsConfig()
-  local mode = cfg.playerInfoHotkeysMode or "disabled"
-  if mode == "disabled" then
-    return
-  end
 
-  local playerInfoConfig = GetMenuConfig("PlayerInfoMenu")
-  local leftBar = playerInfoConfig and playerInfoConfig.leftBar
-  if not leftBar then
-    debugLog("RegisterPlayerInfoHotkeys: PlayerInfoMenu.uix_getConfig().leftBar not available - skipping this cycle")
-    return
-  end
+  for _, group in ipairs(TAB_GROUPS) do
+    local groupModes = cfg[group.configKey]
+    local items = GetGroupItems(group)
+    if not items then
+      debugLog("RegisterTabHotkeys: %s.uix_getConfig().%s not available - skipping this cycle", group.menuName, group.categoriesField)
+    else
+      local groupName = ReadText(group.groupNamePage, group.groupNameId)
+      for col, item in ipairs(items) do
+        local mode = groupModes[item.key] or "disabled"
+        if mode ~= "disabled" then
+          local baseName = string.format("%s: %s", groupName, item.name)
+          local action = group.makeAction(item.key, col)
 
-  local groupName = ReadText(PLAYER_INFO_GROUP_NAME_PAGE, PLAYER_INFO_GROUP_NAME_ID)
-  for _, entry in ipairs(leftBar) do
-    if entry.mode then
-      local baseName = string.format("%s: %s", groupName, entry.name)
-      local action = function()
-        SwitchOrOpenPlayerInfo(entry.mode)
-      end
-
-      if mode == "pilotOnly" or mode == "pilotAndMapSeparated" then
-        HotkeyApi.RegisterAction({
-          id = "simple_hotkeys_playerinfo_" .. entry.mode .. "_pilot",
-          area = "pilot",
-          isObjectRequired = false,
-          name = string.format("%s %s", ReadText(PAGE_ID, 30000), baseName),
-          version = 1,
-          actionLua = action,
-        })
-      end
-      if mode == "mapOnly" or mode == "pilotAndMapSeparated" then
-        HotkeyApi.RegisterAction({
-          id = "simple_hotkeys_playerinfo_" .. entry.mode .. "_map",
-          area = "map",
-          isObjectRequired = false,
-          name = string.format("%s %s", ReadText(PAGE_ID, 10000), baseName),
-          version = 1,
-          actionLua = action,
-        })
-      end
-      if mode == "pilotAndMapUnified" then
-        HotkeyApi.RegisterAction({
-          id = "simple_hotkeys_playerinfo_" .. entry.mode .. "_unified",
-          area = "pilot;map",
-          isObjectRequired = false,
-          name = string.format("%s %s", ReadText(PAGE_ID, 40000), baseName),
-          version = 1,
-          actionLua = action,
-        })
+          if mode == "pilotOnly" then
+            HotkeyApi.RegisterAction({
+              id = group.idPrefix .. item.key .. "_pilot",
+              area = "pilot",
+              isObjectRequired = false,
+              name = string.format("%s %s", ReadText(PAGE_ID, 30000), baseName),
+              version = 1,
+              actionLua = action,
+            })
+          end
+          if mode == "mapOnly" then
+            HotkeyApi.RegisterAction({
+              id = group.idPrefix .. item.key .. "_map",
+              area = "map",
+              isObjectRequired = false,
+              name = string.format("%s %s", ReadText(PAGE_ID, 10000), baseName),
+              version = 1,
+              actionLua = action,
+            })
+          end
+          if mode == "pilotAndMapUnified" then
+            HotkeyApi.RegisterAction({
+              id = group.idPrefix .. item.key .. "_unified",
+              area = "pilot;map",
+              isObjectRequired = false,
+              name = string.format("%s %s", ReadText(PAGE_ID, 40000), baseName),
+              version = 1,
+              actionLua = action,
+            })
+          end
+        end
       end
     end
   end
@@ -559,11 +543,10 @@ end
 -- it again later in the same render.
 
 local HOTKEY_MODE_OPTIONS = {
-  { id = "disabled",             textId = 100011 },
-  { id = "pilotOnly",            textId = 100012 },
-  { id = "mapOnly",              textId = 100013 },
-  { id = "pilotAndMapSeparated", textId = 100014 },
-  { id = "pilotAndMapUnified",   textId = 100015 },
+  { id = "disabled",           textId = 100011 },
+  { id = "pilotOnly",          textId = 100012 },
+  { id = "mapOnly",            textId = 100013 },
+  { id = "pilotAndMapUnified", textId = 100014 },
 }
 
 -- Shared by both dropdown rows below - all four fields (id/icon/text/
@@ -586,15 +569,6 @@ local function ToggleConfigFlag(configKey)
   end
 end
 
-local function OnHotkeyModeChanged(configKey)
-  return function(_, selectedId)
-    local cfg = LoadOptionsConfig()
-    cfg[configKey] = selectedId
-    SyncConfigToBlackboard()
-    HotkeyApi.BroadcastReloaded()
-  end
-end
-
 -- valuetype="button": generic vanilla renderer has no real checkbox widget
 -- outside a fully custom-rendered page (see hotkey_api's own debug toggle,
 -- which uses the same button/text-flip approach for the same reason).
@@ -612,13 +586,25 @@ end
 
 -- valuetype="dropdown": a real dropdown widget, natively supported by the
 -- generic renderer (confirmed via vanilla's own "online" page definitions).
-local function BuildDropdownRow(id, nameTextId, configKey)
+-- One row per item (not per whole group) - value lives at
+-- optionsConfig[groupConfigKey][itemKey], a nested per-item mode map;
+-- labelText is the item's own already-resolved display name (from
+-- GetGroupItems), not a {page,id} ref, so no ReadText call needed here.
+local function BuildItemDropdownRow(id, labelText, groupConfigKey, itemKey)
   return {
     id = id,
-    name = function() return ReadText(PAGE_ID, nameTextId) end,
-    value = function() return BuildHotkeyModeOptions(), LoadOptionsConfig()[configKey] end,
+    name = function() return labelText end,
+    value = function()
+      local groupModes = LoadOptionsConfig()[groupConfigKey]
+      return BuildHotkeyModeOptions(), groupModes[itemKey] or "disabled"
+    end,
     valuetype = "dropdown",
-    callback = OnHotkeyModeChanged(configKey),
+    callback = function(_, selectedId)
+      local groupModes = LoadOptionsConfig()[groupConfigKey]
+      groupModes[itemKey] = selectedId
+      SyncConfigToBlackboard()
+      HotkeyApi.BroadcastReloaded()
+    end,
   }
 end
 
@@ -649,15 +635,20 @@ local function OnDisplayOptions(options, config)
   table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100100) end })
   table.insert(page, BuildToggleRow("simple_hotkeys_launch_pilot_toggle", 100101, "launchHotkeysPilotEnabled"))
   table.insert(page, BuildToggleRow("simple_hotkeys_launch_map_toggle", 100102, "launchHotkeysMapEnabled"))
-  table.insert(page, { id = "separator", name = " " })
-  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100200) end })
-  table.insert(page, BuildDropdownRow("simple_hotkeys_objectlist_mode", 100201, "objectListHotkeysMode"))
-  table.insert(page, { id = "separator", name = " " })
-  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100300) end })
-  table.insert(page, BuildDropdownRow("simple_hotkeys_propertyowned_mode", 100301, "propertyOwnedHotkeysMode"))
-  table.insert(page, { id = "separator", name = " " })
-  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100400) end })
-  table.insert(page, BuildDropdownRow("simple_hotkeys_playerinfo_mode", 100401, "playerInfoHotkeysMode"))
+  -- One section per TAB_GROUPS entry, one dropdown row per live item (not
+  -- one dropdown for the whole group) - item list is fetched fresh here too
+  -- (same GetGroupItems used at registration time), so the Options page
+  -- always matches whatever's actually registerable this session.
+  for _, group in ipairs(TAB_GROUPS) do
+    table.insert(page, { id = "separator", name = " " })
+    table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, group.headerTextId) end })
+    local items = GetGroupItems(group)
+    if items then
+      for _, item in ipairs(items) do
+        table.insert(page, BuildItemDropdownRow(group.idPrefix .. item.key .. "_mode", item.name, group.configKey, item.key))
+      end
+    end
+  end
 
   debugLog("OnDisplayOptions: appended Simple Hotkeys rows to hotkey_api's management page")
   return options
@@ -725,7 +716,6 @@ local function RegisterActions()
   })
 
   RegisterTabHotkeys()
-  RegisterPlayerInfoHotkeys()
   EnsureOptionsMenuHooked()
 end
 

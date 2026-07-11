@@ -46,14 +46,10 @@
       <t id="100011">Deaktiviert</t>
       <t id="100012">Nur Flugmodus</t>
       <t id="100013">Nur Kartenmodus</t>
-      <t id="100014">Flug und Karte \(getrennte Hotkeys\)</t>
-      <t id="100015">Flug und Karte \(gemeinsamer Hotkey\)</t>
+      <t id="100014">Flug und Karte \(gemeinsamer Hotkey\)</t>
       <t id="100200">Objektlisten-Hotkeys</t>
-      <t id="100201">Objektlisten-Tab-Hotkeys</t>
       <t id="100300">Besitz-Hotkeys</t>
-      <t id="100301">Besitz-Tab-Hotkeys</t>
       <t id="100400">Spielerinformation-Hotkeys</t>
-      <t id="100401">Spielerinformation-Sektions-Hotkeys</t>
     </page>
   </add>
 </diff>

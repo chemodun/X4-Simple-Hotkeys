@@ -46,14 +46,10 @@
       <t id="100011">Disattivato</t>
       <t id="100012">Solo modalità di volo</t>
       <t id="100013">Solo modalità mappa</t>
-      <t id="100014">Volo e mappa \(tasti separati\)</t>
-      <t id="100015">Volo e mappa \(tasto unificato\)</t>
+      <t id="100014">Volo e mappa \(tasto unificato\)</t>
       <t id="100200">Tasti di scelta rapida della lista oggetti</t>
-      <t id="100201">Tasti di scelta rapida delle schede della lista oggetti</t>
       <t id="100300">Tasti di scelta rapida delle proprietà possedute</t>
-      <t id="100301">Tasti di scelta rapida delle schede delle proprietà possedute</t>
       <t id="100400">Tasti di scelta rapida delle informazioni giocatore</t>
-      <t id="100401">Tasti di scelta rapida delle sezioni informazioni giocatore</t>
     </page>
   </add>
 </diff>

@@ -46,14 +46,10 @@
       <t id="100011">Desactivado</t>
       <t id="100012">Solo modo de vuelo</t>
       <t id="100013">Solo modo mapa</t>
-      <t id="100014">Vuelo y mapa \(teclas separadas\)</t>
-      <t id="100015">Vuelo y mapa \(tecla unificada\)</t>
+      <t id="100014">Vuelo y mapa \(tecla unificada\)</t>
       <t id="100200">Teclas rápidas de la lista de objetos</t>
-      <t id="100201">Teclas rápidas de pestañas de la lista de objetos</t>
       <t id="100300">Teclas rápidas de mis propiedades</t>
-      <t id="100301">Teclas rápidas de pestañas de mis propiedades</t>
       <t id="100400">Teclas rápidas de información del jugador</t>
-      <t id="100401">Teclas rápidas de secciones de información del jugador</t>
     </page>
   </add>
 </diff>

@@ -23,27 +23,34 @@
           <set_value name="player.entity.$SimpleHotkeysConfig" exact="table[
             $launchHotkeysPilotEnabled = true,
             $launchHotkeysMapEnabled   = true,
-            $objectListHotkeysMode     = 'disabled',
-            $propertyOwnedHotkeysMode  = 'disabled',
-            $playerInfoHotkeysMode     = 'disabled',
+            $objectListHotkeysModes    = table[],
+            $propertyOwnedHotkeysModes = table[],
+            $playerInfoHotkeysModes    = table[],
           ]" />
         </do_if>
         <set_value name="$config" exact="player.entity.$SimpleHotkeysConfig" />
-        <!-- forward-compat: fill keys added in later versions -->
+        <!-- forward-compat: fill keys added in later versions. Note:
+             $objectListHotkeysModes/$propertyOwnedHotkeysModes/
+             $playerInfoHotkeysModes are nested per-item mode maps (2026-07-11
+             refactor, per-item instead of per-group configurability) - Lua
+             (ui/simple_hotkeys.lua) is the sole owner/writer of their
+             contents, this library only ever needs to guarantee the table
+             itself exists so Lua's own SyncConfigToBlackboard() has
+             somewhere to write into. -->
         <do_if value="$config.$launchHotkeysPilotEnabled? == false">
           <set_value name="$config.$launchHotkeysPilotEnabled" exact="true" />
         </do_if>
         <do_if value="$config.$launchHotkeysMapEnabled? == false">
           <set_value name="$config.$launchHotkeysMapEnabled" exact="true" />
         </do_if>
-        <do_if value="$config.$objectListHotkeysMode? == false">
-          <set_value name="$config.$objectListHotkeysMode" exact="'disabled'" />
+        <do_if value="$config.$objectListHotkeysModes? == false">
+          <set_value name="$config.$objectListHotkeysModes" exact="table[]" />
         </do_if>
-        <do_if value="$config.$propertyOwnedHotkeysMode? == false">
-          <set_value name="$config.$propertyOwnedHotkeysMode" exact="'disabled'" />
+        <do_if value="$config.$propertyOwnedHotkeysModes? == false">
+          <set_value name="$config.$propertyOwnedHotkeysModes" exact="table[]" />
         </do_if>
-        <do_if value="$config.$playerInfoHotkeysMode? == false">
-          <set_value name="$config.$playerInfoHotkeysMode" exact="'disabled'" />
+        <do_if value="$config.$playerInfoHotkeysModes? == false">
+          <set_value name="$config.$playerInfoHotkeysModes" exact="table[]" />
         </do_if>
       </actions>
     </library>

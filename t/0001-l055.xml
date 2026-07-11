@@ -46,14 +46,10 @@
       <t id="100011">Desativado</t>
       <t id="100012">Somente modo de voo</t>
       <t id="100013">Somente modo mapa</t>
-      <t id="100014">Voo e mapa \(teclas separadas\)</t>
-      <t id="100015">Voo e mapa \(tecla unificada\)</t>
+      <t id="100014">Voo e mapa \(tecla unificada\)</t>
       <t id="100200">Teclas de atalho da lista de objetos</t>
-      <t id="100201">Teclas de atalho das abas da lista de objetos</t>
       <t id="100300">Teclas de atalho da propriedade controlada</t>
-      <t id="100301">Teclas de atalho das abas da propriedade controlada</t>
       <t id="100400">Teclas de atalho de informações do jogador</t>
-      <t id="100401">Teclas de atalho de seções de informações do jogador</t>
     </page>
   </add>
 </diff>
