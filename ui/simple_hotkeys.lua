@@ -358,6 +358,7 @@ local function SwitchOrOpenPlayerInfo(category)
   local mapMenu = Helper.getMenu("MapMenu")
   if mapMenu and mapMenu.shown then
     Helper.closeMenuAndOpenNewMenu(mapMenu, "PlayerInfoMenu", Helper.convertComponentIDs({ 0, 0, category }))
+    mapMenu.cleanup()
   else
     OpenMenu("PlayerInfoMenu", Helper.convertComponentIDs({ 0, 0, category }), nil)
   end
