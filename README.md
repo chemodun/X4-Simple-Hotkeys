@@ -11,7 +11,7 @@ Most actions only fire while the player is actually piloting their own ship (no 
 ## Requirements
 
 - **X4: Foundations**: Version **9.00** or higher.
-- **Native Hotkey API** by Chem O`Dun, version **8.00.06** or higher:
+- **Native Hotkey API** by Chem O`Dun, version **8.00.07** or higher:
   - Available on Nexus Mods: [Native Hotkey API](https://www.nexusmods.com/x4foundations/mods/2181)
   - Available on Steam Workshop: [Native Hotkey API](https://steamcommunity.com/sharedfiles/filedetails/?id=3750545906)
 - Indirectly depends on the **UI Extensions and HUD** mod by kuertee, which is a dependency of the *Native Hotkey API*:
@@ -20,7 +20,7 @@ Most actions only fire while the player is actually piloting their own ship (no 
 
 ## Installation
 
-- **Steam Workshop**: [Native Hotkey API](https://steamcommunity.com/sharedfiles/filedetails/?id=3751021954)
+- **Steam Workshop**: [Simple Hotkeys](https://steamcommunity.com/sharedfiles/filedetails/?id=3751021954)
 - **Nexus Mods**: [Simple Hotkeys](https://www.nexusmods.com/x4foundations/mods/2183)
 
 ## Hotkey Actions
@@ -41,9 +41,46 @@ All of the actions below show up automatically on the *Native Hotkey API*'s **Ho
 - **Toggle Right Info Panel** - map only: toggles the map's right-side info panel for the current selection, mirroring the existing sidebar icon (there's no vanilla hotkey for either side's info panel, only mouse clicks).
 - **Take Command of Ship (FPS Mode)** - lets you take the pilot/flight-control seat of the ship you're walking in via hotkey, where appropriate "option" is shown on walking crosshair.
 
-Please not forget - you can disable any of these actions in appropriate **Hotkey Requests** section of the *Native Hotkey API*'s menu, if you don't want to use them.
+Please note - you can disable any of these actions in the appropriate **Hotkey Requests** section of the *Native Hotkey API*'s menu, if you don't want to use them.
 
 ![Hotkey Requests](docs/images/hotkey_requests.png)
+
+- **Object List / Property Owned** -  configurable hotkeys for every tab of the map's **Object List** panel and every tab of the map's **Property Owned** panel, read directly from the game itself so the list always matches what's actually available, including anything future game updates add.
+- **Player Info** - configurable hotkeys for every section of the **Player Info** menu (Empire, Statistics, Inventory, Modifications, Spacesuit Upgrades, Global Orders, Account Management, Personnel Management, Messages, Transaction Log, Logbook, Contacts), read directly from the game itself so the list always matches what's actually available, including anything future game updates add.
+
+## Configurable Hotkey Groups
+
+Beyond the always-on actions above, this mod adds a few more **opt-in** hotkey groups, configured from the Options menu rather than appearing automatically - since these can add a lot of individual hotkeys, they all default to disabled so they don't clutter your keybinding list unless you actually want them.
+
+You'll find them on the same **Options > Hotkey Management** page the *Native Hotkey API* itself adds, right below its own Hotkey Bindings / Hotkey Requests / Debug Logging rows - no separate menu, no extra dependencies.
+
+![Configurable Hotkeys](docs/images/configuration.png)
+
+### Launch Hotkeys
+
+Two toggles that enable/disable the entire deployable-launch hotkey family (Launch Satellite, Launch Mine, etc., and their `Map:` counterparts) listed above:
+
+- **Enable Launch Hotkeys in Pilot Mode for Current Ship**
+- **Enable Launch Hotkeys in Map Mode for Selected Ship**
+
+Both are enabled by default.
+
+### Object List / Property Owned / Player Info Hotkeys
+
+These three sections each list every tab of the map's **Object List** panel, every tab of the map's **Property Owned** panel, and every section of the **Player Info** menu (Empire, Statistics, Inventory, Modifications, Spacesuit Upgrades, Global Orders, Account Management, Personnel Management, Messages, Transaction Log, Logbook, Contacts) - read directly from the game itself, so the list always matches what's actually available, including anything future game updates add.
+
+Each tab/section gets its own dropdown, letting you pick exactly which ones get a hotkey and how:
+
+- **Disabled** (default) - no hotkey for this tab/section.
+- **Pilot Mode Only** - a hotkey that opens straight to this tab/section while you're piloting (no menu open).
+- **Map Mode Only** - a hotkey that switches straight to this tab/section while the map (or Player Info menu) is already open.
+- **Pilot & Map (Unified Hotkey)** - a single hotkey that works from either context: opens the relevant menu fresh if nothing's open, or switches live if it's already open.
+
+Changing any of these dropdowns takes effect immediately - no need to reopen Options or reload the game.
+
+## Video Demonstration
+
+[Simple Hotkeys Demo](https://www.youtube.com/watch?v=N5n4Z2GcoZ0)
 
 ## Credits
 
@@ -56,6 +93,12 @@ Please not forget - you can disable any of these actions in appropriate **Hotkey
 - [kuertee](https://next.nexusmods.com/profile/kuertee?gameId=2659) - for the `UI Extensions and HUD` that the *Native Hotkey API* (and therefore this mod) relies on.
 
 ## Changelog
+
+### [1.05] - 2026-07-12
+
+- **Added**
+  - New configurable hotkeys for every Object List tab, Property Owned tab, and Player Info section.
+  - Extension Options, built directly into the *Native Hotkey API*'s own **Hotkey Management** page in Options (no extra dependencies needed).
 
 ### [1.04] - 2026-07-06
 
