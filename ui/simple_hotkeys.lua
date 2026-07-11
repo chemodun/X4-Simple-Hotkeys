@@ -46,14 +46,22 @@ local function debugLog(fmt, ...)
   end
 end
 
--- Shared mod-config state (player.entity.$SimpleHotkeysConfig). This mod is
--- now the sole writer of these keys - MD's own DefaultConfig library
--- (md/simple_hotkeys.xml) still creates/reads them for Register_On_Reloaded's
--- hotkey-gating logic, but no longer owns the UI for changing them (see the
--- Options-page section near the bottom of this file). Loaded once and cached
--- here; row closures below capture this table by reference, so mutating it
--- in place keeps every already-built row's displayed value current without
--- needing to rebuild them.
+-- Shared mod-config state. Authoritative storage is __SIMPLE_HOTKEYS_DATA, a
+-- <savedvariable storage="userdata"/> (ui.xml) - same pattern hotkey_api uses
+-- for its own debugEnabled/usedSlots/blockedIds. Declared as a genuine global
+-- (not local) since the engine's userdata persistence looks it up by name; no
+-- migration from the old blackboard-cache needed (this mod isn't published
+-- yet). Mutating it in place *is* the persistence - no explicit "commit" call
+-- exists (mirrors hotkey_api's own SaveDebugEnabled, which only pushes to the
+-- blackboard, never touches its userdata table beyond the direct assignment).
+--
+-- MD's own DefaultConfig library (md/simple_hotkeys.xml) still creates/reads
+-- player.entity.$SimpleHotkeysConfig for Register_On_Reloaded's hotkey-gating
+-- logic, but Lua now owns the source of truth - every load and every change
+-- pushes the current values to that blackboard var via SetNPCBlackboard so MD
+-- keeps seeing current state.
+__SIMPLE_HOTKEYS_DATA = __SIMPLE_HOTKEYS_DATA or {}
+
 local playerId = nil
 local optionsConfig = nil
 
@@ -64,23 +72,28 @@ local function GetPlayerId()
   return playerId
 end
 
+-- Pushes the current config to player.entity.$SimpleHotkeysConfig so MD can
+-- read it. Called after every load (in case defaults were just filled in)
+-- and after every change (toggle/dropdown callback).
+local function SyncConfigToBlackboard()
+  SetNPCBlackboard(GetPlayerId(), "$SimpleHotkeysConfig", optionsConfig)
+end
+
 local function LoadOptionsConfig()
   if optionsConfig then
     return optionsConfig
   end
-  local cfg = GetNPCBlackboard(GetPlayerId(), "$SimpleHotkeysConfig") or {}
-  -- MD booleans arrive as 1/0, not true/false - normalise, defaulting a
-  -- genuinely missing key to true (matches DefaultConfig's own default).
-  cfg.launchHotkeysPilotEnabled = (cfg.launchHotkeysPilotEnabled == nil) or (cfg.launchHotkeysPilotEnabled == true) or (cfg.launchHotkeysPilotEnabled == 1)
-  cfg.launchHotkeysMapEnabled = (cfg.launchHotkeysMapEnabled == nil) or (cfg.launchHotkeysMapEnabled == true) or (cfg.launchHotkeysMapEnabled == 1)
-  cfg.objectListHotkeysMode = cfg.objectListHotkeysMode or "disabled"
-  cfg.propertyOwnedHotkeysMode = cfg.propertyOwnedHotkeysMode or "disabled"
-  optionsConfig = cfg
+  optionsConfig = __SIMPLE_HOTKEYS_DATA
+  if optionsConfig.launchHotkeysPilotEnabled == nil then
+    optionsConfig.launchHotkeysPilotEnabled = true
+  end
+  if optionsConfig.launchHotkeysMapEnabled == nil then
+    optionsConfig.launchHotkeysMapEnabled = true
+  end
+  optionsConfig.objectListHotkeysMode = optionsConfig.objectListHotkeysMode or "disabled"
+  optionsConfig.propertyOwnedHotkeysMode = optionsConfig.propertyOwnedHotkeysMode or "disabled"
+  SyncConfigToBlackboard()
   return optionsConfig
-end
-
-local function SaveOptionsConfig()
-  SetNPCBlackboard(GetPlayerId(), "$SimpleHotkeysConfig", optionsConfig)
 end
 
 -- Renames an object by reusing vanilla's own rename popup (menu_map.lua's
@@ -449,7 +462,8 @@ local function ToggleConfigFlag(configKey)
   return function()
     local cfg = LoadOptionsConfig()
     cfg[configKey] = not cfg[configKey]
-    SaveOptionsConfig()
+    SyncConfigToBlackboard()
+    HotkeyApi.BroadcastReloaded()
   end
 end
 
@@ -457,7 +471,8 @@ local function OnHotkeyModeChanged(configKey)
   return function(_, selectedId)
     local cfg = LoadOptionsConfig()
     cfg[configKey] = selectedId
-    SaveOptionsConfig()
+    SyncConfigToBlackboard()
+    HotkeyApi.BroadcastReloaded()
   end
 end
 
