@@ -52,6 +52,8 @@ Please note - you can disable any of these actions in the appropriate **Hotkey R
 
 Beyond the always-on actions above, this mod adds a few more **opt-in** hotkey groups, configured from the Options menu rather than appearing automatically - since these can add a lot of individual hotkeys, they all default to disabled so they don't clutter your keybinding list unless you actually want them.
 
+![Hotkey API Section](docs/images/hotkey_api.png)
+
 You'll find them under **Options > Hotkey Management > Simple Hotkeys** - a page of this mod's own, opened from the same **Hotkey Management** page the *Native Hotkey API* itself adds, right below its Hotkey Bindings / Hotkey Requests / Debug Logging rows. No separate menu, no extra dependencies.
 
 ![Configurable Hotkeys](docs/images/configuration.png)
