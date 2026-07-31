@@ -56,7 +56,7 @@ Please note - you can disable any of these actions in the appropriate [b]Hotkey 
 
 Beyond the always-on actions above, this mod adds a few more [b]opt-in[/b] hotkey groups, configured from the Options menu rather than appearing automatically - since these can add a lot of individual hotkeys, they all default to disabled so they don't clutter your keybinding list unless you actually want them.
 
-You'll find them on the same [b]Options > Hotkey Management[/b] page the [i]Native Hotkey API[/i] itself adds, right below its own Hotkey Bindings / Hotkey Requests / Debug Logging rows - no separate menu, no extra dependencies.
+You'll find them under [b]Options > Hotkey Management > Simple Hotkeys[/b] - a page of this mod's own, opened from the same [b]Hotkey Management[/b] page the [i]Native Hotkey API[/i] itself adds, right below its Hotkey Bindings / Hotkey Requests / Debug Logging rows. No separate menu, no extra dependencies.
 
 [img]https://raw.githubusercontent.com/chemodun/X4-Simple-Hotkeys/refs/heads/main/docs/images/configuration.png[/img]
 
@@ -99,6 +99,13 @@ Simple Hotkeys Demo
 [/list]
 [h2][b]Changelog[/b][/h2]
 
+[h2][b][1.06] - 2026-07-31[/b][/h2]
+[list]
+[*] [b]Changed[/b]
+[list]
+[*] Extension Options, on their own page under the [i]Native Hotkey API[/i]'s [b]Hotkey Management[/b] page in Options.
+[/list]
+[/list]
 [h2][1.05] - 2026-07-12[/h2]
 [list]
 [*] [b]Added[/b]
