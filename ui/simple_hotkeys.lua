@@ -524,14 +524,40 @@ local function RegisterTabHotkeys()
   end
 end
 
--- *** Extension Options: nested inside hotkey_api's own Management page ***
+-- *** Extension Options: own sub-page below hotkey_api's Management page ***
 --
 -- Instead of a separate SirNukes Simple_Menu_API/options_helper-based menu,
--- this mod's settings are appended directly into hotkey_api's native
--- "Hotkey Management" Options page (config.optionDefinitions[HotkeyApi.
--- managementPageId]), via the same displayOptions_modifyOptions UIX hook
--- hotkey_api itself uses (gameoptions.xpl). This drops the
--- sn_mod_support_apis/options_helper dependencies entirely.
+-- this mod's settings live on a page of their own, reached from a single row
+-- on hotkey_api's native "Hotkey Management" Options page, via the same
+-- displayOptions_modifyOptions UIX hook hotkey_api itself uses
+-- (gameoptions.xpl). This drops the sn_mod_support_apis/options_helper
+-- dependencies entirely.
+--
+-- Nesting needs no new machinery - the options engine's sub-menu support is
+-- fully generic, and hotkey_api's own Management page is already built this
+-- way:
+--   * any key added to config.optionDefinitions becomes a real page, because
+--     menu.submenuHandler ends its hard-coded elseif chain with a catch-all
+--     "elseif config.optionDefinitions[optionParameter] then
+--     menu.displayOptions(optionParameter)";
+--   * any row carrying submenu = "<page id>" navigates to it, from
+--     menu.onSelectElement ("if option.callback ... elseif option.submenu
+--     then menu.openSubmenu(option.submenu, option.id)");
+--   * the back arrow, the menu.history stack and row preselect are handled
+--     by menu.displayOptions/menu.onCloseElement for free, for any page but
+--     "main".
+-- Two constraints follow from that, both load-bearing here: the nav row must
+-- have no callback (callback is tested first and would shadow submenu), and
+-- SETTINGS_PAGE_ID must not collide with one of the ~35 page names
+-- submenuHandler matches before its optionDefinitions fallback, or that
+-- branch would hijack it.
+--
+-- Unlike advanced_targeting_hotkeys' equivalent page, this one cannot be
+-- built once and left alone: the three tab-group sections are one dropdown
+-- row per *live* item, read fresh from the menu configs via GetGroupItems, so
+-- the whole page is rebuilt on each render of itself (see OnDisplayOptions).
+-- No extra cost - the old flat layout called GetGroupItems on every
+-- management-page render too.
 --
 -- Row-append ordering: gameoptions.xpl dispatches every registered
 -- "displayOptions_modifyOptions" callback via pairs() over a hash-keyed
@@ -542,6 +568,18 @@ end
 -- idempotent (guarded by "only create if the page doesn't already exist"),
 -- so calling it here is safe even if the shared callback list also invokes
 -- it again later in the same render.
+
+-- Page key for this mod's own settings page, and the id of the single row on
+-- hotkey_api's page that opens it. Named after hotkey_api's own page keys
+-- ("hotkey_api_management" etc.) and, as above, deliberately unlike any
+-- vanilla one.
+local SETTINGS_PAGE_ID = "simple_hotkeys_settings"
+local NAV_ROW_ID = "simple_hotkeys_settings_nav"
+
+-- Assigned by EnsureOptionsMenuHooked further down, which necessarily runs
+-- before any of this can fire. Declared up here because OnDisplayOptions
+-- needs currentOption to tell a render of our own page from any other.
+local optionsMenu = nil
 
 local HOTKEY_MODE_OPTIONS = {
   { id = "disabled",           textId = 100011 },
@@ -609,39 +647,32 @@ local function BuildItemDropdownRow(id, labelText, groupConfigKey, itemKey)
   }
 end
 
-local function OnDisplayOptions(options, config)
-  if not (HotkeyApi and HotkeyApi.OnDisplayOptions and HotkeyApi.managementPageId) then
-    return options
-  end
+-- The settings page itself. "name" is the page title menu.displayOptions
+-- renders in the header row (a function is fine - widget text accepts one, and
+-- hotkey_api's own page title does the same); the positional entries are the
+-- rows, which ipairs walks while the hash-keyed "name" stays out of the array
+-- part.
+--
+-- id "line" and id "header" are the two row ids menu.displayOption
+-- special-cases (a separator line and a sub-header); anything else falls
+-- through to the normal branch and renders as an ordinary *selectable* row -
+-- which is what the old { id = "separator", name = " " } rows were silently
+-- doing, so they are gone in favour of real "line" rows.
+local function BuildSettingsPage()
+  local page = {
+    name = function() return ReadText(PAGE_ID, 1) end,
 
-  options = HotkeyApi.OnDisplayOptions(options, config)
+    { id = "header", name = function() return ReadText(PAGE_ID, 100100) end },
+    BuildToggleRow("simple_hotkeys_launch_pilot_toggle", 100101, "launchHotkeysPilotEnabled"),
+    BuildToggleRow("simple_hotkeys_launch_map_toggle", 100102, "launchHotkeysMapEnabled"),
+  }
 
-  local page = config and config.optionDefinitions and config.optionDefinitions[HotkeyApi.managementPageId]
-  if not page then
-    -- hotkey_api hasn't created its page this render (e.g. config not ready
-    -- yet) - nothing safe to append to.
-    return options
-  end
-
-  for _, row in ipairs(page) do
-    if type(row) == "table" and row.id == "simple_hotkeys_launch_pilot_toggle" then
-      return options -- already appended on a previous render
-    end
-  end
-  table.insert(page, { id = "separator", name = " " })
-  table.insert(page, { id = "separator", name = " " })
-  table.insert(page, { id = "header", name = " " })
-  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 1) end })
-  table.insert(page, { id = "separator", name = " " })
-  table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, 100100) end })
-  table.insert(page, BuildToggleRow("simple_hotkeys_launch_pilot_toggle", 100101, "launchHotkeysPilotEnabled"))
-  table.insert(page, BuildToggleRow("simple_hotkeys_launch_map_toggle", 100102, "launchHotkeysMapEnabled"))
   -- One section per TAB_GROUPS entry, one dropdown row per live item (not
   -- one dropdown for the whole group) - item list is fetched fresh here too
   -- (same GetGroupItems used at registration time), so the Options page
   -- always matches whatever's actually registerable this session.
   for _, group in ipairs(TAB_GROUPS) do
-    table.insert(page, { id = "separator", name = " " })
+    table.insert(page, { id = "line" })
     table.insert(page, { id = "header", name = function() return ReadText(PAGE_ID, group.headerTextId) end })
     local items = GetGroupItems(group)
     if items then
@@ -651,11 +682,66 @@ local function OnDisplayOptions(options, config)
     end
   end
 
-  debugLog("OnDisplayOptions: appended Simple Hotkeys rows to hotkey_api's management page")
+  return page
+end
+
+local function OnDisplayOptions(options, config)
+  if not (HotkeyApi and HotkeyApi.OnDisplayOptions and HotkeyApi.managementPageId) then
+    return options
+  end
+
+  options = HotkeyApi.OnDisplayOptions(options, config)
+
+  local optionDefinitions = config and config.optionDefinitions
+  if not optionDefinitions then
+    return options
+  end
+
+  -- Our own page is what is rendering: hand back a freshly built one, because
+  -- its dropdown rows come from a live item list. menu.displayOptions renders
+  -- whatever this callback chain returns, so replacing the stored table is
+  -- enough, and nothing holds a reference to the old one across renders - rows
+  -- are matched by their string id (menu.preselectOption), never by identity.
+  if optionsMenu and (optionsMenu.currentOption == SETTINGS_PAGE_ID) then
+    optionDefinitions[SETTINGS_PAGE_ID] = BuildSettingsPage()
+    return optionDefinitions[SETTINGS_PAGE_ID]
+  end
+
+  local page = optionDefinitions[HotkeyApi.managementPageId]
+  if not page then
+    -- hotkey_api hasn't created its page this render (e.g. config not ready
+    -- yet) - nothing safe to hang our own page off.
+    return options
+  end
+
+  -- Has to exist before the nav row below can be clicked: with the key
+  -- missing, submenuHandler falls off the end of its chain and simply does
+  -- nothing - a dead row, no error to chase. The contents seeded here are
+  -- replaced wholesale on each render of the page itself, above.
+  if not optionDefinitions[SETTINGS_PAGE_ID] then
+    optionDefinitions[SETTINGS_PAGE_ID] = BuildSettingsPage()
+    debugLog("OnDisplayOptions: created config.optionDefinitions['%s']", SETTINGS_PAGE_ID)
+  end
+
+  for _, row in ipairs(page) do
+    if type(row) == "table" and row.id == NAV_ROW_ID then
+      return options -- already inserted on a previous render
+    end
+  end
+
+  table.insert(page, { id = "line" })
+  table.insert(page, {
+    id = NAV_ROW_ID,
+    name = function() return ReadText(PAGE_ID, 1) end,
+    submenu = SETTINGS_PAGE_ID,
+    -- No callback here, deliberately: menu.onSelectElement tests callback
+    -- first and would never reach the submenu branch.
+  })
+
+  debugLog("OnDisplayOptions: inserted the '%s' row into hotkey_api's management page", NAV_ROW_ID)
   return options
 end
 
-local optionsMenu = nil
 local optionsMenuHooked = false
 
 local function EnsureOptionsMenuHooked()

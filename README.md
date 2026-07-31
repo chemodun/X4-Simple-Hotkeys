@@ -52,7 +52,7 @@ Please note - you can disable any of these actions in the appropriate **Hotkey R
 
 Beyond the always-on actions above, this mod adds a few more **opt-in** hotkey groups, configured from the Options menu rather than appearing automatically - since these can add a lot of individual hotkeys, they all default to disabled so they don't clutter your keybinding list unless you actually want them.
 
-You'll find them on the same **Options > Hotkey Management** page the *Native Hotkey API* itself adds, right below its own Hotkey Bindings / Hotkey Requests / Debug Logging rows - no separate menu, no extra dependencies.
+You'll find them under **Options > Hotkey Management > Simple Hotkeys** - a page of this mod's own, opened from the same **Hotkey Management** page the *Native Hotkey API* itself adds, right below its Hotkey Bindings / Hotkey Requests / Debug Logging rows. No separate menu, no extra dependencies.
 
 ![Configurable Hotkeys](docs/images/configuration.png)
 
@@ -93,6 +93,11 @@ Changing any of these dropdowns takes effect immediately - no need to reopen Opt
 - [kuertee](https://next.nexusmods.com/profile/kuertee?gameId=2659) - for the `UI Extensions and HUD` that the *Native Hotkey API* (and therefore this mod) relies on.
 
 ## Changelog
+
+## [1.06] - 2026-07-31
+
+- **Changed**
+  - Extension Options, on their own page under the *Native Hotkey API*'s **Hotkey Management** page in Options.
 
 ### [1.05] - 2026-07-12
 
